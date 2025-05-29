@@ -1,0 +1,46 @@
+{
+  "id": "MARS-OXY-001",
+  "type": "EMERGENCY_PROTOCOL",
+  "priority": "IMMEDIATE",
+  "timestamp": "2025-05-28T00:06:07.046Z",
+  "title": "Mars Habitat Oxygen Crisis Response",
+  "actions": [
+    {
+      "id": "ACT-001",
+      "type": "OXYGEN_SUPPORT",
+      "description": "Increase O2 flow rate",
+      "parameters": {
+        "flowRate": "5L/min",
+        "duration": "10min",
+        "method": "assisted"
+      },
+      "priority": 1
+    },
+    {
+      "id": "ACT-002",
+      "type": "SYSTEM_BACKUP",
+      "description": "Activate backup oxygen system",
+      "parameters": {
+        "system": "BACKUP-A",
+        "mode": "emergency"
+      },
+      "priority": 2
+    },
+    {
+      "id": "ACT-003",
+      "type": "MONITORING",
+      "description": "Continuous SpO2 monitoring",
+      "parameters": {
+        "interval": "30s",
+        "threshold": "94%",
+        "alert": "immediate"
+      },
+      "priority": 3
+    }
+  ],
+  "validation": {
+    "qllmConfidence": 0.95,
+    "regulatoryCompliance": true,
+    "marsProtocolVersion": "2.1.0"
+  }
+}

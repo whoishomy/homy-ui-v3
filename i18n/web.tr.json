@@ -1,0 +1,39 @@
+{
+  "common": {
+    "learnMore": "Daha Fazla Bilgi",
+    "getStarted": "Hemen Başla",
+    "contactUs": "Bize Ulaşın"
+  },
+  "hero": {
+    "title": "Yeni Nesil Sağlık İşletim Sistemi",
+    "subtitle": "Sağlık hizmeti sağlayıcılarını akıllı otomasyon ve kusursuz entegrasyonla güçlendiriyoruz",
+    "cta": "HomyOS'i Keşfet"
+  },
+  "features": {
+    "title": "Neden HomyOS?",
+    "items": {
+      "automation": {
+        "title": "Akıllı Otomasyon",
+        "description": "Yapay zeka destekli otomasyon ile sağlık iş akışlarınızı optimize edin"
+      },
+      "integration": {
+        "title": "Kusursuz Entegrasyon",
+        "description": "Mevcut sağlık sistemleri ve veri kaynaklarıyla zahmetsizce bağlantı kurun"
+      },
+      "security": {
+        "title": "Kurumsal Güvenlik",
+        "description": "HIPAA uyumlu, uçtan uca şifrelemeli banka düzeyinde güvenlik"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Sağlık Liderlerinin Tercihi",
+    "subtitle": "HomyOS'in sağlık hizmetlerini nasıl dönüştürdüğünü görün"
+  },
+  "footer": {
+    "company": "Şirket",
+    "product": "Ürün",
+    "resources": "Kaynaklar",
+    "legal": "Yasal"
+  }
+}

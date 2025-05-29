@@ -1,0 +1,32 @@
+{
+  "insights": {
+    "types": {
+      "risk": "Risk",
+      "trend": "Trend",
+      "note": "Not"
+    },
+    "risk": {
+      "vitamin_d_low": {
+        "title": "Düşük Vitamin D",
+        "description": "Bu düzey, bağışıklık fonksiyonlarında zayıflamaya neden olabilir."
+      }
+    },
+    "trend": {
+      "iron_improvement": {
+        "title": "Demir Seviyesinde İyileşme",
+        "description": "Son 3 ayda %18'lik bir artış gözlemlendi."
+      }
+    },
+    "note": {
+      "user_feedback": {
+        "title": "Kullanıcı Yorumu",
+        "description": "Enerji seviyemde artış hissetmeye başladım."
+      }
+    },
+    "overlay": {
+      "aria_label": "Sağlık İçgörüleri Paneli",
+      "empty_state": "Henüz içgörü bulunmuyor",
+      "loading": "İçgörüler yükleniyor..."
+    }
+  }
+}

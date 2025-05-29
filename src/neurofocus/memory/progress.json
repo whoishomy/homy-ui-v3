@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "lastUpdate": "2024-03-21T00:00:00.000Z",
+  "achievements": [],
+  "streaks": {
+    "current": 0,
+    "best": 0,
+    "lastUpdated": "2024-03-21T00:00:00.000Z"
+  },
+  "emotionalJourney": {
+    "exploring": 0,
+    "frustrated": 0,
+    "overwhelmed": 0,
+    "discouraged": 0,
+    "tired": 0,
+    "proud": 0,
+    "curious": 0,
+    "determined": 0
+  },
+  "milestones": [],
+  "dailyReflections": []
+}

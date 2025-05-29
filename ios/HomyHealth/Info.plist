@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- ... existing entries ... -->
+  
+  <key>NSHealthShareUsageDescription</key>
+  <string>HOMY needs access to your health data to monitor your vital signs and provide personalized care insights.</string>
+  
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>HOMY needs permission to update your health data for accurate vital signs monitoring.</string>
+  
+  <key>UIRequiredDeviceCapabilities</key>
+  <array>
+    <string>armv7</string>
+    <string>healthkit</string>
+  </array>
+</dict>
+</plist> 

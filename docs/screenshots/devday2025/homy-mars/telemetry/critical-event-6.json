@@ -1,0 +1,14 @@
+{
+  "timestamp": "1970-01-01T00:00:25.000Z",
+  "heartRate": 78,
+  "heartRateStatus": "normal",
+  "systolicBP": 115,
+  "diastolicBP": 75,
+  "bpStatus": "normal",
+  "temperature": 36.7,
+  "temperatureStatus": "normal",
+  "respiratoryRate": 17,
+  "respiratoryStatus": "normal",
+  "oxygenSaturation": 86,
+  "oxygenStatus": "critical"
+}

@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "lastUpdate": "2024-03-21T00:00:00.000Z",
+  "activeReminders": [],
+  "completedReminders": [],
+  "preferences": {
+    "notifyBefore": 10,
+    "allowPostpone": true,
+    "notificationStyle": "gentle",
+    "quietHours": {
+      "start": "22:00",
+      "end": "08:00"
+    }
+  },
+  "statistics": {
+    "totalReminders": 0,
+    "completedOnTime": 0,
+    "postponed": 0,
+    "missedReminders": 0
+  },
+  "emotionalPatterns": {
+    "morningPreference": "gentle",
+    "afternoonPreference": "energizing",
+    "eveningPreference": "encouraging"
+  }
+}

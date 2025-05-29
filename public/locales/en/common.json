@@ -1,0 +1,11 @@
+{
+  "close": "Close",
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success",
+  "warning": "Warning",
+  "languages": {
+    "tr": "Turkish",
+    "en": "English"
+  }
+}

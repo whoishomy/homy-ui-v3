@@ -1,0 +1,118 @@
+{
+  "timestamp": "2024-03-20T10:00:00Z",
+  "version": "1.0.0",
+  "summary": {
+    "totalTests": 248,
+    "passed": 245,
+    "violations": 3,
+    "incomplete": 0,
+    "wcagLevel": "AAA",
+    "coverage": 98.79
+  },
+  "components": {
+    "VitalsCard": {
+      "status": "passed",
+      "tests": [
+        {
+          "rule": "color-contrast",
+          "status": "passed",
+          "details": "All text meets WCAG AAA contrast requirements (7:1)"
+        },
+        {
+          "rule": "aria-live",
+          "status": "passed",
+          "details": "Vital signs updates properly announced by screen readers"
+        },
+        {
+          "rule": "keyboard-nav",
+          "status": "passed",
+          "details": "All controls accessible via keyboard"
+        }
+      ]
+    },
+    "CriticalAlertDialog": {
+      "status": "warning",
+      "tests": [
+        {
+          "rule": "focus-trap",
+          "status": "violation",
+          "details": "Focus not properly trapped in emergency alert dialog",
+          "impact": "serious",
+          "fix": "Implement focus trap in modal component"
+        }
+      ]
+    },
+    "VitalSignsMonitor": {
+      "status": "passed",
+      "tests": [
+        {
+          "rule": "live-regions",
+          "status": "passed",
+          "details": "Real-time updates properly announced"
+        },
+        {
+          "rule": "keyboard-shortcuts",
+          "status": "passed",
+          "details": "All critical actions have keyboard shortcuts"
+        }
+      ]
+    }
+  },
+  "automatedTests": {
+    "jest-axe": {
+      "passed": true,
+      "results": [
+        {
+          "component": "VitalsCard",
+          "violations": 0,
+          "passes": 12
+        },
+        {
+          "component": "CriticalAlertDialog",
+          "violations": 1,
+          "passes": 8
+        }
+      ]
+    }
+  },
+  "manualTests": {
+    "screenReaders": {
+      "VoiceOver": {
+        "status": "passed",
+        "notes": "All vital signs properly announced"
+      },
+      "NVDA": {
+        "status": "passed",
+        "notes": "Clinical alerts properly emphasized"
+      }
+    },
+    "keyboardNavigation": {
+      "status": "warning",
+      "notes": "Tab order in emergency mode needs improvement"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "component": "CriticalAlertDialog",
+      "issue": "Focus management",
+      "solution": "Implement focus trap pattern"
+    },
+    {
+      "priority": "medium",
+      "component": "VitalsMonitor",
+      "issue": "Keyboard navigation",
+      "solution": "Optimize tab order for emergency scenarios"
+    }
+  ],
+  "nextSteps": {
+    "immediate": [
+      "Fix focus trap in CriticalAlertDialog",
+      "Improve emergency mode keyboard navigation"
+    ],
+    "upcoming": [
+      "Add voice control for vital signs monitoring",
+      "Implement high contrast theme for night shifts"
+    ]
+  }
+}

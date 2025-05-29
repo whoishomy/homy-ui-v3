@@ -1,0 +1,35 @@
+{
+  "quantumCircuit": {
+    "gates": [
+      {
+        "type": "H",
+        "qubit": 0
+      },
+      {
+        "type": "CNOT",
+        "control": 0,
+        "target": 1
+      },
+      {
+        "type": "RY",
+        "qubit": 1,
+        "angle": 0.7853981633974483
+      }
+    ],
+    "measurements": [
+      {
+        "qubit": 0,
+        "basis": "Z"
+      },
+      {
+        "qubit": 1,
+        "basis": "X"
+      }
+    ]
+  },
+  "analysis": {
+    "entanglement": 0.85,
+    "coherence": 0.92,
+    "reliability": 0.95
+  }
+}

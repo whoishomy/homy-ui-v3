@@ -1,0 +1,93 @@
+[
+  {
+    "key": "vital-signs-monitor-latest",
+    "value": {
+      "vitals": {
+        "heartRate": 89,
+        "heartRateStatus": "normal",
+        "heartRateTrend": "stable",
+        "systolicBP": 130,
+        "diastolicBP": 83,
+        "bpStatus": "warning",
+        "bpTrend": "stable",
+        "temperature": 36.91089338550416,
+        "temperatureStatus": "normal",
+        "respiratoryRate": 19,
+        "respiratoryStatus": "normal",
+        "respiratoryTrend": "stable",
+        "timestamp": "2025-05-26T21:46:20.504Z",
+        "measurementType": "automatic",
+        "reliability": 0.95
+      },
+      "insights": [
+        {
+          "type": "warning",
+          "description": "Abnormal blood pressure: 130/83 mmHg",
+          "relatedVitals": [
+            "systolicBP",
+            "diastolicBP"
+          ],
+          "severity": 2,
+          "timestamp": "2025-05-26T21:46:20.504Z",
+          "suggestedActions": [
+            "Monitor closely",
+            "Check for symptoms"
+          ],
+          "confidence": 0.85,
+          "source": "agent"
+        }
+      ]
+    },
+    "metadata": {
+      "timestamp": "2025-05-26T21:46:20.504Z",
+      "agent": "vital-signs-monitor"
+    }
+  },
+  {
+    "key": "vital-signs-monitor-latest",
+    "value": {
+      "vitals": {
+        "heartRate": 75,
+        "heartRateStatus": "normal",
+        "heartRateTrend": "stable",
+        "systolicBP": 124,
+        "diastolicBP": 80,
+        "bpStatus": "normal",
+        "bpTrend": "stable",
+        "temperature": 37.09632250599876,
+        "temperatureStatus": "normal",
+        "respiratoryRate": 18,
+        "respiratoryStatus": "normal",
+        "respiratoryTrend": "stable",
+        "timestamp": "2025-05-26T21:01:22.796Z",
+        "measurementType": "automatic",
+        "reliability": 0.95
+      },
+      "insights": []
+    },
+    "metadata": {
+      "timestamp": "2025-05-26T21:01:22.796Z",
+      "agent": "vital-signs-monitor"
+    }
+  }
+]atedVitals": [
+            "systolicBP",
+            "diastolicBP"
+          ],
+          "severity": 2,
+          "timestamp": "2025-05-26T21:01:22.766Z",
+          "suggestedActions": [
+            "Monitor closely",
+            "Check for symptoms"
+          ],
+          "confidence": 0.85,
+          "source": "agent"
+        }
+      ]
+    },
+    "metadata": {
+      "timestamp": "2025-05-26T21:01:22.766Z",
+      "agent": "vital-signs-monitor"
+    }
+  }
+]

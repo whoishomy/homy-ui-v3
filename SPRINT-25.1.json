@@ -1,0 +1,57 @@
+{
+  "sprint": "25.1",
+  "name": "Lab Results Core Flow",
+  "startDate": "2025-05-28",
+  "endDate": "2025-06-02",
+  "owner": "Furkan",
+  "status": "in-progress",
+  "modules": {
+    "LabResults": {
+      "status": "in-progress",
+      "components": [
+        "LabResultCard",
+        "DataTrendChart",
+        "InsightBubble",
+        "PDFViewer",
+        "LabResultsList",
+        "FilterBar"
+      ],
+      "hooks": ["useLabResults", "useInsights", "usePDFExport"],
+      "dependencies": {
+        "required": [
+          "recharts",
+          "@react-pdf/renderer",
+          "date-fns",
+          "tailwindcss",
+          "@tanstack/react-query"
+        ],
+        "devDependencies": ["@types/react-pdf", "vitest", "@testing-library/react"]
+      },
+      "completion": {
+        "foundation": 0,
+        "components": 0,
+        "aiIntegration": 0,
+        "pdfExport": 0,
+        "testing": 0
+      }
+    }
+  },
+  "deliverables": [
+    "Working Lab Results dashboard",
+    "AI-powered insights",
+    "PDF export functionality",
+    "Mobile responsive design",
+    "Unit and integration tests",
+    "Documentation"
+  ],
+  "metrics": {
+    "targetTestCoverage": 80,
+    "targetTypeScriptCoverage": 95,
+    "performanceTargets": {
+      "initialLoad": 2000,
+      "chartRender": 500,
+      "insightGeneration": 5000,
+      "pdfExport": 10000
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-05-27T22:00:00Z",
+  "components": {
+    "lab-result": {
+      "variants": {
+        "default": {
+          "path": "docs/screenshots/lab-result/27-May-2025-labresult-default-1440px@2x.png",
+          "viewport": "1440px",
+          "scale": "@2x",
+          "createdAt": "2025-05-27T00:15:00Z",
+          "component": "LabResultCard",
+          "darkMode": false
+        },
+        "expanded-dark": {
+          "path": "docs/screenshots/lab-result/27-May-2025-labresult-expanded-darkmode-768px@2x.png",
+          "viewport": "768px",
+          "scale": "@2x",
+          "createdAt": "2025-05-27T00:15:00Z",
+          "component": "LabResultCard",
+          "darkMode": true
+        }
+      }
+    },
+    "insight-overlay": {
+      "variants": {
+        "hover": {
+          "path": "docs/screenshots/insight-overlay/27-May-2025-insight-overlay-hover-1440px@2x.png",
+          "viewport": "1440px",
+          "scale": "@2x",
+          "createdAt": "2025-05-27T00:15:00Z",
+          "component": "InsightOverlay",
+          "darkMode": false
+        }
+      }
+    },
+    "focus-coach": {
+      "variants": {
+        "default": {
+          "path": "docs/screenshots/focus-coach/27-May-2025-focus-coach-default-1440px@2x.png",
+          "viewport": "1440",
+          "scale": "2x",
+          "createdAt": "2025-05-27T00:42:27Z",
+          "component": "focus-coach",
+          "darkMode": false,
+          "status": "complete"
+        },
+        "eren-mode": {
+          "path": "docs/screenshots/focus-coach/eren-mode.png",
+          "viewport": 390,
+          "status": "complete",
+          "date": "2025-05-27",
+          "description": "Eren Mode with completed task and emotional response",
+          "device": "iPhone 12 Pro"
+        }
+      }
+    },
+    "mobile-dashboard": {
+      "variants": {
+        "default": {
+          "path": "docs/screenshots/mobile-dashboard/27-May-2025-mobile-dashboard-default-375px@2x.png",
+          "viewport": "375px",
+          "scale": "@2x",
+          "createdAt": "2025-05-27T00:15:00Z",
+          "component": "MobileDashboard",
+          "darkMode": false,
+          "status": "pending"
+        }
+      }
+    }
+  },
+  "promptPacks": {
+    "screenshot-linker": {
+      "version": "1.0.0",
+      "components": ["lab-result", "insight-overlay", "focus-coach", "mobile-dashboard"]
+    }
+  },
+  "screenshots": [
+    {
+      "component": "FocusCoachCard",
+      "variant": "eren-mode",
+      "viewport": 390,
+      "status": "complete",
+      "path": "docs/screenshots/focus-coach/eren-mode.png",
+      "date": "2025-05-27",
+      "description": "Eren Mode with completed task and emotional response",
+      "device": "iPhone 12 Pro"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "sprint": "23.9",
+  "status": "in-progress",
+  "startDate": "2025-06-05",
+  "endDate": "2025-06-18",
+  "owner": "Furkan",
+  "runBy": "RunBoyRunLENA",
+  "modules": {
+    "ProfilePage": {
+      "status": "planned",
+      "priority": 1,
+      "features": [
+        "User information display",
+        "Avatar management",
+        "Profile editing",
+        "Activity history",
+        "Dark mode support"
+      ],
+      "dependencies": [
+        "ToastSystem",
+        "LanguageSwitch",
+        "SettingsDrawer"
+      ],
+      "technicalScope": {
+        "stateManagement": "Zustand",
+        "dataFlow": "Server-side props",
+        "styling": "Tailwind + CSS Modules",
+        "animations": "Framer Motion"
+      }
+    },
+    "NotificationSettings": {
+      "status": "planned",
+      "priority": 2,
+      "features": [
+        "Channel preferences",
+        "Schedule configuration",
+        "Priority levels",
+        "Do not disturb mode"
+      ],
+      "dependencies": [
+        "ToastSystem",
+        "SettingsDrawer"
+      ],
+      "technicalScope": {
+        "stateManagement": "Zustand",
+        "persistence": "Local Storage",
+        "integration": "Toast System API"
+      }
+    },
+    "HealthScoreCard": {
+      "status": "planned",
+      "priority": 3,
+      "features": [
+        "Health metrics visualization",
+        "Score calculation",
+        "History tracking",
+        "Export functionality"
+      ],
+      "dependencies": [
+        "ProfilePage"
+      ],
+      "technicalScope": {
+        "charts": "Recharts",
+        "dataProcessing": "Server-side",
+        "export": "CSV + PDF"
+      }
+    },
+    "ReminderScheduler": {
+      "status": "planned",
+      "priority": 4,
+      "features": [
+        "Reminder creation",
+        "Recurrence patterns",
+        "Notification integration",
+        "Calendar sync"
+      ],
+      "dependencies": [
+        "ToastSystem",
+        "NotificationSettings"
+      ],
+      "technicalScope": {
+        "calendar": "FullCalendar",
+        "scheduling": "date-fns",
+        "sync": "iCal format"
+      }
+    }
+  },
+  "goals": {
+    "primary": "Enhance user engagement through personalized experience",
+    "technical": [
+      "Maintain 100% test coverage",
+      "Ensure WCAG 2.1 AA compliance",
+      "Implement proper error boundaries",
+      "Optimize bundle size"
+    ]
+  },
+  "metrics": {
+    "targetTestCoverage": "100%",
+    "targetA11Y": "WCAG 2.1 AA",
+    "targetPerformance": {
+      "firstContentfulPaint": "<1s",
+      "timeToInteractive": "<2s",
+      "bundleSize": "<200KB"
+    }
+  },
+  "risks": {
+    "technical": [
+      "Complex state management in ProfilePage",
+      "Real-time updates in HealthScoreCard",
+      "Background sync in ReminderScheduler"
+    ],
+    "mitigation": [
+      "Implement proper error boundaries",
+      "Use optimistic updates",
+      "Add comprehensive logging"
+    ]
+  },
+  "dependencies": {
+    "required": [
+      "date-fns",
+      "recharts",
+      "fullcalendar",
+      "framer-motion"
+    ],
+    "devDependencies": [
+      "vitest",
+      "@testing-library/react",
+      "@testing-library/user-event"
+    ]
+  }
+} 

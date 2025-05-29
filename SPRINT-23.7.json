@@ -1,0 +1,25 @@
+{
+  "sprint": "SPRINT-23.7",
+  "title": "CarePlanBuilder Temel Yapı",
+  "summary": "CarePlanBuilder modülünün temel yapı taşları bu sprintte atıldı. Veri modeli, store yapısı ve temel UI komponentleri oluşturuldu.",
+  "goals": [
+    "CarePlan TypeScript tip tanımlamalarının yapılması",
+    "Validasyon kurallarının oluşturulması (Zod)",
+    "Zustand store kurulumunun tamamlanması",
+    "Temel form elemanlarının oluşturulması",
+    "Layout bileşenlerinin tasarlanması",
+    "REST API client ve hata yönetimi altyapısının hazırlanması",
+    "Jest kurulumu ve test util fonksiyonlarının hazırlanması"
+  ],
+  "outcomes": [
+    "carePlan.ts içinde tip tanımları oluşturuldu",
+    "carePlanSchema ile Zod validasyonları yazıldı",
+    "Zustand store yapısı kuruldu ve persist middleware entegre edildi",
+    "Form bileşenleri (Input, Select, Switch) UI kütüphanesine dahil edildi",
+    "CarePlanBuilder.tsx içinde adım temelli yapı başlatıldı",
+    "API entegrasyonu için temel yapı oluşturuldu",
+    "Test altyapısı için jest.config.ts ve setup dosyası oluşturuldu"
+  ],
+  "status": "completed",
+  "date_range": "2025-05-19 — 2025-05-21"
+}

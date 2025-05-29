@@ -1,0 +1,4 @@
+Component,Render Tests,Data Tests,A11y Tests,Mocking,Status
+FallbackRateChart,✅,✅,✅,✅,Passed
+ErrorTimelineChart,✅,✅,✅,✅,Passed
+InsightUsageChart,✅,✅,✅,✅,Pending

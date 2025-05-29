@@ -1,0 +1,26 @@
+{
+  "sprint": "23.6",
+  "goal": "SettingsPage + NotificationFeed + Toast Regression",
+  "plannedModules": [
+    "ThemeLanguageSelector",
+    "SettingsPage",
+    "NotificationFeed",
+    "ToastRegression"
+  ],
+  "features": {
+    "settings": ["theme", "language", "profile"],
+    "notifications": ["feed", "status", "categories"],
+    "toast": ["rtl", "timeout", "focus-trap"]
+  },
+  "dateRange": "2025-05-26 to 2025-06-01",
+  "owner": "Furkan",
+  "runBy": "RunBoyRunLENA",
+  "tools": [
+    "Cursor",
+    "Vitest",
+    "CleanShot",
+    "Tailwind",
+    "i18n",
+    "WCAG"
+  ]
+} 

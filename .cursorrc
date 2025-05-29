@@ -1,0 +1,32 @@
+{
+  "experimental": {
+    "autoAcceptSuggestions": true,
+    "copilotSuggestionsEnabled": true,
+    "autoFormatOnSave": true
+  },
+  "editor": {
+    "formatOnSave": true,
+    "defaultFormatter": "prettier",
+    "tabSize": 2,
+    "rulers": [
+      100
+    ],
+    "wordWrap": "on",
+    "bracketPairColorization": true
+  },
+  "terminal": {
+    "integrated": {
+      "defaultProfile": {
+        "osx": "zsh"
+      }
+    }
+  },
+  "labs": {
+    "autoAcceptEnabled": true,
+    "experimentalFeaturesEnabled": true
+  },
+  "telemetry": {
+    "enableCrashReporter": false,
+    "enableTelemetry": false
+  }
+}

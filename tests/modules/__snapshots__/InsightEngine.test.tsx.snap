@@ -1,0 +1,947 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InsightEngine Integration > Visual Regression > matches error snapshot on desktop > insight-error-desktop 1`] = `
+<div>
+  <article
+    aria-label="Test error message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-red-500"
+          data-testid="insight-icon-error"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test error message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches error snapshot on mobile > insight-error-mobile 1`] = `
+<div>
+  <article
+    aria-label="Test error message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-red-500"
+          data-testid="insight-icon-error"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test error message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches error snapshot on tablet > insight-error-tablet 1`] = `
+<div>
+  <article
+    aria-label="Test error message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-red-500"
+          data-testid="insight-icon-error"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test error message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches snapshot in dark theme > insight-theme-dark 1`] = `
+<div>
+  <article
+    aria-label="Test theme message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-green-500"
+          data-testid="insight-icon-success"
+        >
+          ✓
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test theme message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches snapshot in light theme > insight-theme-light 1`] = `
+<div>
+  <article
+    aria-label="Test theme message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-green-500"
+          data-testid="insight-icon-success"
+        >
+          ✓
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test theme message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches success snapshot on desktop > insight-success-desktop 1`] = `
+<div>
+  <article
+    aria-label="Test success message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-green-500"
+          data-testid="insight-icon-success"
+        >
+          ✓
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test success message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches success snapshot on mobile > insight-success-mobile 1`] = `
+<div>
+  <article
+    aria-label="Test success message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-green-500"
+          data-testid="insight-icon-success"
+        >
+          ✓
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test success message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches success snapshot on tablet > insight-success-tablet 1`] = `
+<div>
+  <article
+    aria-label="Test success message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-green-500"
+          data-testid="insight-icon-success"
+        >
+          ✓
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test success message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on desktop > insight-warning-desktop 1`] = `
+<div>
+  <article
+    aria-label="Test warning message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-yellow-500"
+          data-testid="insight-icon-warning"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test warning message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on mobile > insight-warning-mobile 1`] = `
+<div>
+  <article
+    aria-label="Test warning message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-yellow-500"
+          data-testid="insight-icon-warning"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test warning message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on tablet > insight-warning-tablet 1`] = `
+<div>
+  <article
+    aria-label="Test warning message"
+    class="relative bg-white rounded-lg shadow-lg p-4 mb-4"
+    dir="ltr"
+    role="article"
+  >
+    <div
+      class="flex items-start justify-between"
+    >
+      <div
+        class="flex items-center"
+      >
+        <span
+          aria-hidden="true"
+          class="text-xl p-2 rounded-full mr-3 text-yellow-500"
+          data-testid="insight-icon-warning"
+        >
+          ⚠
+        </span>
+        <div>
+          <p
+            class="text-gray-900 font-medium"
+          >
+            Test warning message
+          </p>
+          <div
+            class="mt-1 flex items-center text-xs text-gray-500"
+          >
+            <span>
+              Fiziksel Aktivite
+            </span>
+            <span
+              class="mx-2"
+            >
+              •
+            </span>
+            <span>
+              27 Mayıs
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        aria-label="insight.dismiss"
+        class="text-gray-400 hover:text-gray-600"
+        tabindex="0"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <h3
+        class="text-xs font-medium text-gray-900 mb-1"
+      >
+        insight.metrics
+      </h3>
+      <div
+        class="flex flex-wrap gap-2"
+      >
+        <span
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-900"
+        >
+          Test Metric
+        </span>
+      </div>
+    </div>
+    <div
+      class="mt-3"
+    >
+      <button
+        aria-label="Test action"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
+        tabindex="0"
+      >
+        Test action
+      </button>
+    </div>
+  </article>
+</div>
+`;

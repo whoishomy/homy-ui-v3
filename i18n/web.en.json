@@ -1,0 +1,39 @@
+{
+  "common": {
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us"
+  },
+  "hero": {
+    "title": "Next Generation Healthcare OS",
+    "subtitle": "Empowering healthcare providers with intelligent automation and seamless integration",
+    "cta": "Discover HomyOS"
+  },
+  "features": {
+    "title": "Why Choose HomyOS",
+    "items": {
+      "automation": {
+        "title": "Intelligent Automation",
+        "description": "Streamline your healthcare workflows with AI-powered automation"
+      },
+      "integration": {
+        "title": "Seamless Integration",
+        "description": "Connect with existing healthcare systems and data sources effortlessly"
+      },
+      "security": {
+        "title": "Enterprise Security",
+        "description": "Bank-grade security with HIPAA compliance and end-to-end encryption"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Trusted by Healthcare Leaders",
+    "subtitle": "See how HomyOS is transforming healthcare delivery"
+  },
+  "footer": {
+    "company": "Company",
+    "product": "Product",
+    "resources": "Resources",
+    "legal": "Legal"
+  }
+}

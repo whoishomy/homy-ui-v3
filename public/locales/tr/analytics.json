@@ -1,0 +1,16 @@
+{
+  "categories": {
+    "PHYSICAL": "Fiziksel Aktivite",
+    "SLEEP": "Uyku",
+    "NUTRITION": "Beslenme",
+    "MENTAL": "Zihinsel Sağlık",
+    "SOCIAL": "Sosyal Etkileşim",
+    "HEALTH": "Genel Sağlık"
+  },
+  "insights": {
+    "priority": "Öncelikli",
+    "tooltips": {
+      "default": "Bu öneri AI tarafından oluşturuldu ve dikkat gerektiriyor."
+    }
+  }
+}

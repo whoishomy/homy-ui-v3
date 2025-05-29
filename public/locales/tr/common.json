@@ -1,0 +1,11 @@
+{
+  "close": "Kapat",
+  "loading": "Yükleniyor...",
+  "error": "Hata",
+  "success": "Başarılı",
+  "warning": "Uyarı",
+  "languages": {
+    "tr": "Türkçe",
+    "en": "İngilizce"
+  }
+}
