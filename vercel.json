@@ -9,12 +9,7 @@
     "NEXT_PUBLIC_APP_URL": "https://app.homy.health",
     "NEXT_PUBLIC_APP_ENV": "production",
     "NEXT_PUBLIC_ENABLE_AI_FEATURES": "true",
-    "NEXT_PUBLIC_ENABLE_CLEANSHOT": "true",
-    "NEXT_PUBLIC_SUPABASE_URL": "https://fjjhefqetsxtqbspvlqx.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqamhlZnFldHN4dHFic3B2bHF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk0MDI0MDAsImV4cCI6MjAyNDk3ODQwMH0.0Oc_t0qLyxQBQZBvgVQJcKGxG9mLlOxJpZGDZDaS3Aw",
-    "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqamhlZnFldHN4dHFic3B2bHF4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwOTQwMjQwMCwiZXhwIjoyMDI0OTc4NDAwfQ.Hs_QYqcDvYy_B_FvqrPHDQWH_hJ_4YK3MaUdKgPQBVE",
-    "OPENAI_API_KEY": "sk-your-openai-key",
-    "NOTION_TOKEN": "secret_your-notion-token"
+    "NEXT_PUBLIC_ENABLE_CLEANSHOT": "true"
   },
   "github": {
     "silent": true,
