@@ -4,6 +4,9 @@
   "description": "HOMY.MARS - QLLM Powered Interplanetary Health Governance",
   "main": "dist/index.js",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "build": "next build",
     "demo": "ts-node scripts/demo.ts",
