@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    appDir: true,
+  },
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'app.homy.health'],
     // Enable static image optimization
     unoptimized: process.env.NODE_ENV === 'development',
   },
