@@ -52,7 +52,8 @@ Please generate a complete shell script that includes:
 - Documentation generation
 `;
 
-export const expectedOutput = 'A Raycast-compatible script that generates lab result analysis and visualization components';
+export const expectedOutput =
+  'A Raycast-compatible script that generates lab result analysis and visualization components';
 
 export const validation = (output: string): boolean => {
   const requiredElements = [
@@ -62,118 +63,120 @@ export const validation = (output: string): boolean => {
     '@raycast.mode',
     'lab',
     'result',
-    'analysis'
+    'analysis',
   ];
 
-  return requiredElements.every(element => output.includes(element));
+  return requiredElements.every((element) => output.includes(element));
 };
 
 export const labComponents = {
-  "ResultPanel": {
-    "views": {
-      "clinical": {
-        "sections": ["Test Results", "Reference Ranges", "Clinical Context"],
-        "components": ["ValueTable", "RangeIndicator", "ClinicalNotes"]
+  ResultPanel: {
+    views: {
+      clinical: {
+        sections: ['Test Results', 'Reference Ranges', 'Clinical Context'],
+        components: ['ValueTable', 'RangeIndicator', 'ClinicalNotes'],
       },
-      "patient": {
-        "sections": ["Your Results", "What This Means", "Next Steps"],
-        "components": ["SimplifiedView", "ExplanationCard", "ActionGuide"]
-      }
+      patient: {
+        sections: ['Your Results', 'What This Means', 'Next Steps'],
+        components: ['SimplifiedView', 'ExplanationCard', 'ActionGuide'],
+      },
     },
-    "features": ["Trend tracking", "Abnormal highlighting", "Context tooltips"]
+    features: ['Trend tracking', 'Abnormal highlighting', 'Context tooltips'],
   },
-  "TrendGraph": {
-    "types": ["Line chart", "Range plot", "Heat map"],
-    "features": ["Time series", "Multiple markers", "Range overlays"],
-    "interactions": ["Zoom", "Pan", "Point details"]
+  TrendGraph: {
+    types: ['Line chart', 'Range plot', 'Heat map'],
+    features: ['Time series', 'Multiple markers', 'Range overlays'],
+    interactions: ['Zoom', 'Pan', 'Point details'],
   },
-  "AlertBadge": {
-    "types": {
-      "critical": "Immediate attention required",
-      "abnormal": "Outside reference range",
-      "trending": "Significant change detected",
-      "normal": "Within expected range"
-    }
-  }
+  AlertBadge: {
+    types: {
+      critical: 'Immediate attention required',
+      abnormal: 'Outside reference range',
+      trending: 'Significant change detected',
+      normal: 'Within expected range',
+    },
+  },
 };
 
-export const sampleResultTemplate = \`
+export const sampleResultTemplate = `
 import React from 'react';
 import { ResultPanel, TrendGraph, AlertBadge } from '@homy/lab-components';
 import { useLabResult, useReferenceRanges } from '@homy/lab-hooks';
 
-export const LabResultView: React.FC<LabResultProps> = ({ resultId, viewMode }) => {
-  const { result, loading, error } = useLabResult(resultId);
-  const { ranges } = useReferenceRanges(result?.testType);
+const LabResultView = ({ result }) => {
+  const { data, loading, error } = useLabResult(result.id);
+  const { ranges } = useReferenceRanges(result.test);
 
-  if (loading) return <LoadingState />;
-  if (error) return <ErrorState error={error} />;
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage error={error} />;
 
   return (
-    <div className="lab-result-container">
-      <ResultPanel
-        result={result}
-        ranges={ranges}
-        viewMode={viewMode}
-        className="rounded-lg shadow-md"
-      />
-      
-      <TrendGraph
-        data={result.history}
-        ranges={ranges}
-        className="mt-4 h-64"
-      />
-      
-      {result.alerts.map(alert => (
-        <AlertBadge
-          key={alert.id}
-          type={alert.type}
-          message={alert.message}
-          className="mt-2"
+    <ResultPanel>
+      <header>
+        <h2>{result.test.name}</h2>
+        <AlertBadge status={result.status} />
+      </header>
+
+      <section>
+        <ValueDisplay 
+          value={result.value}
+          unit={result.unit}
+          ranges={ranges}
         />
-      ))}
-    </div>
+        <TrendGraph 
+          data={data.history}
+          ranges={ranges}
+        />
+      </section>
+
+      <footer>
+        <MetadataDisplay metadata={result.metadata} />
+        <ActionButtons result={result} />
+      </footer>
+    </ResultPanel>
   );
 };
-\`;
+
+export default LabResultView;
+`;
 
 export const fhirMapping = {
-  "observation": {
-    "resourceType": "Observation",
-    "category": "laboratory",
-    "code": {
-      "system": "http://loinc.org",
-      "code": "LOINC_CODE",
-      "display": "Test Name"
+  observation: {
+    resourceType: 'Observation',
+    category: 'laboratory',
+    code: {
+      system: 'http://loinc.org',
+      code: 'LOINC_CODE',
+      display: 'Test Name',
     },
-    "valueQuantity": {
-      "value": "RESULT_VALUE",
-      "unit": "UNIT",
-      "system": "http://unitsofmeasure.org"
-    }
-  }
+    valueQuantity: {
+      value: 'RESULT_VALUE',
+      unit: 'UNIT',
+      system: 'http://unitsofmeasure.org',
+    },
+  },
 };
 
 export const memoryIntegration = {
-  "results": {
-    "analyzed": [
+  results: {
+    analyzed: [
       {
-        "resultId": "CBC-123",
-        "timestamp": "2024-03-21T10:30:00Z",
-        "type": "CBC",
-        "insights": {
-          "clinical": ["Finding 1", "Finding 2"],
-          "trends": ["Trend 1", "Trend 2"]
-        }
-      }
+        resultId: 'CBC-123',
+        timestamp: '2024-03-21T10:30:00Z',
+        type: 'CBC',
+        insights: {
+          clinical: ['Finding 1', 'Finding 2'],
+          trends: ['Trend 1', 'Trend 2'],
+        },
+      },
     ],
-    "visualizations": {
-      "lastUpdated": "2024-03-21T10:30:00Z",
-      "components": {
-        "ResultPanel": true,
-        "TrendGraph": true,
-        "AlertBadge": true
-      }
-    }
-  }
-}; 
+    visualizations: {
+      lastUpdated: '2024-03-21T10:30:00Z',
+      components: {
+        ResultPanel: true,
+        TrendGraph: true,
+        AlertBadge: true,
+      },
+    },
+  },
+};
