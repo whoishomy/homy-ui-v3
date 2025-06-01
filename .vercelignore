@@ -1,0 +1,40 @@
+# Development scripts and tools
+scripts/
+tools/
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__/
+jest.config.js
+jest.setup.js
+
+# Development configurations
+.eslintrc.json
+.prettierrc
+tsconfig.tsbuildinfo
+
+# Documentation and assets
+docs/
+README.md
+CHANGELOG.md
+LICENSE
+
+# Local environment files
+.env.local
+.env.development
+.env.development.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Other development files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log* 
