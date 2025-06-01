@@ -29,6 +29,5 @@
       "memory": 1024,
       "maxDuration": 10
     }
-  },
-  "nodeVersion": "20.x"
+  }
 }
