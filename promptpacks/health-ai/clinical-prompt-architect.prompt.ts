@@ -52,7 +52,8 @@ Please generate a complete shell script that includes:
 - Documentation generation
 `;
 
-export const expectedOutput = 'A Raycast-compatible script that designs specialized healthcare PromptPack architecture';
+export const expectedOutput =
+  'A Raycast-compatible script that designs specialized healthcare PromptPack architecture';
 
 export const validation = (output: string): boolean => {
   const requiredElements = [
@@ -62,116 +63,160 @@ export const validation = (output: string): boolean => {
     '@raycast.mode',
     'clinical',
     'health',
-    'promptpack'
+    'promptpack',
   ];
 
-  return requiredElements.every(element => output.includes(element));
+  return requiredElements.every((element) => output.includes(element));
 };
 
 export const clinicalDomains = {
-  "triage": {
-    "promptpacks": [
+  triage: {
+    promptpacks: [
       {
-        "name": "triage-rule-generator",
-        "purpose": "Generate smart triage rules from clinical guidelines",
-        "components": ["RuleEngine", "PriorityQueue", "AlertSystem"]
+        name: 'triage-rule-generator',
+        purpose: 'Generate smart triage rules from clinical guidelines',
+        components: ['RuleEngine', 'PriorityQueue', 'AlertSystem'],
       },
       {
-        "name": "symptom-mapper",
-        "purpose": "Map reported symptoms to clinical pathways",
-        "components": ["SymptomTree", "PathwayVisualizer"]
-      }
-    ]
+        name: 'symptom-mapper',
+        purpose: 'Map reported symptoms to clinical pathways',
+        components: ['SymptomTree', 'PathwayVisualizer'],
+      },
+    ],
   },
-  "labs": {
-    "promptpacks": [
+  labs: {
+    promptpacks: [
       {
-        "name": "lab-insight-analyzer",
-        "purpose": "Interpret lab results with clinical context",
-        "components": ["ResultPanel", "TrendGraph", "AlertBadge"]
+        name: 'lab-insight-analyzer',
+        purpose: 'Interpret lab results with clinical context',
+        components: ['ResultPanel', 'TrendGraph', 'AlertBadge'],
       },
       {
-        "name": "reference-range-validator",
-        "purpose": "Validate and visualize lab value ranges",
-        "components": ["RangeSlider", "ValidationCard"]
-      }
-    ]
+        name: 'reference-range-validator',
+        purpose: 'Validate and visualize lab value ranges',
+        components: ['RangeSlider', 'ValidationCard'],
+      },
+    ],
   },
-  "vitals": {
-    "promptpacks": [
+  vitals: {
+    promptpacks: [
       {
-        "name": "vital-monitor-designer",
-        "purpose": "Create vital sign monitoring interfaces",
-        "components": ["VitalGrid", "TrendLine", "AlertThreshold"]
+        name: 'vital-monitor-designer',
+        purpose: 'Create vital sign monitoring interfaces',
+        components: ['VitalGrid', 'TrendLine', 'AlertThreshold'],
       },
       {
-        "name": "profile-vital-mapper",
-        "purpose": "Map vitals to patient profiles",
-        "components": ["ProfileCard", "VitalSummary"]
-      }
-    ]
-  }
+        name: 'profile-vital-mapper',
+        purpose: 'Map vitals to patient profiles',
+        components: ['ProfileCard', 'VitalSummary'],
+      },
+    ],
+  },
 };
 
 export const architectureTemplate = {
-  "workflow": {
-    "components": ["Clinical flow diagrams", "Decision trees", "Alert systems"],
-    "integrations": ["EHR systems", "Lab interfaces", "Monitoring devices"],
-    "compliance": ["HIPAA", "GDPR", "HL7 FHIR"]
+  workflow: {
+    components: ['Clinical flow diagrams', 'Decision trees', 'Alert systems'],
+    integrations: ['EHR systems', 'Lab interfaces', 'Monitoring devices'],
+    compliance: ['HIPAA', 'GDPR', 'HL7 FHIR'],
   },
-  "ui": {
-    "components": ["Clinical dashboards", "Patient views", "Provider interfaces"],
-    "patterns": ["Accessibility", "Mobile-first", "Error prevention"],
-    "themes": ["Clinical", "Patient-friendly", "Technical"]
-  }
+  ui: {
+    components: ['Clinical dashboards', 'Patient views', 'Provider interfaces'],
+    patterns: ['Accessibility', 'Mobile-first', 'Error prevention'],
+    themes: ['Clinical', 'Patient-friendly', 'Technical'],
+  },
 };
 
-export const sampleArchitectureDoc = \`
+export const sampleArchitectureDoc = `
 # HOMY Health PromptPack Architecture
 
 ## Clinical Domains
 
-### 🚑 Triage System
-- \`triage-rule-generator\`: Smart triage automation
-- \`symptom-mapper\`: Clinical pathway mapping
+### Patient Assessment
+- Initial Evaluation
+- Follow-up Assessment
+- Emergency Triage
 
-### 🔬 Lab Management
-- \`lab-insight-analyzer\`: Result interpretation
-- \`reference-range-validator\`: Value validation
+### Treatment Planning
+- Care Plan Generation
+- Medication Management
+- Intervention Strategies
 
-### 📊 Vital Monitoring
-- \`vital-monitor-designer\`: Monitoring interfaces
-- \`profile-vital-mapper\`: Patient profiling
+### Monitoring & Alerts
+- Vital Signs Analysis
+- Lab Result Interpretation
+- Critical Value Detection
+
+## Core Components
+
+### Base Templates
+- Standard Headers
+- Response Formats
+- Error Handling
+
+### Clinical Logic
+- Decision Trees
+- Risk Assessments
+- Protocol Selection
+
+### Safety Checks
+- Contraindication Detection
+- Drug Interaction Alerts
+- Boundary Conditions
 
 ## Integration Points
-- EHR Systems
-- Lab Interfaces
-- Monitoring Devices
 
-## Compliance
-- HIPAA Compliance
-- GDPR Requirements
-- HL7 FHIR Standards
-\`;
+### External Systems
+- EHR Connectivity
+- Lab Systems
+- Pharmacy Networks
+
+### Internal Services
+- Authentication
+- Audit Logging
+- Analytics
+
+### User Interfaces
+- Mobile Apps
+- Web Portals
+- Admin Dashboards
+
+## Governance
+
+### Compliance
+- HIPAA Requirements
+- Data Protection
+- Audit Trails
+
+### Quality Assurance
+- Validation Rules
+- Testing Protocols
+- Version Control
+
+### Documentation
+- API References
+- Usage Guidelines
+- Change Management
+`;
 
 export const memoryIntegration = {
-  "architecture": {
-    "domains": [
+  architecture: {
+    domains: [
       {
-        "name": "triage",
-        "promptpacks": ["triage-rule-generator", "symptom-mapper"],
-        "status": "active"
+        name: 'triage',
+        promptpacks: ['triage-rule-generator', 'symptom-mapper'],
+        status: 'active',
       },
       {
-        "name": "labs",
-        "promptpacks": ["lab-insight-analyzer", "reference-range-validator"],
-        "status": "planned"
-      }
+        name: 'labs',
+        promptpacks: ['lab-insight-analyzer', 'reference-range-validator'],
+        status: 'planned',
+      },
     ],
-    "compliance": {
-      "lastChecked": "2024-03-21T10:30:00Z",
-      "standards": ["HIPAA", "GDPR", "FHIR"],
-      "status": "compliant"
-    }
-  }
-}; 
+    compliance: {
+      lastChecked: '2024-03-21T10:30:00Z',
+      standards: ['HIPAA', 'GDPR', 'FHIR'],
+      status: 'compliant',
+    },
+  },
+};
