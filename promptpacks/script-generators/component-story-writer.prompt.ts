@@ -54,7 +54,8 @@ Please generate a complete shell script that includes:
 - Memory.json state tracking
 `;
 
-export const expectedOutput = 'A Raycast-compatible script that generates comprehensive Storybook documentation';
+export const expectedOutput =
+  'A Raycast-compatible script that generates comprehensive Storybook documentation';
 
 export const validation = (output: string): boolean => {
   const requiredElements = [
@@ -64,13 +65,13 @@ export const validation = (output: string): boolean => {
     '@raycast.mode',
     'story',
     'component',
-    'storybook'
+    'storybook',
   ];
 
-  return requiredElements.every(element => output.includes(element));
+  return requiredElements.every((element) => output.includes(element));
 };
 
-export const storyTemplate = \`
+export const storyTemplate = `
 import type { Meta, StoryObj } from '@storybook/react';
 import { {ComponentName} } from './{ComponentName}';
 
@@ -79,28 +80,8 @@ const meta: Meta<typeof {ComponentName}> = {
   component: {ComponentName},
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component: '{ComponentDescription}'
-      }
-    }
   },
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'ghost'],
-      description: 'Visual style variants'
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'Size variations'
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Disabled state'
-    }
-  }
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -108,100 +89,72 @@ type Story = StoryObj<typeof {ComponentName}>;
 
 export const Default: Story = {
   args: {
-    variant: 'primary',
-    size: 'md',
-    children: 'Button Text'
-  }
+    // Add default props here
+  },
 };
 
-export const Variants: Story = {
-  render: () => (
-    <div className="flex gap-4">
-      <{ComponentName} variant="primary">Primary</{ComponentName}>
-      <{ComponentName} variant="secondary">Secondary</{ComponentName}>
-      <{ComponentName} variant="ghost">Ghost</{ComponentName}>
-    </div>
-  )
+export const WithCustomProps: Story = {
+  args: {
+    // Add custom props here
+  },
 };
 
-export const Sizes: Story = {
-  render: () => (
-    <div className="flex items-center gap-4">
-      <{ComponentName} size="sm">Small</{ComponentName}>
-      <{ComponentName} size="md">Medium</{ComponentName}>
-      <{ComponentName} size="lg">Large</{ComponentName}>
-    </div>
-  )
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+  },
 };
 
-export const States: Story = {
-  render: () => (
-    <div className="flex gap-4">
-      <{ComponentName}>Default</{ComponentName}>
-      <{ComponentName} disabled>Disabled</{ComponentName}>
-      <{ComponentName} loading>Loading</{ComponentName}>
-    </div>
-  )
+export const Error: Story = {
+  args: {
+    error: new Error('Something went wrong'),
+  },
 };
-\`;
+`;
 
-export const documentationTemplate = \`
-# {ComponentName}
+export const documentationTemplate = `
+# {ComponentName} Component
 
 ## Overview
 {ComponentDescription}
 
 ## Props
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| variant | 'primary' \| 'secondary' \| 'ghost' | 'primary' | Visual style variant |
-| size | 'sm' \| 'md' \| 'lg' | 'md' | Size variation |
-| disabled | boolean | false | Disabled state |
-| loading | boolean | false | Loading state |
+{PropsList}
 
-## Usage Examples
-\`\`\`tsx
+## Examples
+\`\`\`jsx
 import { {ComponentName} } from './{ComponentName}';
 
 // Basic usage
-<{ComponentName}>Click me</{ComponentName}>
+<{ComponentName} />
 
-// With variants
-<{ComponentName} variant="secondary" size="lg">
-  Large Secondary Button
-</{ComponentName}>
+// With custom props
+<{ComponentName} {...customProps} />
 \`\`\`
 
-## Accessibility
-- Follows ARIA button pattern
-- Keyboard navigation support
-- Screen reader announcements
-- Focus management
-
-## Design Guidelines
-- Use primary variant for main actions
-- Secondary for alternative actions
-- Ghost for subtle interactions
-\`;
+## Notes
+- {Note1}
+- {Note2}
+`;
 
 export const memoryIntegration = {
-  "stories": {
-    "created": [
+  stories: {
+    created: [
       {
-        "component": "ExampleComponent",
-        "timestamp": "2024-03-21T10:30:00Z",
-        "type": "full",
-        "variants": ["primary", "secondary", "ghost"],
-        "screenshots": ["default.png", "variants.png"]
-      }
+        component: 'ExampleComponent',
+        timestamp: '2024-03-21T10:30:00Z',
+        type: 'full',
+        variants: ['primary', 'secondary', 'ghost'],
+        screenshots: ['default.png', 'variants.png'],
+      },
     ],
-    "documentation": {
-      "lastUpdated": "2024-03-21T10:30:00Z",
-      "coverage": {
-        "props": true,
-        "examples": true,
-        "accessibility": true
-      }
-    }
-  }
-}; 
+    documentation: {
+      lastUpdated: '2024-03-21T10:30:00Z',
+      coverage: {
+        props: true,
+        examples: true,
+        accessibility: true,
+      },
+    },
+  },
+};
