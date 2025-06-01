@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["sfo1"],
+  "env": {
+    "SCREENSHOTS_DIR": "docs/screenshots",
+    "NEXT_PUBLIC_SITE_URL": "@site-url"
+  },
+  "build": {
+    "env": {
+      "OPENAI_API_KEY": "@openai-api-key",
+      "NOTION_TOKEN": "@notion-token",
+      "NOTION_DATABASE_ID": "@notion-database-id"
+    }
+  },
+  "github": {
+    "silent": true,
+    "autoAlias": true
+  }
+}

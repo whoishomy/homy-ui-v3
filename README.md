@@ -1,163 +1,136 @@
-# HOMY UI v3
+# 🧹 CleanShot AI Toolkit
 
-Modern health analytics dashboard built with Next.js and Tailwind CSS.
+AI-powered screenshot management toolkit for CleanShot X with Notion integration.
 
-## 📦 Kurulum
+[![CI](https://github.com/whoishomy/cleanshot-ai-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/whoishomy/cleanshot-ai-toolkit/actions/workflows/ci.yml)
+[![Vercel](https://vercelbadge.vercel.app/api/runboyrun/cleanshot-ai-toolkit)](https://cleanshot-ai-toolkit.vercel.app)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white)](https://openai.com/)
+[![Notion](https://img.shields.io/badge/Notion-000000?logo=notion&logoColor=white)](https://developers.notion.com)
 
-```bash
-pnpm install
-pnpm dev
-```
+## ✨ Features
 
-## 🧪 Test
+- 📸 **Screenshot Management**: Automated organization of CleanShot screenshots
+- 🤖 **AI Tagging**: Smart component tagging using OpenAI
+- 📤 **Notion Export**: Seamless integration with Notion databases
+- 🧪 **Testing**: Comprehensive test suite for screenshot management
+- 🎨 **Gallery**: Visual showcase of your component library
 
-```bash
-pnpm test
-```
+## 🚀 Quick Start
 
-## 🚀 Bileşenler
-
-- ✅ ThemeProvider + useHomyTheme
-- ✅ StatusBadge + ColorPresetSystem
-- ✅ ProfileVitalsCard
-- ✅ ThemeToggleButton
-- ✅ DataTrendChart
-- ✅ LabResultCard
-
-## 🖼️ CleanShot Dizinleri
-
-- `docs/screenshots/theme-toggle/`
-- `docs/screenshots/profile-vitals-card/`
-- `docs/screenshots/data-trend-chart/`
-- `docs/screenshots/lab-result-card/`
-
-## 🧩 Özellikler
-
-- 🎨 Tam Dark Mode Desteği
-- ♿️ ARIA Erişilebilirlik
-- 📱 Responsive Tasarım
-- 🧪 %100 Test Coverage
-- 📊 Veri Görselleştirme
-- 🔄 Tema Geçişleri
-
-## 🛠️ Teknolojiler
-
-- React + TypeScript
-- Tailwind CSS
-- Vitest + Testing Library
-- Recharts
-- Lucide Icons
-
-## 📚 Kullanım Örnekleri
-
-```tsx
-// Tema Değiştirme
-<ThemeToggleButton />
-
-// Durum Göstergeleri
-<StatusBadge status="warning" label="Beklemede" />
-
-// Vital Bulgular
-<ProfileVitalsCard />
-
-// Laboratuvar Sonuçları
-<LabResultCard
-  title="HbA1c"
-  description="Son 3 aylık ortalama şeker düzeyi"
-  unit="%"
-  data={[
-    { date: "2025-05-01", value: 6.2 },
-    { date: "2025-05-15", value: 6.0 }
-  ]}
-/>
-```
-
-## Getting Started
-
-First, run the development server:
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/whoishomy/cleanshot-ai-toolkit.git
+cd cleanshot-ai-toolkit
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## 📸 CleanShot Documentation – Sprint 25.0
-
-### 🧪 Lab Result Card
-
-- ✅ `27-May-2025-labresult-default-1440px@2x.png`
-- ✅ `27-May-2025-labresult-expanded-darkmode-768px@2x.png`
-
-### 🧠 Insight Overlay
-
-- ✅ `27-May-2025-insight-overlay-hover-1440px@2x.png`
-
-### 🎯 Focus Coach
-
-- 🔄 `27-May-2025-focus-coach-default-1024px@2x.png` (Loading...)
-
-### 📱 Mobile Dashboard
-
-- 🔄 `27-May-2025-mobile-dashboard-default-375px@2x.png` (Loading...)
-
-## Component Status
-
-| Component        | Status | Dark Mode | Responsive |
-| ---------------- | ------ | --------- | ---------- |
-| Lab Result Card  | ✅     | ✅        | ✅         |
-| Insight Overlay  | ✅     | ⚠️        | ✅         |
-| Focus Coach      | 🔄     | 🔄        | 🔄         |
-| Mobile Dashboard | 🔄     | 🔄        | ✅         |
-
-## Development
+2. Install dependencies:
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
 ```
 
-## Testing
+3. Set up environment variables:
 
 ```bash
-# Run unit tests
-npm test
-
-# Run e2e tests
-npm run test:e2e
+cp .env.local.example .env.local
+# Edit .env.local with your API keys
 ```
 
-## License
+4. Run the toolkit:
 
-MIT © HOMY Health Technologies
+```bash
+# Start the gallery
+npm run dev
+
+# Tag screenshots with AI
+npm run tag
+
+# Export to Notion
+npm run export
+
+# Complete processing pipeline
+npm run process
+```
+
+## 🛠️ Configuration
+
+### Environment Variables
+
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `NOTION_TOKEN`: Notion integration token
+- `NOTION_DATABASE_ID`: Target Notion database ID
+- `SCREENSHOTS_DIR`: Screenshots directory (default: docs/screenshots)
+- `CLEANSHOT_DIR`: CleanShot directory (default: ~/Pictures/CleanShot)
+
+### Vercel Deployment
+
+1. Install Vercel CLI:
+
+```bash
+npm i -g vercel
+```
+
+2. Deploy to Vercel:
+
+```bash
+vercel
+```
+
+3. Configure environment variables in Vercel:
+   - Go to Project Settings → Environment Variables
+   - Add the following variables:
+     - `OPENAI_API_KEY`
+     - `NOTION_TOKEN`
+     - `NOTION_DATABASE_ID`
+
+### GitHub Actions Setup
+
+To enable CI/CD, add the following secrets to your GitHub repository:
+
+1. Go to your repository's Settings
+2. Navigate to Secrets and Variables → Actions
+3. Add the following secrets:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `NOTION_TOKEN`: Your Notion integration token
+   - `NOTION_DATABASE_ID`: Your Notion database ID
+
+### Notion Database Schema
+
+Required properties for the Notion database:
+
+- `Component` (Title)
+- `Description` (Text)
+- `Tags` (Multi-select)
+- `Screenshot Count` (Number)
+- `Last Updated` (Date)
+
+## 📚 Scripts
+
+- `npm run dev`: Start the gallery
+- `npm run tag`: Run AI tagging on screenshots
+- `npm run export`: Export to Notion database
+- `npm run process`: Complete screenshot processing pipeline
+- `npm test`: Run test suite
+- `npm run build`: Build TypeScript files
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m '✨ Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [CleanShot X](https://cleanshot.com/) for the amazing screenshot tool
+- [OpenAI](https://openai.com/) for AI capabilities
+- [Notion API](https://developers.notion.com/) for database integration
+- [Vercel](https://vercel.com) for hosting the gallery

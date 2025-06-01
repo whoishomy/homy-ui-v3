@@ -1,5 +1,5 @@
-import { LenaEngine } from '../src/lena/core/LenaEngine';
-import { getConfig } from '../src/lena/config/lena.config';
+import { LenaEngine } from '../src/lena/core/LenaEngine.js';
+import { getConfig } from '../src/lena/config/lena.config.js';
 import dotenv from 'dotenv';
 
 function printBanner() {

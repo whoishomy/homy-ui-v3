@@ -1,22 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   images: {
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    domains: ['localhost'],
+    // Enable static image optimization
+    unoptimized: process.env.NODE_ENV === 'development',
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
+  // Environment variables that should be available to the client
+  env: {
+    SCREENSHOTS_DIR: process.env.SCREENSHOTS_DIR || 'docs/screenshots',
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   },
+  // Enable static exports for Vercel
+  output: 'standalone',
 };
-
-module.exports = nextConfig;
