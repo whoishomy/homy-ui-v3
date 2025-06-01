@@ -121,7 +121,10 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ classNam
         <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
 
         {/* Daily/Weekly Tabs */}
-        <DailyWeeklyTabs />
+        <DailyWeeklyTabs
+          value={filters.timeRange === 'daily' ? 'daily' : 'weekly'}
+          onValueChange={(value) => handleTimeRangeChange(value)}
+        />
 
         {/* Health Score Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">

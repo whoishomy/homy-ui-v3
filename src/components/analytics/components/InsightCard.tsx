@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HealthInsight } from '@/types/analytics';
-import { Button } from '@/components/ui/Button';
+import { Button, type ButtonProps } from '@/components/ui/Button';
 import { getInsightCategoryDisplay } from '@/utils/insightCategory';
+import { cn } from '@/lib/utils';
 
 interface InsightCardProps {
   insight: HealthInsight;
@@ -97,9 +98,7 @@ export const InsightCard: React.FC<InsightCardProps> = ({
           <Button
             variant="default"
             size="default"
-            className="w-full bg-blue-700 text-white hover:bg-blue-800"
-            aria-label={insight.action.message}
-            tabIndex={0}
+            className={cn('w-full', 'bg-blue-700', 'text-white', 'hover:bg-blue-800')}
             onClick={onAction}
           >
             {insight.action.message}

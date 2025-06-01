@@ -2,12 +2,12 @@
 
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { X as CloseIcon } from 'lucide-react';
 import { DataTrendChart } from '@/components/charts/DataTrendChart';
 import { cn } from '@/utils/cn';
 import { useTrademarkStyle } from '../../hooks/useTrademarkStyle';
 import { getTrademarkName } from '../../utils/trademark';
-import type { LabResult } from './LabResultsPanel';
+import type { LabResult } from '@/types/lab-results';
 
 interface Props {
   result?: LabResult;
@@ -20,13 +20,18 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
 
   if (!result) return null;
 
+  const lastValue = result.data?.[result.data.length - 1];
+  const relatedTests = result.clinicalContext?.relatedTests ?? [];
+  const insights = result.insights ?? [];
+  const recommendations = result.recommendations ?? [];
+
   const significanceColor = result.clinicalContext?.significance?.includes('Critical')
     ? 'text-red-500'
     : result.clinicalContext?.significance?.includes('Significant')
-      ? 'text-amber-500'
-      : result.clinicalContext?.significance?.includes('Abnormal')
-        ? 'text-yellow-500'
-        : 'text-green-500';
+    ? 'text-amber-500'
+    : result.clinicalContext?.significance?.includes('Abnormal')
+    ? 'text-yellow-500'
+    : 'text-green-500';
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -72,7 +77,7 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                             onClick={onClose}
                           >
                             <span className="sr-only">Kapat</span>
-                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                            <CloseIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
@@ -104,14 +109,16 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                               Detaylar
                             </h3>
                             <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                              <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 rounded-lg">
-                                <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                                  Son Değer
-                                </dt>
-                                <dd className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
-                                  {result.data[result.data.length - 1].value} {result.unit}
-                                </dd>
-                              </div>
+                              {lastValue && (
+                                <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 rounded-lg">
+                                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                                    Son Değer
+                                  </dt>
+                                  <dd className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
+                                    {lastValue.value} {result.unit}
+                                  </dd>
+                                </div>
+                              )}
                               {result.referenceRange && (
                                 <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 rounded-lg">
                                   <dt className="text-xs font-medium text-gray-500 dark:text-gray-400">
@@ -131,8 +138,8 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                                   {result.trend === 'up'
                                     ? 'Yükselen'
                                     : result.trend === 'down'
-                                      ? 'Düşen'
-                                      : 'Stabil'}
+                                    ? 'Düşen'
+                                    : 'Stabil'}
                                 </dd>
                               </div>
                               {result.clinicalContext?.significance && (
@@ -150,27 +157,26 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                             </dl>
                           </section>
 
-                          {result.clinicalContext?.relatedTests &&
-                            result.clinicalContext.relatedTests.length > 0 && (
-                              <section aria-labelledby="related-tests-title">
-                                <h3
-                                  id="related-tests-title"
-                                  className="text-sm font-medium text-gray-900 dark:text-white mb-3"
-                                >
-                                  İlişkili Testler
-                                </h3>
-                                <ul className="space-y-2">
-                                  {result.clinicalContext.relatedTests.map((test, index) => (
-                                    <li
-                                      key={index}
-                                      className="text-sm text-gray-600 dark:text-gray-300"
-                                    >
-                                      {test}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </section>
-                            )}
+                          {relatedTests?.length > 0 && (
+                            <section aria-labelledby="related-tests-title">
+                              <h3
+                                id="related-tests-title"
+                                className="text-sm font-medium text-gray-900 dark:text-white mb-3"
+                              >
+                                İlişkili Testler
+                              </h3>
+                              <ul className="space-y-2">
+                                {relatedTests.map((test, index) => (
+                                  <li
+                                    key={index}
+                                    className="text-sm text-gray-600 dark:text-gray-300"
+                                  >
+                                    {test}
+                                  </li>
+                                ))}
+                              </ul>
+                            </section>
+                          )}
 
                           {result.clinicalContext?.doctorNotes && (
                             <section aria-labelledby="doctor-notes-title">
@@ -188,7 +194,7 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                             </section>
                           )}
 
-                          {result.insights && result.insights.length > 0 && (
+                          {insights?.length > 0 && (
                             <section aria-labelledby="insights-title">
                               <h3
                                 id="insights-title"
@@ -197,7 +203,7 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                                 AI Insights
                               </h3>
                               <div className="space-y-3">
-                                {result.insights.map((insight, index) => (
+                                {insights.map((insight, index) => (
                                   <div
                                     key={index}
                                     className="bg-gray-50 dark:bg-gray-800 px-4 py-3 rounded-lg"
@@ -223,7 +229,7 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                             </section>
                           )}
 
-                          {result.recommendations && result.recommendations.length > 0 && (
+                          {recommendations?.length > 0 && (
                             <section aria-labelledby="recommendations-title">
                               <h3
                                 id="recommendations-title"
@@ -232,7 +238,7 @@ export const ResultDetailDrawer = ({ result, isOpen, onClose }: Props) => {
                                 Öneriler
                               </h3>
                               <ul className="space-y-2">
-                                {result.recommendations.map((recommendation, index) => (
+                                {recommendations.map((recommendation, index) => (
                                   <li
                                     key={index}
                                     className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"

@@ -1,10 +1,16 @@
 import { EventEmitter } from 'events';
-import type { AgentRunner, AgentRunnerConfig, AgentOutput } from '../types/agent';
+import type {
+  AgentRunner,
+  AgentRunnerConfig,
+  AgentOutput,
+  AgentRunnerStatus,
+} from '../types/agent';
 import { vitalSignsMonitorAgent } from '../agents/vitals/vital-signs-monitor.agent';
 
 class HomyAgentRunner extends EventEmitter implements AgentRunner {
   private agents: Map<string, Function> = new Map();
   private configs: Map<string, AgentRunnerConfig> = new Map();
+  private agentStatuses: Map<string, AgentRunnerStatus> = new Map();
 
   constructor() {
     super();
@@ -13,6 +19,10 @@ class HomyAgentRunner extends EventEmitter implements AgentRunner {
 
   private registerBuiltinAgents() {
     this.agents.set('vital-signs-monitor', vitalSignsMonitorAgent);
+  }
+
+  public getAllAgentStatus(): AgentRunnerStatus[] {
+    return Array.from(this.agentStatuses.values());
   }
 
   public async runAgent(name: string, config?: AgentRunnerConfig): Promise<AgentOutput> {
@@ -32,6 +42,11 @@ class HomyAgentRunner extends EventEmitter implements AgentRunner {
       };
 
       const result = await agent(context);
+      this.agentStatuses.set(name, {
+        name,
+        status: 'running',
+        lastActiveAt: new Date().toISOString(),
+      });
       this.emit('agentComplete', { name, result });
 
       return {
@@ -40,6 +55,11 @@ class HomyAgentRunner extends EventEmitter implements AgentRunner {
       };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      this.agentStatuses.set(name, {
+        name,
+        status: 'error',
+        lastActiveAt: new Date().toISOString(),
+      });
       this.emit('agentError', { name, error: errorMessage });
 
       return {
@@ -51,6 +71,7 @@ class HomyAgentRunner extends EventEmitter implements AgentRunner {
 
   public registerAgent(name: string, config: AgentRunnerConfig): void {
     this.configs.set(name, config);
+    this.agentStatuses.set(name, { name, status: 'idle', lastActiveAt: new Date().toISOString() });
     this.emit('agentRegistered', { name, config });
   }
 
@@ -60,6 +81,28 @@ class HomyAgentRunner extends EventEmitter implements AgentRunner {
 
   public off(event: string, handler: (data: any) => void): this {
     return super.off(event, handler);
+  }
+
+  public async enableAgent(name: string): Promise<void> {
+    const agent = this.agents.get(name);
+    if (!agent) {
+      throw new Error(`Agent ${name} not found`);
+    }
+    this.agentStatuses.set(name, {
+      name,
+      status: 'running',
+      lastActiveAt: new Date().toISOString(),
+    });
+    this.emit('statusUpdate', this.agentStatuses.get(name));
+  }
+
+  public async disableAgent(name: string): Promise<void> {
+    const agent = this.agents.get(name);
+    if (!agent) {
+      throw new Error(`Agent ${name} not found`);
+    }
+    this.agentStatuses.set(name, { name, status: 'idle', lastActiveAt: new Date().toISOString() });
+    this.emit('statusUpdate', this.agentStatuses.get(name));
   }
 }
 

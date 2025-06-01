@@ -3,22 +3,14 @@ import { AlertOctagon, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface Props {
-  patientName: string;
-  labType: string;
+  testName: string;
   value: number;
-  unit?: string;
+  unit: string;
   onClose?: () => void;
   className?: string;
 }
 
-export const EmergencyAlertBanner = ({
-  patientName,
-  labType,
-  value,
-  unit,
-  onClose,
-  className,
-}: Props) => {
+export const EmergencyAlertBanner = ({ testName, value, unit, onClose, className }: Props) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
@@ -40,12 +32,9 @@ export const EmergencyAlertBanner = ({
         <div className="flex items-center gap-3">
           <AlertOctagon className="w-6 h-6" />
           <div>
-            <p className="font-semibold">
-              Critical Alert: {patientName} - {labType}
-            </p>
+            <p className="font-semibold">Critical Alert: {testName}</p>
             <p className="text-sm">
-              Value: {value}
-              {unit && <span className="ml-1">{unit}</span>} - Immediate attention required
+              Value: {value} {unit} - Immediate attention required
             </p>
           </div>
         </div>

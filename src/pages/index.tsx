@@ -1,12 +1,6 @@
 import { useState } from 'react';
-import {
-  Container,
-  VStack,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react';
+import { Container, Box, Alert, Text, Heading } from '@chakra-ui/react';
+import { WarningIcon } from '@chakra-ui/icons';
 import type { GetStaticProps } from 'next';
 import GalleryGrid from '../components/GalleryGrid';
 import TagFilter from '../components/TagFilter';
@@ -32,16 +26,25 @@ export default function Home({ screenshots, allTags, hasIncompleteTagging }: Hom
 
   return (
     <Container maxW="container.xl" py={8}>
-      <VStack spacing={8} align="stretch">
+      <Box display="flex" flexDirection="column" gap={8}>
         {hasIncompleteTagging && (
-          <Alert status="warning">
-            <AlertIcon />
-            <AlertTitle>AI Tagging Incomplete</AlertTitle>
-            <AlertDescription>
-              Some screenshots are missing AI-generated descriptions or tags. Run the tagging script
-              to complete the metadata.
-            </AlertDescription>
-          </Alert>
+          <Box
+            p={4}
+            bg="orange.100"
+            color="orange.800"
+            borderRadius="md"
+            display="flex"
+            alignItems="center"
+          >
+            <WarningIcon />
+            <Box ml={3}>
+              <Heading size="sm">AI Tagging Incomplete</Heading>
+              <Text mt={1}>
+                Some screenshots are missing AI-generated descriptions or tags. Run the tagging
+                script to complete the metadata.
+              </Text>
+            </Box>
+          </Box>
         )}
         <TagFilter
           availableTags={allTags}
@@ -50,7 +53,7 @@ export default function Home({ screenshots, allTags, hasIncompleteTagging }: Hom
           onTagRemove={handleTagRemove}
         />
         <GalleryGrid screenshots={screenshots} selectedTags={selectedTags} />
-      </VStack>
+      </Box>
     </Container>
   );
 }

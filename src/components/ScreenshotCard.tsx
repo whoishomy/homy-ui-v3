@@ -1,4 +1,4 @@
-import { Box, Badge, Image, Text, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Badge, Image, Text, Stack } from '@chakra-ui/react';
 
 export interface Screenshot {
   path: string;
@@ -14,18 +14,16 @@ interface ScreenshotCardProps {
 }
 
 export default function ScreenshotCard({ screenshot }: ScreenshotCardProps) {
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const tagBg = useColorModeValue('gray.100', 'gray.700');
-
   return (
     <Box
-      bg={cardBg}
+      bg="white"
+      _dark={{ bg: 'gray.800' }}
       maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       transition="all 0.2s"
-      _hover={{ transform: 'scale(1.02)', shadow: 'lg' }}
+      _hover={{ transform: 'scale(1.02)', boxShadow: 'lg' }}
     >
       <Image
         src={`/api/screenshots/${screenshot.path}`}
@@ -35,9 +33,9 @@ export default function ScreenshotCard({ screenshot }: ScreenshotCardProps) {
         objectFit="cover"
       />
 
-      <Box p="6">
+      <Box p={6}>
         <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
+          <Badge colorScheme="teal" borderRadius="full" px={2}>
             {screenshot.viewport}
           </Badge>
           <Text ml={2} textTransform="uppercase" fontSize="sm" fontWeight="bold" color="gray.500">
@@ -55,13 +53,13 @@ export default function ScreenshotCard({ screenshot }: ScreenshotCardProps) {
           </Text>
         )}
 
-        <Stack direction="row" mt={4} flexWrap="wrap" gap={2}>
+        <Box display="flex" flexWrap="wrap" gap={2} mt={4}>
           {screenshot.tags.map((tag) => (
-            <Badge key={tag} bg={tagBg} borderRadius="full" px="2">
+            <Badge key={tag} bg="gray.100" _dark={{ bg: 'gray.700' }} borderRadius="full" px={2}>
               {tag}
             </Badge>
           ))}
-        </Stack>
+        </Box>
       </Box>
     </Box>
   );

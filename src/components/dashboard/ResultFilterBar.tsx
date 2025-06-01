@@ -4,12 +4,14 @@ import { useCallback, useState } from 'react';
 import { cn } from '@/utils/cn';
 import { useTrademarkStyle } from '../../hooks/useTrademarkStyle';
 import { getTrademarkName } from '../../utils/trademark';
-import { LabResultTrend } from '@/types/lab-results';
+import type { LabResult } from '@/types/lab-results';
+
+type FilterValue = string | undefined;
 
 interface Filters {
-  testType: string;
-  dateRange: string;
-  trend: LabResultTrend | undefined;
+  testType: FilterValue;
+  dateRange: FilterValue;
+  trend: LabResult['trend'];
   significance?: 'critical' | 'significant' | 'abnormal' | 'normal';
 }
 
@@ -32,19 +34,15 @@ export const ResultFilterBar = ({
     significance: undefined,
   });
 
-  const handleFilterChange = (key: keyof Filters, value: string) => {
-    const newFilters: Filters = {
-      testType: key === 'testType' ? value : '',
-      dateRange: key === 'dateRange' ? value : '',
-      trend: key === 'trend' ? (value === '' ? undefined : (value as LabResultTrend)) : undefined,
-      significance:
-        key === 'significance'
-          ? value === ''
-            ? undefined
-            : (value as Filters['significance'])
-          : undefined,
-    };
-    onFilterChangeAction(newFilters);
+  const handleFilterChange = <K extends keyof Filters>(key: K, value: string) => {
+    setFilters((prev) => {
+      const newFilters = {
+        ...prev,
+        [key]: value || undefined,
+      } as Filters;
+      onFilterChangeAction(newFilters);
+      return newFilters;
+    });
   };
 
   return (
@@ -62,7 +60,7 @@ export const ResultFilterBar = ({
           type="text"
           className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           placeholder="Test adı ile ara..."
-          value={filters.testType}
+          value={filters.testType || ''}
           onChange={(e) => handleFilterChange('testType', e.target.value)}
         />
       </div>
@@ -73,7 +71,7 @@ export const ResultFilterBar = ({
         </label>
         <select
           className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          value={filters.dateRange}
+          value={filters.dateRange || ''}
           onChange={(e) => handleFilterChange('dateRange', e.target.value)}
         >
           <option value="">Tüm zamanlar</option>
@@ -91,13 +89,27 @@ export const ResultFilterBar = ({
         <select
           className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           value={filters.trend || ''}
-          onChange={(e) => handleFilterChange('trend', e.target.value as LabResultTrend)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === '') {
+              setFilters((prev) => {
+                const newFilters = { ...prev, trend: undefined };
+                onFilterChangeAction(newFilters);
+                return newFilters;
+              });
+            } else {
+              setFilters((prev) => {
+                const newFilters = { ...prev, trend: value as LabResult['trend'] };
+                onFilterChangeAction(newFilters);
+                return newFilters;
+              });
+            }
+          }}
         >
           <option value="">Tüm trendler</option>
-          <option value="increasing">Artış</option>
-          <option value="decreasing">Azalış</option>
+          <option value="up">Artış</option>
+          <option value="down">Azalış</option>
           <option value="stable">Stabil</option>
-          <option value="fluctuating">Dalgalı</option>
         </select>
       </div>
 
@@ -109,7 +121,10 @@ export const ResultFilterBar = ({
           <select
             className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             value={filters.significance || ''}
-            onChange={(e) => handleFilterChange('significance', e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value as Filters['significance'];
+              handleFilterChange('significance', value === '' ? undefined : value);
+            }}
           >
             <option value="">Tüm önemler</option>
             <option value="critical">Kritik</option>

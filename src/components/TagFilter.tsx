@@ -1,4 +1,4 @@
-import { HStack, Tag, TagLabel, TagCloseButton, Wrap } from '@chakra-ui/react';
+import { Box, Button, HStack, Text } from '@chakra-ui/react';
 
 interface TagFilterProps {
   availableTags: string[];
@@ -14,24 +14,22 @@ export default function TagFilter({
   onTagRemove,
 }: TagFilterProps) {
   return (
-    <Wrap spacing={2} mb={6}>
+    <Box display="flex" flexWrap="wrap" gap={2} mb={6}>
       {availableTags.map((tag) => {
         const isSelected = selectedTags.includes(tag);
         return (
-          <Tag
+          <Button
             key={tag}
-            size="md"
-            borderRadius="full"
-            variant={isSelected ? 'solid' : 'subtle'}
+            size="sm"
+            variant={isSelected ? 'solid' : 'outline'}
             colorScheme={isSelected ? 'teal' : 'gray'}
-            cursor="pointer"
             onClick={() => (isSelected ? onTagRemove(tag) : onTagSelect(tag))}
+            rightIcon={isSelected ? <Text fontSize="lg">&times;</Text> : undefined}
           >
-            <TagLabel>{tag}</TagLabel>
-            {isSelected && <TagCloseButton onClick={() => onTagRemove(tag)} />}
-          </Tag>
+            {tag}
+          </Button>
         );
       })}
-    </Wrap>
+    </Box>
   );
 }

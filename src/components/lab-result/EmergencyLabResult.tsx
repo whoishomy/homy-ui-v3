@@ -5,15 +5,13 @@ import { EmergencyAlertBanner } from './EmergencyAlertBanner';
 import { EmergencyInsightBubble } from './EmergencyInsightBubble';
 import { EmergencyFooterMessage } from './EmergencyFooterMessage';
 import { AIResponseHandler } from '@/utils/aiResponseHandler';
-import type { LabResult } from '../dashboard/LabResultsPanel';
+import type { LabResult } from '@/types/lab-results';
 
 interface Props {
-  labResult: LabResult;
-  patientId: string;
-  patientName: string;
+  result: LabResult;
 }
 
-export const EmergencyLabResult = ({ labResult, patientId, patientName }: Props) => {
+export const EmergencyLabResult = ({ result }: Props) => {
   const [insight, setInsight] = useState<Awaited<
     ReturnType<typeof AIResponseHandler.prototype.generateInsight>
   > | null>(null);
@@ -24,8 +22,7 @@ export const EmergencyLabResult = ({ labResult, patientId, patientName }: Props)
       try {
         const handler = AIResponseHandler.getInstance();
         const response = await handler.generateInsight({
-          labResult,
-          patientId,
+          labResult: result,
           userRole: 'physician',
           timestamp: new Date().toISOString(),
         });
@@ -38,7 +35,7 @@ export const EmergencyLabResult = ({ labResult, patientId, patientName }: Props)
     };
 
     loadInsight();
-  }, [labResult, patientId]);
+  }, [result]);
 
   if (isLoading) {
     return <div className="p-4 text-center text-gray-500">Analyzing results...</div>;
@@ -52,17 +49,10 @@ export const EmergencyLabResult = ({ labResult, patientId, patientName }: Props)
     );
   }
 
-  const latestValue = labResult.data[labResult.data.length - 1].value;
-
   return (
     <>
       {/* Top Alert Banner */}
-      <EmergencyAlertBanner
-        patientName={patientName}
-        labType={labResult.title}
-        value={latestValue}
-        unit={labResult.unit}
-      />
+      <EmergencyAlertBanner testName={result.testName} value={result.value} unit={result.unit} />
 
       {/* Main Content */}
       <div className="container mx-auto py-6 px-4 space-y-6">
@@ -84,13 +74,14 @@ export const EmergencyLabResult = ({ labResult, patientId, patientName }: Props)
               <div>
                 <dt className="text-sm text-gray-500 dark:text-gray-400">Normal Range</dt>
                 <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {labResult.referenceRange?.min} - {labResult.referenceRange?.max} {labResult.unit}
+                  {result.referenceRange.min} - {result.referenceRange.max}{' '}
+                  {result.referenceRange.unit}
                 </dd>
               </div>
               <div>
                 <dt className="text-sm text-gray-500 dark:text-gray-400">Current Value</dt>
                 <dd className="text-sm font-medium text-red-600 dark:text-red-400">
-                  {latestValue} {labResult.unit}
+                  {result.value} {result.unit}
                 </dd>
               </div>
             </dl>

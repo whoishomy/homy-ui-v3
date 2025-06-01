@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 
 interface DailyWeeklyTabsProps {
   value: 'daily' | 'weekly';

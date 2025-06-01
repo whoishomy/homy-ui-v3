@@ -3,11 +3,12 @@ import { VitalStatus } from './vitals';
 export interface LabResult {
   id: string;
   testName: string;
+  title: string;
   category: 'blood' | 'urine' | 'imaging' | 'cardiology' | 'other';
   status: VitalStatus;
   value: number;
   unit: string;
-  referenceRange: {
+  referenceRange?: {
     min: number;
     max: number;
     unit: string;
@@ -19,9 +20,25 @@ export interface LabResult {
   collectionDate?: string;
   reportDate?: string;
   notes?: string;
-  history?: LabResultHistory[];
-  trends?: LabResultTrend[];
-  insights?: AIGeneratedInsight[];
+  data: Array<{
+    date: string;
+    value: number;
+  }>;
+  trend?: 'up' | 'down' | 'stable';
+  clinicalContext?: {
+    significance?: string;
+    relatedTests?: string[];
+    doctorNotes?: string;
+  };
+  recommendations?: string[];
+  insights?: Array<{
+    type: 'observation' | 'recommendation' | 'warning';
+    content: string;
+    message: string;
+    confidence: number;
+    source: string;
+    timestamp: string;
+  }>;
 }
 
 export interface LabResultHistory {

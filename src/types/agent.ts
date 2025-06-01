@@ -31,11 +31,13 @@ export interface AgentRunnerConfig {
 export interface AgentRunner {
   runAgent(name: string, config?: AgentRunnerConfig): Promise<AgentOutput>;
   registerAgent(name: string, config: AgentRunnerConfig): void;
+  enableAgent(name: string): Promise<void>;
+  disableAgent(name: string): Promise<void>;
   on(event: string, handler: (data: any) => void): void;
   off(event: string, handler: (data: any) => void): void;
 }
 
-export type AgentStatusType = 'idle' | 'running' | 'paused' | 'error';
+export type AgentStatusType = 'idle' | 'running' | 'error';
 
 export type AgentTaskType = 'process' | 'analyze' | 'notify' | 'sync' | 'custom';
 
@@ -125,3 +127,9 @@ export interface AgentConversationState {
 }
 
 export type SystemStatus = 'all_green' | 'degraded' | 'pending_input' | 'fallback_active';
+
+export interface AgentRunnerStatus {
+  name: string;
+  status: AgentStatusType;
+  lastActiveAt: string;
+}

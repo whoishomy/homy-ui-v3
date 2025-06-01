@@ -50,9 +50,9 @@ export const StatusPanel = ({ status, message, agents = [], className }: StatusP
 
   // Calculate agent statistics
   const totalAgents = agents.length;
-  const activeAgents = agents.filter((a) => a.status.type === 'online').length;
+  const activeAgents = agents.filter((a) => a.status.type === 'running').length;
   const errorAgents = agents.filter((a) => a.status.type === 'error').length;
-  const pendingAgents = agents.filter((a) => a.status.type === 'pending').length;
+  const pendingAgents = agents.filter((a) => a.status.type === 'idle').length;
 
   // Calculate overall system health percentage
   const systemHealth = Math.round((activeAgents / totalAgents) * 100);

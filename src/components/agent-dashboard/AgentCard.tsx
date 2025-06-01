@@ -5,6 +5,8 @@ import { cn } from '@/utils/cn';
 import { Agent, AgentStatusType } from '@/types/agent';
 import { AgentLiveBadge } from './AgentLiveBadge';
 
+export type { Agent };
+
 interface AgentCardProps {
   agent: Agent;
   isSelected?: boolean;
@@ -21,8 +23,6 @@ export const AgentCard = ({ agent, isSelected, onClick, className }: AgentCardPr
         return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
       case 'error':
         return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100';
-      case 'paused':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
     }
@@ -36,8 +36,6 @@ export const AgentCard = ({ agent, isSelected, onClick, className }: AgentCardPr
         return 'Idle';
       case 'error':
         return 'Error';
-      case 'paused':
-        return 'Paused';
       default:
         return status;
     }

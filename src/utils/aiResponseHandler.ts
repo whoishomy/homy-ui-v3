@@ -1,10 +1,9 @@
-import type { LabResult } from '../components/dashboard/LabResultsPanel';
+import type { LabResult } from '@/types/lab-results';
 import { EmergencyEscalationGuard } from './emergencyEscalationGuard';
 import { HealthTaskValidator } from './healthTaskValidator';
 
 interface AIContext {
   labResult: LabResult;
-  patientId: string;
   userRole: string;
   timestamp: string;
   previousInsights?: Array<{
@@ -82,7 +81,7 @@ export class AIResponseHandler {
     // This would be your actual AI model call
     // For now, returning a mock response
     return {
-      content: `Analysis for ${ctx.labResult.title}`,
+      content: `Analysis for ${ctx.labResult.testName}`,
       metadata: {
         severity: 'normal',
         confidence: 0.95,
@@ -90,8 +89,8 @@ export class AIResponseHandler {
       },
       insights: [
         {
-          type: ctx.labResult.title,
-          value: ctx.labResult.data[ctx.labResult.data.length - 1].value,
+          type: ctx.labResult.testName,
+          value: ctx.labResult.value,
           interpretation: 'Within normal range',
           trend: 'stable',
         },
@@ -106,7 +105,7 @@ export class AIResponseHandler {
       type: 'monitoring' as const,
       parameters: {
         action: 'validate_ai_response',
-        threshold: ctx.labResult.referenceRange?.max,
+        threshold: ctx.labResult.referenceRange.max,
       },
       context: {
         labResult: ctx.labResult,
@@ -129,34 +128,32 @@ export class AIResponseHandler {
   }
 
   private detectEmergency(response: AIResponse, ctx: AIContext): EmergencyIndicator | null {
-    const latestValue = ctx.labResult.data[ctx.labResult.data.length - 1].value;
+    const value = ctx.labResult.value;
     const indicators: EmergencyIndicator[] = [];
 
     // Check for critical values
-    if (ctx.labResult.referenceRange) {
-      const { min, max } = ctx.labResult.referenceRange;
-      const range = max - min;
+    const { min, max } = ctx.labResult.referenceRange;
+    const range = max - min;
 
-      if (latestValue > max + range * 0.5 || latestValue < min - range * 0.5) {
-        indicators.push({
-          type: 'value',
-          severity: 'critical',
-          confidence: 0.95,
-          evidence: [
-            {
-              source: 'lab_result',
-              detail: 'Value significantly outside reference range',
-              value: latestValue,
-            },
-          ],
-        });
-      }
+    if (value > max + range * 0.5 || value < min - range * 0.5) {
+      indicators.push({
+        type: 'value',
+        severity: 'critical',
+        confidence: 0.95,
+        evidence: [
+          {
+            source: 'lab_result',
+            detail: 'Value significantly outside reference range',
+            value: value,
+          },
+        ],
+      });
     }
 
     // Check for dangerous trends
-    if (ctx.labResult.data.length > 1) {
-      const previousValue = ctx.labResult.data[ctx.labResult.data.length - 2].value;
-      const change = Math.abs((latestValue - previousValue) / previousValue);
+    if (ctx.labResult.history && ctx.labResult.history.length > 0) {
+      const previousValue = ctx.labResult.history[ctx.labResult.history.length - 1].value;
+      const change = Math.abs((value - previousValue) / previousValue);
 
       if (change > 0.3) {
         // 30% change
@@ -208,7 +205,7 @@ export class AIResponseHandler {
     response.content = `⚠️ EMERGENCY WARNING ⚠️\n\n${warningMessage}\n\n${response.content}`;
 
     // Trigger emergency escalation
-    await this.emergencyGuard.evaluateLabResult(ctx.labResult, ctx.patientId);
+    await this.emergencyGuard.evaluateLabResult(ctx.labResult);
 
     // Add emergency recommendations
     response.recommendations = [
@@ -229,11 +226,11 @@ export class AIResponseHandler {
   }
 
   private generateWarningMessage(response: AIResponse, ctx: AIContext): string {
-    const latestValue = ctx.labResult.data[ctx.labResult.data.length - 1].value;
-    const refRange = ctx.labResult.referenceRange;
+    const value = ctx.labResult.value;
+    const { min, max, unit } = ctx.labResult.referenceRange;
 
     let message = 'CRITICAL VALUE DETECTED\n';
-    message += `Current ${ctx.labResult.title}: ${latestValue} ${refRange ? `(Reference: ${refRange.min}-${refRange.max})` : ''}\n`;
+    message += `Current ${ctx.labResult.testName}: ${value} ${unit} (Reference: ${min}-${max} ${unit})\n`;
     message += 'Medical staff has been notified.\n';
     message += 'Please follow emergency protocol instructions.';
 
@@ -241,18 +238,18 @@ export class AIResponseHandler {
   }
 
   // Public utility methods
-  async getEmergencyStatus(patientId: string): Promise<{
+  async getEmergencyStatus(): Promise<{
     hasActiveEmergency: boolean;
     activeEscalations: number;
     lastEscalation?: string;
   }> {
     const activeEscalations = await this.emergencyGuard.getActiveEscalations();
-    const patientEscalations = activeEscalations.filter((e) => e.patient.id === patientId);
-
     return {
-      hasActiveEmergency: patientEscalations.length > 0,
-      activeEscalations: patientEscalations.length,
-      lastEscalation: patientEscalations[0]?.timestamp,
+      hasActiveEmergency: activeEscalations.length > 0,
+      activeEscalations: activeEscalations.length,
+      lastEscalation: activeEscalations[0]?.timestamp,
     };
   }
+}
+
 }
