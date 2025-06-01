@@ -51,7 +51,8 @@ Please generate a complete shell script that includes:
 - Error handling and validation
 `;
 
-export const expectedOutput = 'A Raycast-compatible script that generates comprehensive test scenarios';
+export const expectedOutput =
+  'A Raycast-compatible script that generates comprehensive test scenarios';
 
 export const validation = (output: string): boolean => {
   const requiredElements = [
@@ -62,70 +63,83 @@ export const validation = (output: string): boolean => {
     'test',
     'component',
     'describe',
-    'it'
+    'it',
   ];
 
-  return requiredElements.every(element => output.includes(element));
+  return requiredElements.every((element) => output.includes(element));
 };
 
 export const testScenarios = {
-  "basic": {
-    "render": "Component renders without crashing",
-    "props": "Component accepts and displays all required props",
-    "interactions": "User can interact with clickable elements"
+  basic: {
+    render: 'Component renders without crashing',
+    props: 'Component accepts and displays all required props',
+    interactions: 'User can interact with clickable elements',
   },
-  "a11y": {
-    "landmarks": "Proper ARIA landmarks are present",
-    "keyboard": "All interactions are keyboard accessible",
-    "screenReader": "Content is announced properly to screen readers"
+  a11y: {
+    landmarks: 'Proper ARIA landmarks are present',
+    keyboard: 'All interactions are keyboard accessible',
+    screenReader: 'Content is announced properly to screen readers',
   },
-  "edge": {
-    "loading": "Component handles loading state gracefully",
-    "error": "Error states are handled and displayed properly",
-    "empty": "Empty or null states are handled correctly"
-  }
+  edge: {
+    loading: 'Component handles loading state gracefully',
+    error: 'Error states are handled and displayed properly',
+    empty: 'Empty or null states are handled correctly',
+  },
 };
 
-export const sampleTestFile = \`
+export const sampleTestFile = `
 import { render, screen, fireEvent } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import Component from './Component';
 
-describe('Component Tests', () => {
-  describe('Basic Functionality', () => {
-    it('renders without crashing', () => {
-      render(<Component />);
-      expect(screen).toBeDefined();
-    });
+describe('Component', () => {
+  it('renders without crashing', () => {
+    render(<Component />);
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
-  describe('Accessibility', () => {
-    it('has no accessibility violations', async () => {
-      const { container } = render(<Component />);
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
+  it('handles user interactions', () => {
+    render(<Component />);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect(screen.getByText('Clicked!')).toBeInTheDocument();
+  });
+
+  it('has no accessibility violations', async () => {
+    const { container } = render(<Component />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('displays loading state', () => {
+    render(<Component isLoading />);
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('handles error state', () => {
+    render(<Component error="Test error" />);
+    expect(screen.getByRole('alert')).toHaveTextContent('Test error');
   });
 });
-\`;
+`;
 
 export const memoryIntegration = {
-  "tests": {
-    "created": [
+  tests: {
+    created: [
       {
-        "component": "ExampleComponent",
-        "timestamp": "2024-03-21T10:30:00Z",
-        "type": "full",
-        "coverage": "95%"
-      }
+        component: 'ExampleComponent',
+        timestamp: '2024-03-21T10:30:00Z',
+        type: 'full',
+        coverage: '95%',
+      },
     ],
-    "history": {
-      "lastRun": "2024-03-21T10:30:00Z",
-      "results": {
-        "passed": 42,
-        "failed": 0,
-        "skipped": 2
-      }
-    }
-  }
-}; 
+    history: {
+      lastRun: '2024-03-21T10:30:00Z',
+      results: {
+        passed: 42,
+        failed: 0,
+        skipped: 2,
+      },
+    },
+  },
+};
