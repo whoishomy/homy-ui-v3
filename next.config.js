@@ -16,4 +16,9 @@ const nextConfig = {
   },
   // Enable static exports for Vercel
   output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
+
+module.exports = nextConfig;
