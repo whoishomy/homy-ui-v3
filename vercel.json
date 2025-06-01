@@ -6,14 +6,18 @@
   "framework": "nextjs",
   "regions": ["sfo1"],
   "env": {
-    "SCREENSHOTS_DIR": "docs/screenshots",
-    "NEXT_PUBLIC_SITE_URL": "@site-url"
+    "NEXT_PUBLIC_APP_URL": "@app-url",
+    "NEXT_PUBLIC_APP_ENV": "production",
+    "NEXT_PUBLIC_ENABLE_AI_FEATURES": "true",
+    "NEXT_PUBLIC_ENABLE_CLEANSHOT": "true"
   },
   "build": {
     "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
+      "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-role-key",
       "OPENAI_API_KEY": "@openai-api-key",
-      "NOTION_TOKEN": "@notion-token",
-      "NOTION_DATABASE_ID": "@notion-database-id"
+      "NOTION_TOKEN": "@notion-token"
     }
   },
   "github": {
