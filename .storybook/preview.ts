@@ -19,7 +19,24 @@ const preview: Preview = {
         },
         {
           name: 'dark',
+          value: '#1a1a1a',
+        },
+        {
+          name: 'high-contrast',
           value: '#000000',
+        },
+      ],
+    },
+    themes: {
+      default: 'light',
+      list: [
+        { name: 'light', class: '', color: '#ffffff', background: '#ffffff' },
+        { name: 'dark', class: 'dark', color: '#ffffff', background: '#1a1a1a' },
+        {
+          name: 'high-contrast',
+          class: 'high-contrast dark',
+          color: '#ffffff',
+          background: '#000000',
         },
       ],
     },
