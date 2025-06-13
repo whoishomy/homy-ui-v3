@@ -1,49 +1,48 @@
-import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
-import { afterEach, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { expect } from 'vitest';
-import * as matchers from '@testing-library/jest-dom/matchers';
+import { vi } from 'vitest';
+
+// Mock matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
 
 // Mock ResizeObserver
-class ResizeObserverMock {
+global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}
-}
-
-// Mock window.URL
-const mockCreateObjectURL = vi.fn();
-const mockRevokeObjectURL = vi.fn();
-
-// Setup mocks
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserverMock;
-  global.URL.createObjectURL = mockCreateObjectURL;
-  global.URL.revokeObjectURL = mockRevokeObjectURL;
-});
-
-// Reset mocks after each test
-afterEach(() => {
-  cleanup();
-  vi.clearAllMocks();
-});
-
-// Mock window.analytics for tests
-const mockAnalytics = {
-  track: vi.fn(),
 };
 
-// Extend window object with analytics mock
-Object.defineProperty(window, 'analytics', {
-  value: mockAnalytics,
-  writable: true,
-});
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  root: Element | null = null;
+  rootMargin: string = '0px';
+  thresholds: number[] = [0];
 
-// Reset all mocks before each test
-beforeEach(() => {
-  vi.clearAllMocks();
-  mockAnalytics.track.mockClear();
-});
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    if (options) {
+      this.root = options.root instanceof Element ? options.root : null;
+      this.rootMargin = options.rootMargin ?? '0px';
+      this.thresholds = Array.isArray(options.threshold)
+        ? options.threshold
+        : [options.threshold ?? 0];
+    }
+  }
 
-expect.extend(matchers);
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+};
