@@ -1,8 +1,9 @@
-import type { Preview } from '@storybook/react';
 import '../src/styles/globals.css';
+import type { Preview } from '@storybook/nextjs';
 
 const preview: Preview = {
   parameters: {
+    layout: 'centered',
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
@@ -10,34 +11,12 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    backgrounds: {
-      default: 'light',
-      values: [
-        {
-          name: 'light',
-          value: '#ffffff',
-        },
-        {
-          name: 'dark',
-          value: '#1a1a1a',
-        },
-        {
-          name: 'high-contrast',
-          value: '#000000',
-        },
-      ],
-    },
     themes: {
       default: 'light',
       list: [
-        { name: 'light', class: '', color: '#ffffff', background: '#ffffff' },
-        { name: 'dark', class: 'dark', color: '#ffffff', background: '#1a1a1a' },
-        {
-          name: 'high-contrast',
-          class: 'high-contrast dark',
-          color: '#ffffff',
-          background: '#000000',
-        },
+        { name: 'light', class: 'theme-light', color: '#ffffff' },
+        { name: 'dark', class: 'theme-dark', color: '#1a1a1a' },
+        { name: 'high-contrast', class: 'theme-hc', color: '#000000' },
       ],
     },
   },
