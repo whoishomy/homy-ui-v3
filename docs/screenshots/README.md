@@ -51,6 +51,24 @@ This document catalogs the screenshots taken for the MVP release of Tayfun Case 
   - Medical notes and explanations
   - Dates and follow-up information
 
+### 5. StatusBadge Accessibility Testing
+
+- **Directory**: `screenshots/tests/statusbadge/`
+- **Date**: $(date +"%Y-%m-%d")
+- **Scenario**: Comprehensive accessibility testing of StatusBadge component
+- **Test Coverage**:
+  - Critical status badge (`statusbadge-critical-a11y.png`)
+  - Warning status badge (`statusbadge-warning-a11y.png`)
+  - Normal status badge (`statusbadge-normal-a11y.png`)
+  - Interactive variant (`statusbadge-interactive-a11y.png`)
+  - Complete test page (`statusbadge-test-page.png`)
+- **Key Elements**:
+  - ARIA attributes verification
+  - Keyboard navigation support
+  - Color contrast compliance
+  - Interactive state handling
+  - Visual consistency across variants
+
 ## Technical Details
 
 - **Resolution**: 2880x1800 (Retina)
@@ -71,3 +89,11 @@ This document catalogs the screenshots taken for the MVP release of Tayfun Case 
 - **Application Version**: MVP Release
 - **Capture Date**: $(date +"%Y-%m-%d")
 - **Environment**: Development (localhost:3000)
+
+## Testing Notes
+
+- All components tested in Storybook environment
+- Accessibility validation performed using @storybook/addon-a11y
+- Color contrast ratios verified for all states
+- Keyboard interaction patterns documented
+- Interactive states confirmed working
