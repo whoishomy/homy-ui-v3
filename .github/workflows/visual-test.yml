@@ -1,0 +1,61 @@
+name: Visual Regression Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/components/**'
+      - 'src/styles/**'
+
+jobs:
+  visual-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Take screenshots
+        run: |
+          yarn storybook --ci &
+          sleep 10
+          yarn screenshot toast-stack
+          
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: docs/screenshots/
+          
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Get list of screenshots
+            const screenshotDir = path.join(process.env.GITHUB_WORKSPACE, 'docs/screenshots/toast-stack');
+            const screenshots = fs.readdirSync(screenshotDir);
+            
+            // Create comment body
+            let body = '## Visual Test Results\n\n';
+            body += 'The following screenshots were generated:\n\n';
+            screenshots.forEach(screenshot => {
+              body += `- ${screenshot}\n`;
+            });
+            
+            // Add comment to PR
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            }); 
