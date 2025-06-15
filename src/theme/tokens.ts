@@ -27,6 +27,36 @@ export interface ThemeTokens {
       '2xl': string;
     };
   };
+  text: {
+    heading: {
+      light: string;
+      dark: string;
+    };
+    body: {
+      light: string;
+      dark: string;
+    };
+    muted: {
+      light: string;
+      dark: string;
+    };
+  };
+  focus: {
+    ring: {
+      width: string;
+      color: {
+        light: string;
+        dark: string;
+      };
+    };
+    border: {
+      width: string;
+      color: {
+        light: string;
+        dark: string;
+      };
+    };
+  };
 }
 
 export const baseTokens: ThemeTokens = {
@@ -98,4 +128,34 @@ export const baseTokens: ThemeTokens = {
       '2xl': '48px',
     },
   },
-};
+  text: {
+    heading: {
+      light: '#111827',
+      dark: '#F9FAFB',
+    },
+    body: {
+      light: '#374151',
+      dark: '#D1D5DB',
+    },
+    muted: {
+      light: '#6B7280',
+      dark: '#9CA3AF',
+    },
+  },
+  focus: {
+    ring: {
+      width: '2px',
+      color: {
+        light: 'rgba(59, 130, 246, 0.5)',
+        dark: 'rgba(96, 165, 250, 0.5)',
+      },
+    },
+    border: {
+      width: '1px',
+      color: {
+        light: '#3B82F6',
+        dark: '#60A5FA',
+      },
+    },
+  },
+} as const;

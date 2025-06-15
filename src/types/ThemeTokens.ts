@@ -84,3 +84,26 @@ export interface ThemeTokens {
     '2xl': string;
   };
 }
+
+export interface TypographyTokens {
+  scale: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+  };
+  weight: {
+    light: string;
+    regular: string;
+    medium: string;
+    semibold: string;
+    bold: string;
+  };
+  family: {
+    sans: string;
+    mono: string;
+  };
+}

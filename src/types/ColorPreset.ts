@@ -1,4 +1,4 @@
-export type ColorPreset = 'primary' | 'success' | 'warning' | 'error' | 'info';
+export type ColorPreset = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
 
 export type ColorVariant = 'solid' | 'subtle' | 'muted';
 
@@ -19,8 +19,15 @@ export interface ColorMode {
 }
 
 export interface ColorPresetToken {
+  scale: {
+    100: string;
+    300: string;
+    500: string;
+    700: string;
+    900: string;
+  };
   base: string;
-  scale: ColorScale;
-  light: ColorMode;
-  dark: ColorMode;
+  hover: string;
+  active: string;
+  text: string;
 }

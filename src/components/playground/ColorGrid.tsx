@@ -10,7 +10,7 @@ const GridContainer = styled(motion.div)`
   gap: ${({ theme }) => theme.tokens.spacing.scale.md};
 `;
 
-const ColorSection = styled(motion.div)`
+const ColorSectionContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.tokens.spacing.scale.sm};
@@ -24,7 +24,7 @@ const SectionHeader = styled.div`
 
 const SectionTitle = styled.h3`
   font-size: ${({ theme }) => theme.tokens.typography.scale.lg};
-  font-weight: ${({ theme }) => theme.tokens.typography.fontWeight.semibold};
+  font-weight: ${({ theme }) => theme.tokens.typography.weight.semibold};
   margin: 0;
 `;
 
@@ -44,7 +44,7 @@ const ColorSwatch = styled(motion.div)<{ $bg: string; $isDark: boolean }>`
   background: ${({ $bg }) => $bg};
   border-radius: ${({ theme }) => theme.tokens.borderRadius.md};
   color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#000000')};
-  font-family: ${({ theme }) => theme.tokens.typography.fontFamily.mono};
+  font-family: ${({ theme }) => theme.tokens.typography.family.mono};
   font-size: ${({ theme }) => theme.tokens.typography.scale.sm};
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -61,7 +61,7 @@ const ColorInfo = styled.div`
 `;
 
 const ColorName = styled.span`
-  font-weight: ${({ theme }) => theme.tokens.typography.fontWeight.medium};
+  font-weight: ${({ theme }) => theme.tokens.typography.weight.medium};
 `;
 
 const ColorValue = styled.span`
@@ -117,7 +117,7 @@ interface ColorSectionProps {
 
 function ColorSection({ name, color, onColorClick }: ColorSectionProps) {
   return (
-    <ColorSection variants={sectionVariants}>
+    <ColorSectionContainer variants={sectionVariants}>
       <SectionHeader>
         <SectionTitle>{name}</SectionTitle>
         <StatusBadge preset={name as any} ghost>
@@ -141,7 +141,7 @@ function ColorSection({ name, color, onColorClick }: ColorSectionProps) {
           </ColorSwatch>
         ))}
       </ColorPalette>
-    </ColorSection>
+    </ColorSectionContainer>
   );
 }
 

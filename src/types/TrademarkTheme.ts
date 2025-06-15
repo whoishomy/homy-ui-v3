@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import type { TrademarkVisualKit } from './TrademarkVisualKit';
+import type { Theme } from '@emotion/react';
+import type { BrandName } from './BrandName';
 
 export const brandVariants = ['homy', 'neuro', 'lab'] as const;
 export type BrandVariant = (typeof brandVariants)[number];
@@ -168,9 +170,21 @@ export interface BrandKit {
   visualIdentity: VisualIdentity;
 }
 
-export interface TrademarkTheme {
-  colorMode: ColorMode;
-  tokens: ThemeTokens;
+export interface TrademarkTheme extends Theme {
+  colorMode: 'light' | 'dark';
+  currentBrand: BrandName;
+  tokens: {
+    colors: Record<string, string>;
+    typography: {
+      scale: Record<string, string>;
+      weight: Record<string, string>;
+      family: Record<string, string>;
+    };
+    spacing: {
+      scale: Record<string, string>;
+    };
+    borderRadius: Record<string, string>;
+  };
   kits: Record<Brand, BrandKit>;
 }
 
@@ -182,6 +196,7 @@ export const trademarkThemeSchema = z.object({
 export const defaultTheme: TrademarkTheme = {
   brand: 'homy',
   colorMode: 'light',
+  currentBrand: 'homy',
   tokens: {
     colors: {
       primary: '#1A866D',

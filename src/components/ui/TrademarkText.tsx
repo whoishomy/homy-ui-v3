@@ -19,6 +19,25 @@ interface TrademarkTextProps {
 
 const StyledMotionSpan = styled(motion.span)``;
 
+const StyledText = styled.span<{ $animate: boolean }>`
+  font-family: ${({ theme }) => theme.tokens.typography.family.sans};
+  color: ${({ theme }) =>
+    theme.colorMode === 'dark' ? theme.tokens.colors.text.light : theme.tokens.colors.text.dark};
+  transition: all 0.3s ease-in-out;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.tokens.typography.scale.md};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: ${({ theme }) => theme.tokens.typography.scale.sm};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.tokens.colors.primary};
+  }
+`;
+
 export function TrademarkText({
   children,
   options,
@@ -86,7 +105,7 @@ export function TrademarkText({
     }
   `;
 
-  const elementRef = useTrademarkStyle<HTMLSpanElement>(mergedOptions);
+  const elementRef = useTrademarkStyle(options);
 
   // Animation variants
   const textAnimations = {
@@ -110,19 +129,18 @@ export function TrademarkText({
     }).catch(console.error);
   }, [currentBrand, variant]);
 
-  const Component = animate ? StyledMotionSpan : 'span';
-  const animationProps = animate ? textAnimations : {};
-
   return (
-    <Component
+    <StyledText
       ref={elementRef}
       className={className}
-      css={styles}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      {...animationProps}
+      $animate={animate}
+      as={animate ? motion.span : 'span'}
+      {...(animate && {
+        initial: 'initial',
+        animate: 'animate',
+        exit: 'exit',
+        transition: { duration: 0.3, ease: 'easeOut' },
+      })}
     >
       {children}
       {showSymbol && (
@@ -134,7 +152,7 @@ export function TrademarkText({
           ™
         </motion.sup>
       )}
-    </Component>
+    </StyledText>
   );
 }
 
