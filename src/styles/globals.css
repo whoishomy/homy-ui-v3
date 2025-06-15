@@ -2,9 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Face Declarations */
+/* HOMY™ Brand Fonts */
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/Inter-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  font-style: normal;
+  src: url('/fonts/Inter-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Neuro™ Brand Fonts */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/SpaceGrotesk-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/SpaceGrotesk-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-weight: 700;
+  font-style: normal;
+  src: url('/fonts/SpaceGrotesk-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Lab™ Brand Fonts */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 700;
+  font-style: normal;
+  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Base Styles */
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root,
+.theme-light {
+  --color-bg: #ffffff;
+  --color-text: #111111;
   --primary: #0070f3;
   --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
@@ -13,6 +102,54 @@
   --muted-foreground: #6b7280;
   --accent: #f5f5f5;
   --accent-foreground: #000000;
+
+  /* Status colors */
+  --status-critical: #991b1b;
+  --status-warning: #78350f;
+  --status-success: #166534;
+}
+
+.theme-dark {
+  --color-bg: #1a1a1a;
+  --color-text: #eeeeee;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #9ca3af;
+  --accent: #2a2a2a;
+  --accent-foreground: #ffffff;
+
+  /* Status colors - Dark theme */
+  --status-critical: #ef4444;
+  --status-warning: #f59e0b;
+  --status-success: #22c55e;
+}
+
+.theme-hc {
+  --color-bg: #000000;
+  --color-text: #ffffff;
+  --primary: #ffff00;
+  --primary-foreground: #000000;
+  --secondary: #ffffff;
+  --secondary-foreground: #000000;
+  --muted: #ffffff;
+  --muted-foreground: #000000;
+  --accent: #ffff00;
+  --accent-foreground: #000000;
+
+  /* Status colors - High Contrast */
+  --status-critical: #ff0000;
+  --status-warning: #ffff00;
+  --status-success: #00ff00;
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,9 +165,4 @@
     --accent: #1a1a1a;
     --accent-foreground: #ffffff;
   }
-}
-
-body {
-  background-color: var(--background);
-  color: var(--foreground);
 }

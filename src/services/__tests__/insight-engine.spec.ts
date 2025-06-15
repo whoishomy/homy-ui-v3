@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, jest  } from '@jest/globals';
 import { InsightEngine } from '../insightEngine';
 import { InsightCategory } from '@/types/analytics';
 
 // Mock environment variables
-vi.mock('@env', () => ({
+jest.mock('@env', () => ({
   OPENAI_API_KEY: 'test-openai-key',
   ANTHROPIC_API_KEY: 'test-anthropic-key',
 }));
@@ -12,13 +12,13 @@ describe('InsightEngine', () => {
   let engine: InsightEngine;
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     engine = InsightEngine.getInstance();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
-    vi.clearAllMocks();
+    jest.useRealTimers();
+    jest.clearAllMocks();
     // Reset the singleton instance
     (InsightEngine as any).instance = null;
   });
@@ -162,7 +162,7 @@ describe('InsightEngine', () => {
       const end = new Date('2024-01-03');
 
       // Generate some errors at different times
-      vi.setSystemTime(start);
+      jest.setSystemTime(start);
       try {
         await engine.generateInsight({
           category: InsightCategory.PHYSICAL,
@@ -172,7 +172,7 @@ describe('InsightEngine', () => {
         // Expected
       }
 
-      vi.setSystemTime(middle);
+      jest.setSystemTime(middle);
       try {
         await engine.generateInsight({
           category: InsightCategory.SLEEP,
@@ -182,7 +182,7 @@ describe('InsightEngine', () => {
         // Expected
       }
 
-      vi.setSystemTime(end);
+      jest.setSystemTime(end);
       const errorStats = engine.getErrorStats();
       expect(errorStats.timeline.length).toBeGreaterThan(0);
       

@@ -1,17 +1,17 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { jest, describe, it, expect, beforeEach, afterEach  } from '@jest/globals';
 import { InsightEngine } from '@/services/insightEngine';
 import { HealthInsight, InsightCategory } from '@/types/analytics';
 import { analyticsService } from '@/services/analyticsService';
 
 // Mock the analytics service
-vi.mock('@/services/analyticsService', () => ({
+jest.mock('@/services/analyticsService', () => ({
   analyticsService: {
-    track: vi.fn(),
+    track: jest.fn(),
   },
 }));
 
 // Mock environment variables
-vi.mock('@env', () => ({
+jest.mock('@env', () => ({
   OPENAI_API_KEY: 'test-openai-key',
   ANTHROPIC_API_KEY: 'test-anthropic-key',
 }));
@@ -20,7 +20,7 @@ describe('InsightEngine', () => {
   let engine: InsightEngine;
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     engine = InsightEngine.getInstance();
   });
 

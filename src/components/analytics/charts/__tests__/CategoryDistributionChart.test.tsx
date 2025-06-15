@@ -12,7 +12,7 @@ const mockRecharts = {
   Legend: () => null,
 };
 
-vi.mock('recharts', () => mockRecharts);
+jest.mock('recharts', () => mockRecharts);
 
 describe('CategoryDistributionChart', () => {
   const now = new Date();

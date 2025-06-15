@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/useToast';
 import { useReminderStore } from '@/stores/reminderStore';
 import type { Reminder } from '@/types/reminder';

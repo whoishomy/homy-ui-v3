@@ -3,11 +3,11 @@ import { InsightCard } from '../components';
 import type { HealthInsight } from '@/types/analytics';
 import { InsightCategory } from '@/types/analytics';
 import { userEvent } from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 import { analyticsService } from '@/services/analyticsService';
 
 // Mock i18next
-vi.mock('react-i18next', () => ({
+jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string, options?: { defaultValue: string }) => {
       const translations: Record<string, string> = {
@@ -23,15 +23,15 @@ vi.mock('react-i18next', () => ({
 }));
 
 // Mock analytics service
-vi.mock('@/services/analyticsService', () => ({
+jest.mock('@/services/analyticsService', () => ({
   analyticsService: {
-    track: vi.fn(),
+    track: jest.fn(),
   },
 }));
 
 describe('InsightCard', () => {
-  const mockDismiss = vi.fn();
-  const mockAction = vi.fn();
+  const mockDismiss = jest.fn();
+  const mockAction = jest.fn();
 
   const createMockInsight = (type: 'success' | 'warning' | 'error', category: InsightCategory): HealthInsight => ({
     id: `test-${type}-${category}`,
@@ -47,11 +47,11 @@ describe('InsightCard', () => {
   });
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   it('should have proper accessibility attributes', () => {

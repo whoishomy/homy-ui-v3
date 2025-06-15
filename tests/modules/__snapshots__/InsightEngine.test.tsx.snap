@@ -1,6 +1,6 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InsightEngine Integration > Visual Regression > matches error snapshot on desktop > insight-error-desktop 1`] = `
+exports[`InsightEngine Integration Visual Regression matches error snapshot on desktop: insight-error-desktop 1`] = `
 <div>
   <article
     aria-label="Test error message"
@@ -39,7 +39,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -75,9 +75,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -86,7 +84,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches error snapshot on mobile > insight-error-mobile 1`] = `
+exports[`InsightEngine Integration Visual Regression matches error snapshot on mobile: insight-error-mobile 1`] = `
 <div>
   <article
     aria-label="Test error message"
@@ -125,7 +123,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -161,9 +159,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -172,7 +168,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches error snapshot on tablet > insight-error-tablet 1`] = `
+exports[`InsightEngine Integration Visual Regression matches error snapshot on tablet: insight-error-tablet 1`] = `
 <div>
   <article
     aria-label="Test error message"
@@ -211,7 +207,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -247,9 +243,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -258,7 +252,7 @@ exports[`InsightEngine Integration > Visual Regression > matches error snapshot 
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches snapshot in dark theme > insight-theme-dark 1`] = `
+exports[`InsightEngine Integration Visual Regression matches snapshot in dark theme: insight-theme-dark 1`] = `
 <div>
   <article
     aria-label="Test theme message"
@@ -297,7 +291,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in dar
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -333,9 +327,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in dar
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -344,7 +336,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in dar
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches snapshot in light theme > insight-theme-light 1`] = `
+exports[`InsightEngine Integration Visual Regression matches snapshot in light theme: insight-theme-light 1`] = `
 <div>
   <article
     aria-label="Test theme message"
@@ -383,7 +375,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in lig
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -419,9 +411,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in lig
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -430,7 +420,7 @@ exports[`InsightEngine Integration > Visual Regression > matches snapshot in lig
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches success snapshot on desktop > insight-success-desktop 1`] = `
+exports[`InsightEngine Integration Visual Regression matches success snapshot on desktop: insight-success-desktop 1`] = `
 <div>
   <article
     aria-label="Test success message"
@@ -469,7 +459,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -505,9 +495,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -516,7 +504,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches success snapshot on mobile > insight-success-mobile 1`] = `
+exports[`InsightEngine Integration Visual Regression matches success snapshot on mobile: insight-success-mobile 1`] = `
 <div>
   <article
     aria-label="Test success message"
@@ -555,7 +543,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -591,9 +579,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -602,7 +588,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches success snapshot on tablet > insight-success-tablet 1`] = `
+exports[`InsightEngine Integration Visual Regression matches success snapshot on tablet: insight-success-tablet 1`] = `
 <div>
   <article
     aria-label="Test success message"
@@ -641,7 +627,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -677,9 +663,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -688,7 +672,7 @@ exports[`InsightEngine Integration > Visual Regression > matches success snapsho
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on desktop > insight-warning-desktop 1`] = `
+exports[`InsightEngine Integration Visual Regression matches warning snapshot on desktop: insight-warning-desktop 1`] = `
 <div>
   <article
     aria-label="Test warning message"
@@ -727,7 +711,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -763,9 +747,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -774,7 +756,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on mobile > insight-warning-mobile 1`] = `
+exports[`InsightEngine Integration Visual Regression matches warning snapshot on mobile: insight-warning-mobile 1`] = `
 <div>
   <article
     aria-label="Test warning message"
@@ -813,7 +795,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -849,9 +831,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>
@@ -860,7 +840,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
 </div>
 `;
 
-exports[`InsightEngine Integration > Visual Regression > matches warning snapshot on tablet > insight-warning-tablet 1`] = `
+exports[`InsightEngine Integration Visual Regression matches warning snapshot on tablet: insight-warning-tablet 1`] = `
 <div>
   <article
     aria-label="Test warning message"
@@ -899,7 +879,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
               •
             </span>
             <span>
-              27 Mayıs
+              15 Haziran
             </span>
           </div>
         </div>
@@ -935,9 +915,7 @@ exports[`InsightEngine Integration > Visual Regression > matches warning snapsho
       class="mt-3"
     >
       <button
-        aria-label="Test action"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-blue-700 text-white hover:bg-blue-800"
-        tabindex="0"
       >
         Test action
       </button>

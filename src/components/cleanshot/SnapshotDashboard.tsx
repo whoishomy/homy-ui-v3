@@ -194,6 +194,8 @@ export function SnapshotDashboard({ data, className }: SnapshotDashboardProps) {
                 <button
                   onClick={() => handleAddVariant(component.id)}
                   className="px-2 py-1 text-xs rounded-full border border-dashed border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                  aria-label="Add variant"
+                  title="Add variant"
                 >
                   <Plus className="w-3 h-3" />
                 </button>

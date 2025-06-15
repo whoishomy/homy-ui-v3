@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, jest  } from '@jest/globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Toast } from '../Toast';
 import type { Toast as ToastType } from '@/types/toast';
@@ -11,7 +11,7 @@ describe('Toast', () => {
     variant: 'default',
   };
 
-  const mockOnClose = vi.fn();
+  const mockOnClose = jest.fn();
 
   beforeEach(() => {
     mockOnClose.mockClear();
@@ -32,7 +32,7 @@ describe('Toast', () => {
   });
 
   it('calls both component and toast onClose handlers', () => {
-    const toastOnClose = vi.fn();
+    const toastOnClose = jest.fn();
     const toastWithCallback = {
       ...mockToast,
       onClose: toastOnClose,

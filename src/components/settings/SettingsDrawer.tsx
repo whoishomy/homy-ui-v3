@@ -140,6 +140,7 @@ export const SettingsDrawer = ({
                           <select
                             value={settings.language}
                             onChange={(e) => handleLanguageChange(e.target.value)}
+                            aria-label="Dil seçimi"
                             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 
                                      py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none 
                                      focus:ring-green-500 dark:bg-gray-800 dark:text-white sm:text-sm"

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, jest  } from '@jest/globals';
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { UserProfileForm } from "@/components/settings/UserProfileForm";
@@ -33,7 +33,7 @@ describe("UserProfileForm", () => {
   });
 
   it("calls onSubmit with form data", async () => {
-    const mockOnSubmit = vi.fn();
+    const mockOnSubmit = jest.fn();
     const user = userEvent.setup();
     
     render(
@@ -54,7 +54,7 @@ describe("UserProfileForm", () => {
   });
 
   it("shows loading state during submission", async () => {
-    const mockOnSubmit = vi.fn().mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+    const mockOnSubmit = jest.fn().mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
     const user = userEvent.setup();
     
     render(

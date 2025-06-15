@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { InsightOverlay } from '../components/InsightOverlay';
 import { withThemeByClassName } from '@storybook/addon-themes';
+import { Insight } from '@/cases/tayfun/insights';
 
 const meta: Meta<typeof InsightOverlay> = {
   title: 'Components/InsightOverlay/Test',
@@ -38,7 +39,7 @@ const meta: Meta<typeof InsightOverlay> = {
 export default meta;
 type Story = StoryObj<typeof InsightOverlay>;
 
-const mockInsights = [
+const mockInsights: Insight[] = [
   {
     id: 'vital-1',
     title: 'Yüksek Tansiyon Riski',
@@ -198,9 +199,9 @@ export const HighContrastTheme: Story = {
 - Focus State: Prominent indicators
 
 2. Accessibility Features
-- Meets WCAG AAA contrast requirements
+- WCAG AAA contrast compliance
 - Enhanced focus indicators
-- Maximum readability for all text
+- Maximum text readability
         `,
       },
     },

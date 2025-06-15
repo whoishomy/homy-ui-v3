@@ -1,37 +1,37 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { jest } from '@jest/globals';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { ReminderScheduler } from '../ReminderScheduler';
 import { useReminderStore } from '@/stores/reminderStore';
 import type { Reminder } from '@/types/reminder';
 import { useToast } from '@/hooks/useToast';
-import type { Mock } from 'vitest';
+import type { Mock } from 'jest';
 
 // Mock dependencies
-vi.mock('@/hooks/useToast', () => ({
-  useToast: vi.fn(() => ({
-    toast: vi.fn(),
+jest.mock('@/hooks/useToast', () => ({
+  useToast: jest.fn(() => ({
+    toast: jest.fn(),
   })),
 }));
 
 const mockStore = {
-  addReminder: vi.fn(),
+  addReminder: jest.fn(),
 };
 
-vi.mock('@/stores/reminderStore', () => ({
-  useReminderStore: vi.fn(() => mockStore),
+jest.mock('@/stores/reminderStore', () => ({
+  useReminderStore: jest.fn(() => mockStore),
 }));
 
 // Mock date for consistent testing
 const mockDate = new Date('2025-05-25T10:00:00.000Z');
-vi.setSystemTime(mockDate);
+jest.setSystemTime(mockDate);
 
 describe('ReminderScheduler', () => {
   const user = userEvent.setup();
-  const mockToast = vi.fn();
+  const mockToast = jest.fn();
 
   beforeEach(() => {
     mockStore.addReminder.mockClear();
@@ -39,7 +39,7 @@ describe('ReminderScheduler', () => {
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it('renders all form fields correctly', () => {
@@ -72,7 +72,7 @@ describe('ReminderScheduler', () => {
     // Fill form fields
     await user.type(screen.getByRole('textbox', { name: /başlık/i }), 'Test Reminder');
     await user.type(screen.getByRole('textbox', { name: /açıklama/i }), 'Test Description');
-    
+
     // Submit form
     await user.click(screen.getByRole('button', { name: /kaydet/i }));
 
@@ -137,4 +137,4 @@ describe('ReminderScheduler', () => {
       );
     });
   });
-}); 
+});

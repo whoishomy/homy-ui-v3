@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { PromptOptimizer } from '../feedback/PromptOptimizer';
 import type { InsightFeedback, FeedbackStats, FeedbackAggregator } from '@/types/feedback';
 import type { HealthInsight, InsightType, InsightCategory } from '@/types/analytics';
@@ -79,11 +79,11 @@ describe('PromptOptimizer', () => {
 
   beforeEach(() => {
     mockFeedbackService = {
-      addFeedback: vi.fn(),
-      getFeedbackStats: vi.fn().mockResolvedValue(mockStats),
-      getInsightFeedback: vi.fn(),
-      getUserFeedbackHistory: vi.fn(),
-      updateAnnotations: vi.fn(),
+      addFeedback: jest.fn(),
+      getFeedbackStats: jest.fn().mockResolvedValue(mockStats),
+      getInsightFeedback: jest.fn(),
+      getUserFeedbackHistory: jest.fn(),
+      updateAnnotations: jest.fn(),
     };
     optimizer = new PromptOptimizer(mockFeedbackService);
   });
@@ -95,7 +95,7 @@ describe('PromptOptimizer', () => {
         createMockFeedback('ACCURACY', 4),
       ];
 
-      mockFeedbackService.getInsightFeedback = vi.fn().mockResolvedValue(mockFeedback);
+      mockFeedbackService.getInsightFeedback = jest.fn().mockResolvedValue(mockFeedback);
 
       const optimizations = await optimizer.optimizePrompt('test-insight-1');
 
@@ -114,7 +114,7 @@ describe('PromptOptimizer', () => {
         createMockFeedback('CLARITY', 4, 'Pretty clear'),
       ];
 
-      mockFeedbackService.getInsightFeedback = vi.fn().mockResolvedValue(mockFeedback);
+      mockFeedbackService.getInsightFeedback = jest.fn().mockResolvedValue(mockFeedback);
 
       const optimizations = await optimizer.optimizePrompt('test-insight-1');
       const clarityOpt = optimizations.find(o => o.strategy === 'clarity_improvement');
@@ -129,7 +129,7 @@ describe('PromptOptimizer', () => {
         createMockFeedback('ACCURACY', 3, 'Could be more accurate')
       );
 
-      mockFeedbackService.getInsightFeedback = vi.fn().mockResolvedValue(mockFeedback);
+      mockFeedbackService.getInsightFeedback = jest.fn().mockResolvedValue(mockFeedback);
 
       const optimizations = await optimizer.optimizePrompt('test-insight-1');
       
@@ -142,7 +142,7 @@ describe('PromptOptimizer', () => {
         createMockFeedback('ACTIONABILITY', 3, 'Need more specific actions')
       );
 
-      mockFeedbackService.getInsightFeedback = vi.fn().mockResolvedValue(mockFeedback);
+      mockFeedbackService.getInsightFeedback = jest.fn().mockResolvedValue(mockFeedback);
 
       const optimizations = await optimizer.optimizePrompt('test-insight-1');
       const actionabilityOpt = optimizations.find(o => o.strategy === 'actionability_enhancement');
@@ -156,7 +156,7 @@ describe('PromptOptimizer', () => {
         createMockFeedback('ACCURACY', 3, 'Needs improvement')
       );
 
-      mockFeedbackService.getInsightFeedback = vi.fn().mockResolvedValue(mockFeedback);
+      mockFeedbackService.getInsightFeedback = jest.fn().mockResolvedValue(mockFeedback);
 
       const optimizations = await optimizer.optimizePrompt('test-insight-1');
       

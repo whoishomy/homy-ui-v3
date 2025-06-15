@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest  } from '@jest/globals';
 import { HealthKitService } from './HealthKitService';
 
 describe('HealthKitService', () => {
@@ -6,7 +6,7 @@ describe('HealthKitService', () => {
 
   beforeEach(() => {
     // Reset the singleton instance before each test
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
     // @ts-ignore - Accessing private property for testing
     HealthKitService.instance = undefined;
     healthKitService = HealthKitService.getInstance();

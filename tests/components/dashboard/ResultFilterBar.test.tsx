@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ResultFilterBar } from "@/components/dashboard/ResultFilterBar";
 
 describe("ResultFilterBar", () => {
-  const mockOnFilterChange = vi.fn();
+  const mockOnFilterChange = jest.fn();
 
   beforeEach(() => {
     mockOnFilterChange.mockClear();

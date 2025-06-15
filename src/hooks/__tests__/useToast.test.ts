@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react';
 import { useToast } from '../useToast';
 import type { Toast } from '@/types/toast';
 
 describe('useToast', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     // Clear all toasts before each test
     const { result } = renderHook(() => useToast());
     act(() => {
@@ -14,7 +14,7 @@ describe('useToast', () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   it('adds a toast with default options', () => {
@@ -57,7 +57,7 @@ describe('useToast', () => {
     expect(result.current.toasts).toHaveLength(1);
 
     act(() => {
-      vi.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1000);
     });
 
     expect(result.current.toasts).toHaveLength(0);

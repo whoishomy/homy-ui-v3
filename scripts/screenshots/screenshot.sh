@@ -2,34 +2,45 @@
 
 # Check if component name is provided
 if [ -z "$1" ]; then
-  echo "Please provide a component name"
+  echo "❌ Please provide a component name"
+  echo "Usage: yarn screenshot <component-name> [story-name]"
   exit 1
 fi
 
 COMPONENT_NAME=$1
-SCREENSHOT_DIR="docs/screenshots/$COMPONENT_NAME"
+STORY_NAME=$2
+STORYBOOK_PORT=${STORYBOOK_PORT:-6009}
 
-# Create screenshot directory if it doesn't exist
-mkdir -p "$SCREENSHOT_DIR"
+# Function to check if Storybook is running
+check_storybook() {
+  for i in {1..30}; do
+    if curl -s "http://localhost:${STORYBOOK_PORT}" > /dev/null; then
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
+}
 
-# Start Storybook in dev mode and wait for it to be ready
-echo "Starting Storybook..."
-yarn storybook --ci &
-STORYBOOK_PID=$!
+# Check if Storybook is running
+if ! check_storybook; then
+  echo "🚀 Starting Storybook on port ${STORYBOOK_PORT}..."
+  STORYBOOK_PORT=$STORYBOOK_PORT yarn storybook &
+  
+  # Wait for Storybook to start
+  echo "⏳ Waiting for Storybook to start..."
+  if ! check_storybook; then
+    echo "❌ Storybook failed to start within 30 seconds"
+    exit 1
+  fi
+  echo "✅ Storybook is running!"
+fi
 
-# Wait for Storybook to be ready
-until $(curl --output /dev/null --silent --head --fail http://localhost:6006); do
-  printf '.'
-  sleep 5
-done
-
-echo "Storybook is ready!"
-
-# Run Puppeteer script to take screenshots
-echo "Taking screenshots for $COMPONENT_NAME..."
-node scripts/utils/take-screenshots.js "$COMPONENT_NAME"
-
-# Kill Storybook
-kill $STORYBOOK_PID
-
-echo "Screenshots saved in $SCREENSHOT_DIR" 
+# Take screenshots
+if [ -z "$STORY_NAME" ]; then
+  echo "📸 Taking screenshots for all stories in $COMPONENT_NAME..."
+  STORYBOOK_PORT=$STORYBOOK_PORT node scripts/screenshots/utils/take-screenshots.js "$COMPONENT_NAME"
+else
+  echo "📸 Taking screenshot for $COMPONENT_NAME/$STORY_NAME..."
+  STORYBOOK_PORT=$STORYBOOK_PORT node scripts/screenshots/utils/take-screenshots.js "$COMPONENT_NAME" --story "$STORY_NAME"
+fi 

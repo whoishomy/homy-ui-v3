@@ -5,7 +5,9 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './.storybook/**/*.{js,ts,jsx,tsx}',
   ],
+  safelist: ['theme-light', 'theme-dark', 'theme-hc'],
   theme: {
     extend: {
       colors: {
@@ -27,7 +29,7 @@ const config: Config = {
       },
     },
   },
-  darkMode: 'class',
+  darkMode: ['class', '[class~="theme-dark"]'],
 };
 
 export default config;

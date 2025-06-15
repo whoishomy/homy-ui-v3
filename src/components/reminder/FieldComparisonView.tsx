@@ -1,5 +1,16 @@
-import * as React from 'react';
-import { ArrowRight, Check, X, Minus, FileText, Calendar, Bell, Tag, Shield, AlertTriangle } from 'lucide-react';
+import React from 'react';
+import {
+  ArrowRight,
+  Check,
+  X,
+  Minus,
+  FileText,
+  Calendar,
+  Clock,
+  Tag,
+  Shield,
+  AlertTriangle,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Reminder } from '@/types/reminder';
 import { FIELD_GROUPS, type FieldGroup } from './FieldGroups';
@@ -32,7 +43,7 @@ const PROTECTED_FIELDS: (keyof Reminder)[] = ['id', 'createdAt', 'updatedAt'];
 const GROUP_ICONS = {
   text: FileText,
   calendar: Calendar,
-  bell: Bell,
+  clock: Clock,
   tag: Tag,
   shield: Shield,
 } as const;
@@ -61,7 +72,9 @@ const FieldRow = ({
 }) => {
   const hasChanged = formatValue(field, existingValue) !== formatValue(field, importedValue);
   const willChange = hasChanged && isSelected && !isProtected;
-  const validationMessage = willChange ? getFieldValidationMessage(field, importedValue, reminder) : null;
+  const validationMessage = willChange
+    ? getFieldValidationMessage(field, importedValue, reminder)
+    : null;
   const isError = validationMessage && !validationMessage.includes('Consider');
 
   return (
@@ -109,10 +122,7 @@ const FieldRow = ({
           {formatValue(field, importedValue)}
         </p>
         {validationMessage && (
-          <p className={cn(
-            'text-xs mt-1',
-            isError ? 'text-destructive' : 'text-muted-foreground'
-          )}>
+          <p className={cn('text-xs mt-1', isError ? 'text-destructive' : 'text-muted-foreground')}>
             {validationMessage}
           </p>
         )}
@@ -136,17 +146,20 @@ const FieldGroup = ({
 }) => {
   const Icon = GROUP_ICONS[group.icon];
   const fieldsWithChanges = group.fields.filter(
-    field => formatValue(field, existingReminder[field]) !== formatValue(field, importedReminder[field])
+    (field) =>
+      formatValue(field, existingReminder[field]) !== formatValue(field, importedReminder[field])
   );
-  const hasSelectedChanges = fieldsWithChanges.some(field => selectedFields.includes(field));
-  
+  const hasSelectedChanges = fieldsWithChanges.some((field) => selectedFields.includes(field));
+
   // Check for validation errors in this group
   const validationResult = validateReminder(importedReminder);
-  const groupErrors = validationResult.errors.filter(error => error.group === group.id);
-  const hasErrors = groupErrors.some(error => 
-    error.severity === 'error' && 
-    selectedFields.includes(error.field) && 
-    formatValue(error.field, existingReminder[error.field]) !== formatValue(error.field, importedReminder[error.field])
+  const groupErrors = validationResult.errors.filter((error) => error.group === group.id);
+  const hasErrors = groupErrors.some(
+    (error) =>
+      error.severity === 'error' &&
+      selectedFields.includes(error.field) &&
+      formatValue(error.field, existingReminder[error.field]) !==
+        formatValue(error.field, importedReminder[error.field])
   );
 
   if (!hasChanges && group.id !== 'metadata') {
@@ -156,12 +169,14 @@ const FieldGroup = ({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <div className={cn(
-          'rounded-lg p-2',
-          hasSelectedChanges && !hasErrors && 'bg-primary/5 text-primary',
-          hasSelectedChanges && hasErrors && 'bg-destructive/5 text-destructive',
-          !hasChanges && 'text-muted-foreground'
-        )}>
+        <div
+          className={cn(
+            'rounded-lg p-2',
+            hasSelectedChanges && !hasErrors && 'bg-primary/5 text-primary',
+            hasSelectedChanges && hasErrors && 'bg-destructive/5 text-destructive',
+            !hasChanges && 'text-muted-foreground'
+          )}
+        >
           <Icon className="h-4 w-4" />
         </div>
         <div>
@@ -170,7 +185,7 @@ const FieldGroup = ({
         </div>
       </div>
       <div className="space-y-2 pl-8">
-        {group.fields.map(field => (
+        {group.fields.map((field) => (
           <FieldRow
             key={field}
             field={field}
@@ -193,27 +208,29 @@ export function FieldComparisonView({
   className,
 }: FieldComparisonViewProps) {
   const changedFields = Object.keys(FIELD_LABELS).filter(
-    field => formatValue(field as keyof Reminder, existingReminder[field as keyof Reminder]) !== 
-            formatValue(field as keyof Reminder, importedReminder[field as keyof Reminder])
+    (field) =>
+      formatValue(field as keyof Reminder, existingReminder[field as keyof Reminder]) !==
+      formatValue(field as keyof Reminder, importedReminder[field as keyof Reminder])
   ) as (keyof Reminder)[];
 
   const validationResult = validateReminder(importedReminder);
-  const hasErrors = validationResult.errors.some(error => 
-    error.severity === 'error' && 
-    selectedFields.includes(error.field) && 
-    changedFields.includes(error.field)
+  const hasErrors = validationResult.errors.some(
+    (error) =>
+      error.severity === 'error' &&
+      selectedFields.includes(error.field) &&
+      changedFields.includes(error.field)
   );
 
   return (
     <div className={cn('space-y-6', className)}>
-      {FIELD_GROUPS.map(group => (
+      {FIELD_GROUPS.map((group) => (
         <FieldGroup
           key={group.id}
           group={group}
           existingReminder={existingReminder}
           importedReminder={importedReminder}
           selectedFields={selectedFields}
-          hasChanges={group.fields.some(field => changedFields.includes(field))}
+          hasChanges={group.fields.some((field) => changedFields.includes(field))}
         />
       ))}
 
@@ -237,4 +254,4 @@ export function FieldComparisonView({
       </div>
     </div>
   );
-} 
+}

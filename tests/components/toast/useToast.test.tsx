@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { renderHook, act } from "@testing-library/react";
 import { useToast } from "@/components/toast/useToast";
 import { toastStore } from "@/components/toast/store";

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi, expect, describe, it, beforeEach } from 'vitest';
+import { jest, expect, describe, it, beforeEach  } from '@jest/globals';
 import { axe } from 'jest-axe';
 import { LabResultFilterPanel } from '../LabResultFilterPanel';
 
@@ -15,7 +15,7 @@ const mockFilters = {
   hasAiInsight: true,
 };
 
-const mockOnFilterChange = vi.fn();
+const mockOnFilterChange = jest.fn();
 
 const renderComponent = (props = {}) => {
   return render(
@@ -25,7 +25,7 @@ const renderComponent = (props = {}) => {
 
 describe('LabResultFilterPanel Component', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   it('renders all filter sections', () => {

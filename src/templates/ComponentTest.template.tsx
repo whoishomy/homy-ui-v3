@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { vi, expect, describe, it, beforeEach } from 'vitest';
+import { jest, expect, describe, it, beforeEach } from '@jest/globals';
 
 // Import your component here
 // import YourComponent from '../YourComponent';
@@ -40,8 +40,7 @@ const renderComponent = (props = {}) => {
 
 describe('Component Template Tests', () => {
   beforeEach(() => {
-    // Reset mocks before each test
-    vi.resetAllMocks();
+    jest.clearAllMocks();
 
     // Setup fetch mock
     (global.fetch as jest.Mock).mockImplementation(() =>
@@ -84,8 +83,8 @@ describe('Component Template Tests', () => {
       matches: query === '(max-width:600px)',
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
     }));
 
     renderComponent();
@@ -98,8 +97,8 @@ describe('Component Template Tests', () => {
       matches: query !== '(max-width:600px)',
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
     }));
 
     renderComponent();

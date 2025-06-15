@@ -11,13 +11,13 @@ interface KeyboardNavConfig {
  * Custom hook for managing keyboard navigation
  * Implements WCAG 2.1 Success Criterion 2.1.1 (Keyboard) and 2.1.2 (No Keyboard Trap)
  */
-export function useKeyboardNavigation({
+export function useKeyboardNavigation<T extends HTMLElement = HTMLElement>({
   focusableSelector,
   onEscape,
   onEnter,
   onArrowKeys,
 }: KeyboardNavConfig) {
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<T>(null);
 
   useEffect(() => {
     const container = containerRef.current;

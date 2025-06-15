@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { jest, describe, it, expect, beforeEach, afterEach  } from '@jest/globals';
 import { InsightEngine } from '@/services/insightEngine';
 import type { HealthInsight } from '@/types/analytics';
 import { InsightCategory } from '@/types/analytics';
@@ -7,7 +7,7 @@ describe('InsightEngine Tests', () => {
   let engine: InsightEngine;
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     engine = InsightEngine.getInstance();
   });
 

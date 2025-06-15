@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { NotificationBadge } from "@/components/notifications/NotificationBadge";
 
 // Mock NotificationFeed component
-vi.mock("@/components/notifications/NotificationFeed", () => ({
+jest.mock("@/components/notifications/NotificationFeed", () => ({
   NotificationFeed: ({ isOpen, notifications }: any) => (
     <div data-testid="notification-feed" data-open={isOpen}>
       {notifications.map((n: any) => (
@@ -33,7 +33,7 @@ const mockNotifications = [
 ];
 
 describe("NotificationBadge", () => {
-  const mockOnMarkAsRead = vi.fn();
+  const mockOnMarkAsRead = jest.fn();
 
   beforeEach(() => {
     mockOnMarkAsRead.mockClear();

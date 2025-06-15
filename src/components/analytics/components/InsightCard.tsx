@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HealthInsight } from '@/types/analytics';
-import { Button, type ButtonProps } from '@/components/ui/Button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { getInsightCategoryDisplay } from '@/utils/insightCategory';
 import { cn } from '@/lib/utils';
 

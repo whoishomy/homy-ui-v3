@@ -1,14 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ToastStack } from '../ToastStack';
 import type { Toast } from '@/types/toast';
-import type { Mock } from 'vitest';
 import { useToast } from '@/hooks/useToast';
 
 // Mock useToast hook
-vi.mock('@/hooks/useToast', () => ({
-  useToast: vi.fn(),
+jest.mock('@/hooks/useToast', () => ({
+  useToast: jest.fn(),
 }));
 
 describe('ToastStack', () => {
@@ -27,25 +26,25 @@ describe('ToastStack', () => {
     },
   ];
 
-  const mockDismiss = vi.fn();
+  const mockDismiss = jest.fn();
 
   beforeEach(() => {
-    (useToast as Mock).mockReturnValue({
+    (useToast as jest.Mock).mockReturnValue({
       toasts: mockToasts,
       dismiss: mockDismiss,
     });
     mockDismiss.mockClear();
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
-    vi.useRealTimers();
+    jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   describe('Basic Rendering', () => {
     it('renders nothing when there are no toasts', () => {
-      (useToast as Mock).mockReturnValue({
+      (useToast as jest.Mock).mockReturnValue({
         toasts: [],
         dismiss: mockDismiss,
       });
@@ -94,13 +93,13 @@ describe('ToastStack', () => {
     it('maintains focus management', async () => {
       const user = userEvent.setup({ delay: null });
       render(<ToastStack />);
-      
+
       const closeButtons = screen.getAllByRole('button', { name: /kapat/i });
       closeButtons[0].focus();
-      
+
       await user.keyboard('[Tab]');
       expect(closeButtons[1]).toHaveFocus();
-      
+
       await user.keyboard('[Shift+Tab]');
       expect(closeButtons[0]).toHaveFocus();
     });
@@ -109,15 +108,15 @@ describe('ToastStack', () => {
   describe('Animation and Timing', () => {
     it('animates toasts on mount and unmount', async () => {
       const { rerender } = render(<ToastStack />);
-      
+
       const toast = screen.getByText('First toast');
       expect(toast.parentElement).toHaveStyle({ opacity: 1 });
-      
-      (useToast as Mock).mockReturnValue({
+
+      (useToast as jest.Mock).mockReturnValue({
         toasts: [],
         dismiss: mockDismiss,
       });
-      
+
       rerender(<ToastStack />);
       await waitFor(() => {
         expect(screen.queryByText('First toast')).not.toBeInTheDocument();
@@ -138,4 +137,4 @@ describe('ToastStack', () => {
       expect(container).toHaveClass('flex', 'flex-col', 'items-end', 'gap-2', 'p-4', 'sm:p-6');
     });
   });
-}); 
+});

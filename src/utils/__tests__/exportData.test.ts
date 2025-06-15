@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { generateJSON, generateCSV, downloadFile, exportToJSON, exportToCSV } from '../exportData';
 import type { Reminder } from '@/types/reminder';
 
@@ -91,11 +91,11 @@ describe('Export Data Utils', () => {
     let clickSpy: any;
 
     beforeEach(() => {
-      createObjectURLSpy = vi.spyOn(window.URL, 'createObjectURL');
-      revokeObjectURLSpy = vi.spyOn(window.URL, 'revokeObjectURL');
-      appendChildSpy = vi.spyOn(document.body, 'appendChild');
-      removeChildSpy = vi.spyOn(document.body, 'removeChild');
-      clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click');
+      createObjectURLSpy = jest.spyOn(window.URL, 'createObjectURL');
+      revokeObjectURLSpy = jest.spyOn(window.URL, 'revokeObjectURL');
+      appendChildSpy = jest.spyOn(document.body, 'appendChild');
+      removeChildSpy = jest.spyOn(document.body, 'removeChild');
+      clickSpy = jest.spyOn(HTMLAnchorElement.prototype, 'click');
       
       createObjectURLSpy.mockReturnValue('blob:test-url');
     });
@@ -119,13 +119,13 @@ describe('Export Data Utils', () => {
 
   describe('exportToJSON', () => {
     it('should not proceed with empty array', () => {
-      const createObjectURLSpy = vi.spyOn(window.URL, 'createObjectURL');
+      const createObjectURLSpy = jest.spyOn(window.URL, 'createObjectURL');
       exportToJSON([]);
       expect(createObjectURLSpy).not.toHaveBeenCalled();
     });
 
     it('should generate correct filename for single reminder', () => {
-      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
       exportToJSON([mockReminder]);
       
       const link = appendChildSpy.mock.calls[0][0] as HTMLAnchorElement;
@@ -133,7 +133,7 @@ describe('Export Data Utils', () => {
     });
 
     it('should generate correct filename for multiple reminders', () => {
-      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
       const today = new Date().toISOString().split('T')[0];
       
       exportToJSON([mockReminder, { ...mockReminder, id: 'test-2' }]);
@@ -145,13 +145,13 @@ describe('Export Data Utils', () => {
 
   describe('exportToCSV', () => {
     it('should not proceed with empty array', () => {
-      const createObjectURLSpy = vi.spyOn(window.URL, 'createObjectURL');
+      const createObjectURLSpy = jest.spyOn(window.URL, 'createObjectURL');
       exportToCSV([]);
       expect(createObjectURLSpy).not.toHaveBeenCalled();
     });
 
     it('should generate correct filename for single reminder', () => {
-      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
       exportToCSV([mockReminder]);
       
       const link = appendChildSpy.mock.calls[0][0] as HTMLAnchorElement;
@@ -159,7 +159,7 @@ describe('Export Data Utils', () => {
     });
 
     it('should generate correct filename for multiple reminders', () => {
-      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
       const today = new Date().toISOString().split('T')[0];
       
       exportToCSV([mockReminder, { ...mockReminder, id: 'test-2' }]);

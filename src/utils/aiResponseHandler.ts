@@ -13,7 +13,7 @@ interface AIContext {
   }>;
 }
 
-interface AIResponse {
+export interface AIResponse {
   content: string;
   metadata: {
     severity: 'normal' | 'warning' | 'critical';
@@ -250,6 +250,4 @@ export class AIResponseHandler {
       lastEscalation: activeEscalations[0]?.timestamp,
     };
   }
-}
-
 }

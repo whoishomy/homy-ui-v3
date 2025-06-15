@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { TelemetryMiddleware } from '../middleware/TelemetryMiddleware';
 import { InMemoryTelemetryLogger } from '../telemetry/InsightTelemetryLogger';
 import { MiddlewareChain } from '../middleware/MiddlewareChain';
@@ -33,17 +33,17 @@ describe('Telemetry System', () => {
   beforeEach(() => {
     chain = new MiddlewareChain();
     logger = new InMemoryTelemetryLogger();
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   describe('TelemetryMiddleware', () => {
     it('logs successful operations', async () => {
       const middleware = new TelemetryMiddleware({ logger });
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
 
       chain.addMiddleware(middleware);
       await chain.executeGenerateInsight(
@@ -66,7 +66,7 @@ describe('Telemetry System', () => {
     it('logs failed operations with error categorization', async () => {
       const middleware = new TelemetryMiddleware({ logger });
       const error = new Error('Rate limit exceeded');
-      const operation = vi.fn().mockRejectedValue(error);
+      const operation = jest.fn().mockRejectedValue(error);
 
       chain.addMiddleware(middleware);
       await expect(chain.executeGenerateInsight(
@@ -93,7 +93,7 @@ describe('Telemetry System', () => {
         logger,
         includeMetadata: true,
       });
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
 
       chain.addMiddleware(middleware);
       await chain.executeGenerateInsight(
@@ -118,7 +118,7 @@ describe('Telemetry System', () => {
         },
       });
       const error = new Error('Custom error occurred');
-      const operation = vi.fn().mockRejectedValue(error);
+      const operation = jest.fn().mockRejectedValue(error);
 
       chain.addMiddleware(middleware);
       await expect(chain.executeGenerateInsight(

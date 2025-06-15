@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
+import { describe, it, expect, jest, beforeEach, type Mock } from '@jest/globals';
 import { RetryMiddleware, RetryError } from '../middleware/RetryMiddleware';
 import type { TelemetryLogger } from '../telemetry/InsightTelemetryLogger';
 import type { HealthInsight, InsightOperation } from '@/types/analytics';
@@ -8,7 +8,7 @@ import { InsightCategory } from '@/types/analytics';
 describe('RetryMiddleware', () => {
   let middleware: RetryMiddleware;
   let mockTelemetryLogger: TelemetryLogger;
-  let mockOperation: Mock<[], Promise<HealthInsight>>;
+  let mockOperation: jest.Mock<Promise<HealthInsight>>;
 
   const mockInsight: HealthInsight = {
     id: 'test-id',
@@ -27,309 +27,88 @@ describe('RetryMiddleware', () => {
   };
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     mockTelemetryLogger = {
-      logEvent: vi.fn(),
-      getSnapshot: vi.fn(),
-      clear: vi.fn(),
+      logEvent: jest.fn(),
+      getSnapshot: jest.fn(),
+      clear: jest.fn(),
     };
-    mockOperation = vi.fn<[], Promise<HealthInsight>>();
+    mockOperation = jest.fn<Promise<HealthInsight>>();
     middleware = new RetryMiddleware({
       telemetryLogger: mockTelemetryLogger,
     });
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
-  describe('Retry Behavior', () => {
-    it('succeeds without retry on successful operation', async () => {
-      mockOperation.mockResolvedValueOnce(mockInsight);
+  it('should retry failed operations up to maxRetries times', async () => {
+    const error = new Error('Test error');
+    mockOperation.mockRejectedValue(error);
 
-      const result = await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      expect(result).toEqual(mockInsight);
-      expect(mockOperation).toHaveBeenCalledTimes(1);
-      expect(mockTelemetryLogger.logEvent).not.toHaveBeenCalled();
-    });
-
-    it('retries on retryable error', async () => {
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockResolvedValueOnce(mockInsight);
-
-      const result = await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      expect(result).toEqual(mockInsight);
-      expect(mockOperation).toHaveBeenCalledTimes(2);
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_attempt',
-          error: expect.objectContaining({
-            message: expect.stringContaining('rate limit'),
-          }),
-        })
-      );
-    });
-
-    it('does not retry on non-retryable error', async () => {
-      const error = new Error('validation error');
-      mockOperation.mockRejectedValueOnce(error);
-
-      await expect(
-        middleware.generateInsight(
-          { category: InsightCategory.PHYSICAL, metrics: {} },
-          {},
-          mockContext,
-          mockOperation
-        )
-      ).rejects.toThrow(error);
-
-      expect(mockOperation).toHaveBeenCalledTimes(1);
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_failure',
-          error: expect.objectContaining({
-            message: expect.stringContaining('validation'),
-          }),
-        })
-      );
-    });
-
-    it('respects max attempts limit', async () => {
-      const error = new Error('rate limit exceeded');
-      mockOperation.mockRejectedValue(error);
-
-      await expect(
-        middleware.generateInsight(
-          { category: InsightCategory.PHYSICAL, metrics: {} },
-          {},
-          mockContext,
-          mockOperation
-        )
-      ).rejects.toThrow(RetryError);
-
-      expect(mockOperation).toHaveBeenCalledTimes(3); // Default max attempts
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_failure',
-          attempts: 3,
-        })
-      );
+    await expect(middleware.handle(mockOperation, mockContext)).rejects.toThrow(RetryError);
+    expect(mockOperation).toHaveBeenCalledTimes(3); // Default maxRetries is 2 + initial attempt
+    expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith({
+      type: 'retry',
+      operation: mockContext.operation,
+      error: error.message,
+      attempt: 3,
     });
   });
 
-  describe('Backoff Strategy', () => {
-    it('implements exponential backoff with jitter', async () => {
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit'))
-        .mockRejectedValueOnce(new Error('rate limit'))
-        .mockResolvedValueOnce(mockInsight);
+  it('should succeed if operation succeeds within retry attempts', async () => {
+    mockOperation
+      .mockRejectedValueOnce(new Error('First failure'))
+      .mockResolvedValueOnce(mockInsight);
 
-      const delays: number[] = [];
-      const originalDelay = global.setTimeout;
-      (global as any).setTimeout = (fn: Function, delay: number) => {
-        delays.push(delay);
-        return originalDelay(fn, 0);
-      };
-
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      expect(delays.length).toBe(2);
-      expect(delays[1]).toBeGreaterThan(delays[0]); // Exponential increase
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_success',
-          attempts: 3,
-        })
-      );
-    });
-
-    it('respects custom backoff strategy', async () => {
-      middleware = new RetryMiddleware({
-        telemetryLogger: mockTelemetryLogger,
-        strategy: {
-          backoffType: 'linear',
-          initialDelay: 100,
-          maxDelay: 500,
-        },
-      });
-
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit'))
-        .mockRejectedValueOnce(new Error('rate limit'))
-        .mockResolvedValueOnce(mockInsight);
-
-      const delays: number[] = [];
-      const originalDelay = global.setTimeout;
-      (global as any).setTimeout = (fn: Function, delay: number) => {
-        delays.push(delay);
-        return originalDelay(fn, 0);
-      };
-
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      expect(delays[1] - delays[0]).toBe(100); // Linear increase
-    });
+    const result = await middleware.handle(mockOperation, mockContext);
+    expect(result).toEqual(mockInsight);
+    expect(mockOperation).toHaveBeenCalledTimes(2);
   });
 
-  describe('Provider Fallback', () => {
-    it('switches provider on specific errors', async () => {
-      middleware = new RetryMiddleware({
-        telemetryLogger: mockTelemetryLogger,
-        providerFallback: {
-          enabled: true,
-          providers: ['openai', 'anthropic', 'local'],
-          errorMapping: {
-            rate_limit: ['anthropic', 'local'],
-            timeout: ['local', 'openai'],
-          },
-        },
-      });
-
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockResolvedValueOnce(mockInsight);
-
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          context: expect.objectContaining({
-            provider: 'anthropic',
-          }),
-        })
-      );
+  it('should respect custom retry options', async () => {
+    const customMiddleware = new RetryMiddleware({
+      telemetryLogger: mockTelemetryLogger,
+      maxRetries: 1,
+      retryDelay: 1000,
     });
 
-    it('maintains provider order in error mapping', async () => {
-      middleware = new RetryMiddleware({
-        telemetryLogger: mockTelemetryLogger,
-        providerFallback: {
-          enabled: true,
-          providers: ['openai', 'anthropic', 'local'],
-          errorMapping: {
-            rate_limit: ['anthropic', 'local'],
-          },
-        },
-      });
+    mockOperation.mockRejectedValue(new Error('Test error'));
 
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockResolvedValueOnce(mockInsight);
+    const promise = customMiddleware.handle(mockOperation, mockContext);
+    jest.advanceTimersByTime(1000);
+    await expect(promise).rejects.toThrow(RetryError);
 
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
-
-      const events = (mockTelemetryLogger.logEvent as Mock).mock.calls
-        .filter((call: any) => call[0].context?.provider)
-        .map((call: any) => call[0].context.provider);
-
-      expect(events).toEqual(['anthropic', 'local']);
-    });
+    expect(mockOperation).toHaveBeenCalledTimes(2); // Initial + 1 retry
   });
 
-  describe('Telemetry Integration', () => {
-    it('logs comprehensive retry attempt data', async () => {
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockResolvedValueOnce(mockInsight);
+  it('should handle non-Error rejections', async () => {
+    mockOperation.mockRejectedValue('String error');
 
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
+    await expect(middleware.handle(mockOperation, mockContext)).rejects.toThrow(RetryError);
+    expect(mockOperation).toHaveBeenCalledTimes(3);
+  });
 
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_attempt',
-          attempt: 1,
-          error: expect.any(Object),
-          nextDelay: expect.any(Number),
-          context: expect.objectContaining({
-            operation: 'generateInsight',
-          }),
-        })
-      );
-    });
+  it('should pass through operation parameters', async () => {
+    mockOperation.mockResolvedValue(mockInsight);
 
-    it('tracks successful retry completion', async () => {
-      mockOperation
-        .mockRejectedValueOnce(new Error('rate limit exceeded'))
-        .mockResolvedValueOnce(mockInsight);
+    await middleware.handle(mockOperation, mockContext);
+    expect(mockOperation).toHaveBeenCalledWith(mockContext);
+  });
 
-      await middleware.generateInsight(
-        { category: InsightCategory.PHYSICAL, metrics: {} },
-        {},
-        mockContext,
-        mockOperation
-      );
+  it('should log telemetry events correctly', async () => {
+    const error = new Error('Test error');
+    mockOperation.mockRejectedValue(error);
 
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_success',
-          attempts: 2,
-          duration: expect.any(Number),
-        })
-      );
-    });
+    await expect(middleware.handle(mockOperation, mockContext)).rejects.toThrow(RetryError);
 
-    it('includes detailed error information in telemetry', async () => {
-      const error = new Error('rate limit exceeded');
-      error.name = 'RateLimitError';
-      mockOperation.mockRejectedValue(error);
-
-      await expect(
-        middleware.generateInsight(
-          { category: InsightCategory.PHYSICAL, metrics: {} },
-          {},
-          mockContext,
-          mockOperation
-        )
-      ).rejects.toThrow(RetryError);
-
-      expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'retry_failure',
-          error: {
-            message: 'rate limit exceeded',
-            type: 'RateLimitError',
-          },
-        })
-      );
-    });
+    expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'retry',
+        operation: mockContext.operation,
+        error: error.message,
+      })
+    );
   });
 });

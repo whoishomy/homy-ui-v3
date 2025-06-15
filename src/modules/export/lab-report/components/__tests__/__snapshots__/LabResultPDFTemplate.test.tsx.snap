@@ -1,0 +1,1131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabResultPDFTemplate should render basic template with minimal props 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render filter summary correctly 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+          <text
+            style="margin-top: 8px; font-size: 10px; color: rgb(107, 114, 128);"
+          >
+            Filtreler: Test: Glucose • Tarih: 2024-03-20 • Trend: increasing • Önem: abnormal
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render insights when available 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Test insight
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render notes when available 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Test notes
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render template with all props 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            John Doe
+             •
+             
+            1 Oca 1990
+          </text>
+          <text
+            style="margin-top: 8px; font-size: 10px; color: rgb(107, 114, 128);"
+          >
+            Filtreler: Test: Hemoglobin • Tarih: 2024-03-20 • Trend: stable • Önem: normal
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render template with filters 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+          <text
+            style="margin-top: 8px; font-size: 10px; color: rgb(107, 114, 128);"
+          >
+            Filtreler: Test: Hemoglobin • Tarih: 2024-03-20 • Trend: stable • Önem: normal
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;
+
+exports[`LabResultPDFTemplate should render template with patient info 1`] = `
+<div>
+  <document>
+    <page
+      style="flex-direction: column; background-color: rgb(255, 255, 255); padding: 30px; font-family: Inter;"
+    >
+      <view
+        style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px;"
+      >
+        <view
+          style="flex-direction: column;"
+        >
+          <text
+            style="font-size: 24px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 4px;"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            20 Mart 2024
+             • 
+            Central Lab
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            John Doe
+             •
+             
+            1 Oca 1990
+          </text>
+        </view>
+        <view
+          style="flex-direction: column; align-items: flex-end;"
+        >
+          <text>
+            Rapor No: 
+            test-uuid
+          </text>
+          <text
+            style="font-size: 14px; color: rgb(107, 114, 128);"
+          >
+            İsteyen Hekim: 
+            Dr. Mehmet Yılmaz
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Test Sonuçları
+        </text>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Parametre
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            Sonuç
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            Referans Aralığı
+          </text>
+          <text>
+            Durum
+          </text>
+        </view>
+        <view
+          style="flex-direction: row; align-items: center;"
+        >
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; font-weight: 500; color: rgb(17, 24, 39);"
+          >
+            14.5
+             
+            g/dL
+          </text>
+          <text
+            style="flex: 1; font-size: 12px; color: rgb(107, 114, 128);"
+          >
+            12
+             - 
+            16
+             
+            g/dL
+          </text>
+          <text>
+            Normal
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          AI İçgörüleri
+        </text>
+        <view
+          style="padding: 8px; border-radius: 4px; background-color: rgb(243, 244, 246);"
+        >
+          <view
+            style="flex-direction: row; align-items: center; margin-bottom: 4px;"
+          >
+            <text
+              style="font-size: 10px; font-weight: 500; color: rgb(107, 114, 128); margin-right: 4px;"
+            >
+              Özet
+            </text>
+            <text>
+              95
+              % güven
+            </text>
+          </view>
+          <text
+            style="font-size: 11px; color: rgb(55, 65, 81);"
+          >
+            Hemoglobin değeri normal aralıkta ve stabil seyrediyor.
+          </text>
+        </view>
+      </view>
+      <view
+        style="margin-top: 16px; margin-bottom: 16px;"
+      >
+        <text
+          style="font-size: 16px; font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 8px;"
+        >
+          Notlar
+        </text>
+        <text
+          style="flex: 1; font-size: 12px; color: rgb(55, 65, 81);"
+        >
+          Normal referans aralığında
+        </text>
+      </view>
+      <text
+        style="position: absolute; bottom: 30px; left: 30px; right: 30px; font-size: 10px; color: rgb(107, 114, 128); text-align: center; padding-top: 10px;"
+      >
+        Bu rapor HomyOS Sağlık Sistemi tarafından 
+        20 Mart 2024
+         tarihinde oluşturulmuştur.
+         • Onaylayan: Lab. Uzm. Ayşe Demir
+      </text>
+    </page>
+  </document>
+</div>
+`;

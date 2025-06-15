@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LenaEngine } from '@/lena/core/LenaEngine';
 import { LenaState, NotionPage } from '@/lena/core/types';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Loader2, RefreshCw, Check, X } from 'lucide-react';

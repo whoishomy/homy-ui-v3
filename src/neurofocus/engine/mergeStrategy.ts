@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { EmotionalResponse } from '../core/types';
+import { Insight } from '@/types/Insight';
 
 // Source types for insights
 export type InsightSource = 'ai' | 'manual' | 'clinical' | 'system' | 'user';
@@ -53,73 +54,41 @@ export type InsightData = z.infer<typeof InsightSchema>;
 // Define metadata type separately for better type inference
 export type InsightMetadata = NonNullable<InsightData['metadata']>;
 
-export interface MergeOptions {
-  priorityBoost?: Partial<Record<InsightSource, number>>;
-  timeWindowMs?: number;
-  deduplicationThreshold?: number;
-  emotionalStateFilter?: EmotionalResponse['type'];
+interface MergeStrategyOptions {
+  priorityBoosts?: Record<string, number>;
 }
 
 export class MergeStrategy {
-  private options: Required<MergeOptions>;
+  private readonly priorityBoosts: Record<string, number>;
 
-  constructor(options: MergeOptions = {}) {
-    this.options = {
-      priorityBoost: options.priorityBoost || {},
-      timeWindowMs: options.timeWindowMs || 24 * 60 * 60 * 1000, // Default: 24 hours
-      deduplicationThreshold: options.deduplicationThreshold || 0.8,
-      emotionalStateFilter: options.emotionalStateFilter || 'exploring',
-    };
+  constructor(options: MergeStrategyOptions = {}) {
+    this.priorityBoosts = options.priorityBoosts || {};
   }
 
-  /**
-   * Merges insights from different sources with priority handling
-   */
-  public mergeInsights(insights: InsightData[]): InsightData[] {
-    // Validate insights
-    const validInsights = insights.filter((insight) => {
-      try {
-        InsightSchema.parse(insight);
-        return true;
-      } catch (error) {
-        console.warn('Invalid insight data:', error);
-        return false;
-      }
-    });
-
-    // Apply time window filter
-    const recentInsights = this.filterByTimeWindow(validInsights);
+  mergeInsights(insights: Insight[]): Insight[] {
+    if (!insights.length) return [];
 
     // Group similar insights
-    const groupedInsights = this.groupSimilarInsights(recentInsights);
+    const groups = this.groupSimilarInsights(insights);
 
-    // Merge and prioritize groups
-    return this.prioritizeAndMergeGroups(groupedInsights);
+    // Merge each group into a single insight
+    return groups.map((group) => this.mergeGroup(group));
   }
 
-  /**
-   * Filters insights based on the configured time window
-   */
-  private filterByTimeWindow(insights: InsightData[]): InsightData[] {
-    const cutoffTime = new Date(Date.now() - this.options.timeWindowMs);
-    return insights.filter((insight) => new Date(insight.timestamp) >= cutoffTime);
-  }
-
-  /**
-   * Groups similar insights based on content similarity
-   */
-  private groupSimilarInsights(insights: InsightData[]): InsightData[][] {
-    const groups: InsightData[][] = [];
+  private groupSimilarInsights(insights: Insight[]): Insight[][] {
+    const groups: Insight[][] = [];
 
     for (const insight of insights) {
       let foundGroup = false;
+
       for (const group of groups) {
-        if (this.areSimilar(insight, group[0])) {
+        if (this.areSimilar(group[0], insight)) {
           group.push(insight);
           foundGroup = true;
           break;
         }
       }
+
       if (!foundGroup) {
         groups.push([insight]);
       }
@@ -128,138 +97,52 @@ export class MergeStrategy {
     return groups;
   }
 
-  /**
-   * Checks if two insights are similar based on content
-   */
-  private areSimilar(a: InsightData, b: InsightData): boolean {
-    // Simple text similarity check
-    const titleSimilarity = this.calculateStringSimilarity(
-      a.content.title.toLowerCase(),
-      b.content.title.toLowerCase()
-    );
-
-    const descSimilarity = this.calculateStringSimilarity(
-      a.content.description.toLowerCase(),
-      b.content.description.toLowerCase()
-    );
-
+  private areSimilar(a: Insight, b: Insight): boolean {
+    // Consider insights similar if they have:
+    // 1. Same category
+    // 2. Similar confidence (within 20%)
+    // 3. Similar timestamp (within 24 hours)
     return (
-      titleSimilarity > this.options.deduplicationThreshold ||
-      descSimilarity > this.options.deduplicationThreshold
+      a.category === b.category &&
+      Math.abs(a.confidence - b.confidence) <= 0.2 &&
+      Math.abs(new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()) <= 86400000
     );
   }
 
-  /**
-   * Calculates string similarity using Levenshtein distance
-   */
-  private calculateStringSimilarity(str1: string, str2: string): number {
-    const maxLength = Math.max(str1.length, str2.length);
-    if (maxLength === 0) return 1;
-    const distance = this.levenshteinDistance(str1, str2);
-    return 1 - distance / maxLength;
-  }
-
-  /**
-   * Calculates Levenshtein distance between two strings
-   */
-  private levenshteinDistance(str1: string, str2: string): number {
-    const matrix: number[][] = [];
-
-    for (let i = 0; i <= str1.length; i++) {
-      matrix[i] = [i];
-    }
-
-    for (let j = 0; j <= str2.length; j++) {
-      matrix[0][j] = j;
-    }
-
-    for (let i = 1; i <= str1.length; i++) {
-      for (let j = 1; j <= str2.length; j++) {
-        const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j - 1] + cost
-        );
-      }
-    }
-
-    return matrix[str1.length][str2.length];
-  }
-
-  /**
-   * Prioritizes and merges grouped insights
-   */
-  private prioritizeAndMergeGroups(groups: InsightData[][]): InsightData[] {
-    return groups.map((group) => {
-      // Sort by priority and boost
-      const sortedGroup = group.sort((a, b) => {
-        const aPriority = this.calculatePriority(a);
-        const bPriority = this.calculatePriority(b);
-        return bPriority - aPriority;
-      });
-
-      // Take the highest priority insight as base
-      const baseInsight = sortedGroup[0];
-
-      // Merge metadata from other insights
-      const mergedMetadata = this.mergeMetadata(sortedGroup);
-
-      return {
-        ...baseInsight,
-        metadata: {
-          ...baseInsight.metadata,
-          ...mergedMetadata,
-        },
-      };
+  private mergeGroup(group: Insight[]): Insight {
+    // Sort by priority (including boosts)
+    const sortedGroup = [...group].sort((a, b) => {
+      const aBoost = this.priorityBoosts[a.source] || 0;
+      const bBoost = this.priorityBoosts[b.source] || 0;
+      return b.priority + bBoost - (a.priority + aBoost);
     });
-  }
 
-  /**
-   * Calculates priority score for an insight
-   */
-  private calculatePriority(insight: InsightData): number {
-    const basePriority = SOURCE_PRIORITY[insight.source];
-    const boost = this.options.priorityBoost[insight.source] || 0;
-    const recencyBoost = this.calculateRecencyBoost(insight.timestamp);
-    const confidenceBoost = insight.content.confidence || 0.5;
+    // Take the highest priority insight as base
+    const base = sortedGroup[0];
 
-    return basePriority + boost + recencyBoost + confidenceBoost;
-  }
+    // Merge metadata from all insights
+    const mergedMetadata = {
+      tags: new Set<string>(),
+      sources: new Set<string>(),
+      confidence: 0,
+    };
 
-  /**
-   * Calculates recency boost based on timestamp
-   */
-  private calculateRecencyBoost(timestamp: string): number {
-    const age = Date.now() - new Date(timestamp).getTime();
-    const maxAge = this.options.timeWindowMs;
-    return 1 - Math.min(age / maxAge, 1);
-  }
-
-  /**
-   * Merges metadata from multiple insights
-   */
-  private mergeMetadata(insights: InsightData[]): InsightMetadata {
-    const tags = new Set<string>();
-    const relatedTasks = new Set<string>();
-    let emotionalContext: InsightMetadata['emotionalContext'];
-
-    for (const insight of insights) {
+    for (const insight of sortedGroup) {
       if (insight.metadata?.tags) {
-        insight.metadata.tags.forEach((tag) => tags.add(tag));
+        insight.metadata.tags.forEach((tag) => mergedMetadata.tags.add(tag));
       }
-      if (insight.metadata?.relatedTasks) {
-        insight.metadata.relatedTasks.forEach((task) => relatedTasks.add(task));
-      }
-      if (insight.metadata?.emotionalContext && !emotionalContext) {
-        emotionalContext = insight.metadata.emotionalContext;
-      }
+      mergedMetadata.sources.add(insight.source);
+      mergedMetadata.confidence += insight.confidence / sortedGroup.length;
     }
 
     return {
-      tags: Array.from(tags),
-      relatedTasks: Array.from(relatedTasks),
-      emotionalContext,
+      ...base,
+      metadata: {
+        ...base.metadata,
+        tags: Array.from(mergedMetadata.tags),
+        sources: Array.from(mergedMetadata.sources),
+        confidence: mergedMetadata.confidence,
+      },
     };
   }
 }

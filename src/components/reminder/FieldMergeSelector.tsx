@@ -38,9 +38,9 @@ export function FieldMergeSelector({
     if (PROTECTED_FIELDS.includes(field)) return;
 
     const newFields = selectedFields.includes(field)
-      ? selectedFields.filter(f => f !== field)
+      ? selectedFields.filter((f) => f !== field)
       : [...selectedFields, field];
-    
+
     onFieldsChange(newFields);
   };
 
@@ -53,9 +53,9 @@ export function FieldMergeSelector({
           <span className="font-medium">Use Imported</span>
         </div>
       </div>
-      
+
       <div className="space-y-2">
-        {fields.map(field => (
+        {fields.map((field) => (
           <div
             key={field}
             className={cn(
@@ -64,7 +64,7 @@ export function FieldMergeSelector({
             )}
           >
             <span className="text-sm">{FIELD_LABELS[field]}</span>
-            
+
             <RadioGroup.Root
               value={selectedFields.includes(field) ? 'imported' : 'existing'}
               onValueChange={(value) => {
@@ -72,6 +72,7 @@ export function FieldMergeSelector({
               }}
               disabled={PROTECTED_FIELDS.includes(field)}
               className="flex gap-8"
+              aria-label={`${FIELD_LABELS[field]} field selection`}
             >
               <div className="flex items-center">
                 <RadioGroup.Item
@@ -82,9 +83,10 @@ export function FieldMergeSelector({
                     'focus:outline-none focus:ring-2 focus:ring-primary/20',
                     'data-[state=checked]:border-[5px]'
                   )}
+                  aria-label={`Keep existing ${FIELD_LABELS[field].toLowerCase()}`}
                 />
               </div>
-              
+
               <div className="flex items-center">
                 <RadioGroup.Item
                   value="imported"
@@ -94,6 +96,7 @@ export function FieldMergeSelector({
                     'focus:outline-none focus:ring-2 focus:ring-primary/20',
                     'data-[state=checked]:border-[5px]'
                   )}
+                  aria-label={`Use imported ${FIELD_LABELS[field].toLowerCase()}`}
                 />
               </div>
             </RadioGroup.Root>
@@ -107,4 +110,4 @@ export function FieldMergeSelector({
       </div>
     </div>
   );
-} 
+}

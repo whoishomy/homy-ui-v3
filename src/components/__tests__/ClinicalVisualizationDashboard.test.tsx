@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ClinicalVisualizationDashboard from '../ClinicalVisualizationDashboard';
-import { vi, expect, describe, it, beforeEach } from 'vitest';
+import { jest, expect, describe, it, beforeEach  } from '@jest/globals';
 
 // Add type for mediaQueryCallback
 type MediaQueryCallback = (e: { matches: boolean }) => void;
@@ -109,8 +109,8 @@ describe('ClinicalVisualizationDashboard', () => {
       matches: query === '(max-width:600px)',
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
     }));
 
     renderDashboard();
@@ -124,7 +124,7 @@ describe('ClinicalVisualizationDashboard', () => {
   });
 
   it('handles API error gracefully and maintains UI', async () => {
-    const consoleError = vi.spyOn(console, 'error');
+    const consoleError = jest.spyOn(console, 'error');
     (global.fetch as jest.Mock).mockImplementation(() => Promise.reject('API Error'));
 
     renderDashboard();
@@ -150,11 +150,11 @@ describe('ClinicalVisualizationDashboard', () => {
       matches: query === '(max-width:600px)',
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
     }));
 
     renderDashboard();
@@ -171,11 +171,11 @@ describe('ClinicalVisualizationDashboard', () => {
       matches: query !== '(max-width:600px)',
       media: query,
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
     }));
 
     // Re-render to trigger layout update

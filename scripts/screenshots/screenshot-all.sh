@@ -1,11 +1,29 @@
 #!/bin/bash
 
-# Get all story files
-STORY_FILES=$(find src -name "*.stories.tsx" -o -name "*.stories.ts")
+# Install dependencies if needed
+if [ ! -d "node_modules/puppeteer" ]; then
+  echo "Installing puppeteer..."
+  yarn add -D puppeteer
+fi
 
-# Extract component names from story files
-for file in $STORY_FILES; do
-  COMPONENT_NAME=$(basename $(dirname $(dirname $file)))
-  echo "Taking screenshots for $COMPONENT_NAME..."
-  ./scripts/screenshots/screenshot.sh "$COMPONENT_NAME"
-done 
+if [ ! -d "node_modules/glob" ]; then
+  echo "Installing glob..."
+  yarn add -D glob
+fi
+
+# Create the screenshots directory if it doesn't exist
+mkdir -p docs/screenshots
+
+# Run the screenshot script for all stories
+node -e "
+const { getStoryIds } = require('./utils/get-story-ids');
+const { takeScreenshots } = require('./utils/take-screenshots');
+
+async function main() {
+  const stories = getStoryIds();
+  console.log('Found stories:', stories.map(s => s.id).join('\n'));
+  await takeScreenshots(stories);
+}
+
+main().catch(console.error);
+" 

@@ -1,5 +1,19 @@
 import '../src/styles/globals.css';
-import type { Preview } from '@storybook/nextjs';
+import type { Preview } from '@storybook/react';
+import { withThemeByClassName } from '@storybook/addon-themes';
+
+// Theme decorator configuration
+export const decorators = [
+  withThemeByClassName({
+    themes: {
+      light: 'theme-light',
+      dark: 'theme-dark',
+      'high-contrast': 'theme-hc',
+    },
+    defaultTheme: 'light',
+    parentSelector: 'html', // Apply theme class to html element
+  }),
+];
 
 const preview: Preview = {
   parameters: {
@@ -20,6 +34,7 @@ const preview: Preview = {
       ],
     },
   },
+  decorators,
 };
 
 export default preview;

@@ -72,7 +72,7 @@ export const validation = (output: string): boolean => {
 };
 
 export const storyTemplate = `
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { {ComponentName} } from './{ComponentName}';
 
 const meta: Meta<typeof {ComponentName}> = {

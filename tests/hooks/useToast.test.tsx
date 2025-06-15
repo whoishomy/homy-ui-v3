@@ -1,15 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, jest, beforeEach, afterEach  } from '@jest/globals';
 import { renderHook, act } from "@testing-library/react";
 import { useToast } from "@/hooks/useToast";
 
 describe("useToast", () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.clearAllTimers();
-    vi.useRealTimers();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   describe("Toast Queue Management", () => {
@@ -69,7 +69,7 @@ describe("useToast", () => {
       expect(result.current.toasts).toHaveLength(1);
 
       act(() => {
-        vi.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(1000);
       });
 
       expect(result.current.toasts).toHaveLength(0);
@@ -83,7 +83,7 @@ describe("useToast", () => {
       });
 
       act(() => {
-        vi.advanceTimersByTime(10000);
+        jest.advanceTimersByTime(10000);
       });
 
       expect(result.current.toasts).toHaveLength(1);
@@ -139,7 +139,7 @@ describe("useToast", () => {
     });
 
     it("should cleanup timeouts on unmount", () => {
-      const clearTimeoutSpy = vi.spyOn(window, "clearTimeout");
+      const clearTimeoutSpy = jest.spyOn(window, "clearTimeout");
       const { result, unmount } = renderHook(() => useToast());
 
       act(() => {
@@ -160,19 +160,19 @@ describe("useToast", () => {
       });
 
       act(() => {
-        vi.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(1000);
         result.current.toast({ message: "Updated" }, { id: "test", duration: 2000 });
       });
 
       act(() => {
-        vi.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(1000);
       });
 
       expect(result.current.toasts).toHaveLength(1);
       expect(result.current.toasts[0].message).toBe("Updated");
 
       act(() => {
-        vi.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(1000);
       });
 
       expect(result.current.toasts).toHaveLength(0);

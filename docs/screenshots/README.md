@@ -69,6 +69,39 @@ This document catalogs the screenshots taken for the MVP release of Tayfun Case 
   - Interactive state handling
   - Visual consistency across variants
 
+### 6. InsightOverlay Theme Testing
+
+- **Directory**: `screenshots/tests/insightoverlay/`
+- **Date**: $(date +"%Y-%m-%d")
+- **Scenario**: Theme compatibility testing of InsightOverlay component
+- **Test Coverage**:
+  - Light theme variant (`insightoverlay-light-theme.png`)
+  - High contrast theme (`insightoverlay-high-contrast-theme.png`)
+  - Dark theme - soft variant (`insightoverlay-dark-theme-soft.png`)
+  - Dark theme - final version (`insightoverlay-dark-theme-final.png`)
+- **Theme Specifications**:
+  - Light Theme:
+    - Background: White
+    - Text: Black
+    - Badges: Pastel colors
+  - High Contrast Theme:
+    - Background: Gray
+    - Text: Dark navy
+    - Badges: Saturated pastel
+  - Dark Theme (Final):
+    - Background: Navy / Dark gray
+    - Text: White
+    - Priority Badges:
+      - High: Dark red (#991b1b)
+      - Medium: Brownish yellow (#78350f)
+      - Low: Saturated green
+- **Validation Points**:
+  - Theme-aware StatusBadge components
+  - WCAG contrast compliance
+  - Consistent visual hierarchy
+  - Interactive state visibility
+  - Text readability across themes
+
 ## Technical Details
 
 - **Resolution**: 2880x1800 (Retina)

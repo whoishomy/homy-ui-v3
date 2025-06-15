@@ -2,7 +2,15 @@
 
 import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { format, startOfWeek, endOfWeek, eachDayOfInterval, addWeeks, subWeeks, isSameDay } from 'date-fns';
+import {
+  format,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  addWeeks,
+  subWeeks,
+  isSameDay,
+} from 'date-fns';
 import { tr } from 'date-fns/locale';
 import {
   Calendar,
@@ -15,9 +23,15 @@ import {
   X,
 } from 'lucide-react';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog';
 import { Switch } from '@/components/ui/Switch';
 import { useHealthGoalStore } from '@/stores/healthGoalStore';
@@ -28,9 +42,14 @@ import type {
   TimeScale,
   TimelineViewMode,
   TimelineGroup,
-  HealthGoalCategory,
 } from '@/types/timeline';
-import { goalToTimelineEvent, filterTimelineEvents, timelineFilterSchema, groupTimelineEvents } from '@/types/timeline';
+import {
+  goalToTimelineEvent,
+  filterTimelineEvents,
+  timelineFilterSchema,
+  groupTimelineEvents,
+} from '@/types/timeline';
+import type { HealthGoalCategory } from '@/types/healthGoal';
 
 interface TimelineViewProps {
   className?: string;
@@ -58,9 +77,9 @@ function FilterModal({ open, onOpenChange, filter, onFilterChange }: FilterModal
   const handleCategoryToggle = (category: HealthGoalCategory) => {
     const categories = localFilter.categories || [];
     const newCategories = categories.includes(category)
-      ? categories.filter(c => c !== category)
+      ? categories.filter((c) => c !== category)
       : [...categories, category];
-    setLocalFilter(prev => ({ ...prev, categories: newCategories }));
+    setLocalFilter((prev) => ({ ...prev, categories: newCategories }));
   };
 
   return (
@@ -87,7 +106,7 @@ function FilterModal({ open, onOpenChange, filter, onFilterChange }: FilterModal
                   onClick={() => handleCategoryToggle(category as HealthGoalCategory)}
                   className="justify-start gap-2"
                 >
-                  {CATEGORY_ICONS[category as keyof typeof CATEGORY_ICONS]}
+                  {CATEGORY_ICONS[category as HealthGoalCategory]}
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </Button>
               ))}
@@ -99,8 +118,8 @@ function FilterModal({ open, onOpenChange, filter, onFilterChange }: FilterModal
             <label className="text-sm font-medium">View Mode</label>
             <Select
               value={localFilter.viewMode}
-              onValueChange={viewMode =>
-                setLocalFilter(prev => ({ ...prev, viewMode: viewMode as TimelineViewMode }))
+              onValueChange={(viewMode: TimelineViewMode) =>
+                setLocalFilter((prev) => ({ ...prev, viewMode }))
               }
             >
               <SelectTrigger>
@@ -119,9 +138,7 @@ function FilterModal({ open, onOpenChange, filter, onFilterChange }: FilterModal
             <label className="text-sm font-medium">Time Scale</label>
             <Select
               value={localFilter.scale}
-              onValueChange={scale =>
-                setLocalFilter(prev => ({ ...prev, scale: scale as TimeScale }))
-              }
+              onValueChange={(scale: TimeScale) => setLocalFilter((prev) => ({ ...prev, scale }))}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -140,7 +157,7 @@ function FilterModal({ open, onOpenChange, filter, onFilterChange }: FilterModal
             <Switch
               checked={localFilter.showCompleted}
               onCheckedChange={(checked: boolean) =>
-                setLocalFilter(prev => ({ ...prev, showCompleted: checked }))
+                setLocalFilter((prev) => ({ ...prev, showCompleted: checked }))
               }
             />
           </div>
@@ -168,7 +185,7 @@ export function TimelineView({ className }: TimelineViewProps) {
   });
   const [isFilterModalOpen, setIsFilterModalOpen] = React.useState(false);
 
-  const goals = useHealthGoalStore(state => state.goals);
+  const goals = useHealthGoalStore((state) => state.goals);
 
   // Convert goals to timeline events
   const events = React.useMemo(() => {
@@ -184,7 +201,7 @@ export function TimelineView({ className }: TimelineViewProps) {
   const handlePrevious = () => {
     const newDate = subWeeks(currentDate, 1);
     setCurrentDate(newDate);
-    setFilter(prev => ({
+    setFilter((prev) => ({
       ...prev,
       startDate: startOfWeek(newDate, { locale: tr }),
       endDate: endOfWeek(newDate, { locale: tr }),
@@ -194,7 +211,7 @@ export function TimelineView({ className }: TimelineViewProps) {
   const handleNext = () => {
     const newDate = addWeeks(currentDate, 1);
     setCurrentDate(newDate);
-    setFilter(prev => ({
+    setFilter((prev) => ({
       ...prev,
       startDate: startOfWeek(newDate, { locale: tr }),
       endDate: endOfWeek(newDate, { locale: tr }),
@@ -203,11 +220,11 @@ export function TimelineView({ className }: TimelineViewProps) {
 
   // View mode handlers
   const handleViewModeChange = (mode: TimelineViewMode) => {
-    setFilter(prev => ({ ...prev, viewMode: mode }));
+    setFilter((prev) => ({ ...prev, viewMode: mode }));
   };
 
   const handleScaleChange = (scale: TimeScale) => {
-    setFilter(prev => ({ ...prev, scale: scale }));
+    setFilter((prev) => ({ ...prev, scale: scale }));
   };
 
   return (
@@ -294,19 +311,11 @@ export function TimelineView({ className }: TimelineViewProps) {
       {/* Timeline Content */}
       <div className="rounded-lg border bg-card">
         <AnimatePresence mode="wait">
-          {filter.viewMode === 'list' && (
-            <TimelineList key="list" events={filteredEvents} />
-          )}
+          {filter.viewMode === 'list' && <TimelineList key="list" events={filteredEvents} />}
           {filter.viewMode === 'calendar' && (
-            <TimelineCalendar
-              key="calendar"
-              events={filteredEvents}
-              currentDate={currentDate}
-            />
+            <TimelineCalendar key="calendar" events={filteredEvents} currentDate={currentDate} />
           )}
-          {filter.viewMode === 'gantt' && (
-            <TimelineGantt key="gantt" events={filteredEvents} />
-          )}
+          {filter.viewMode === 'gantt' && <TimelineGantt key="gantt" events={filteredEvents} />}
         </AnimatePresence>
       </div>
 
@@ -332,13 +341,13 @@ function TimelineList({ events }: TimelineListProps) {
       exit={{ opacity: 0, y: -20 }}
       className="divide-y"
     >
-      {events.map(event => (
+      {events.map((event) => (
         <div
           key={event.id}
           className="flex items-center justify-between p-4 transition-colors hover:bg-accent/5"
         >
           <div className="flex items-center gap-3">
-            {CATEGORY_ICONS[event.category]}
+            {CATEGORY_ICONS[event.category as HealthGoalCategory]}
             <div>
               <h3 className="font-medium">{event.title}</h3>
               <p className="text-sm text-muted-foreground">
@@ -400,35 +409,31 @@ function TimelineCalendar({ events, currentDate }: TimelineCalendarProps) {
       className="grid grid-cols-7 gap-px bg-muted p-4"
     >
       {/* Calendar header */}
-      {days.map(day => (
+      {days.map((day) => (
         <div key={day.toString()} className="p-2 text-center">
-          <div className="text-sm font-medium">
-            {format(day, 'EEE', { locale: tr })}
-          </div>
+          <div className="text-sm font-medium">{format(day, 'EEE', { locale: tr })}</div>
           <div className="mt-1 text-2xl font-bold">{format(day, 'd')}</div>
         </div>
       ))}
 
       {/* Calendar events */}
-      {days.map(day => {
+      {days.map((day) => {
         const dayEvents = eventsByDay[format(day, 'yyyy-MM-dd')] || [];
         const isToday = isSameDay(day, new Date());
 
         return (
           <div
             key={day.toString()}
-            className={`min-h-[120px] space-y-1 p-2 ${
-              isToday ? 'bg-primary/5' : 'bg-card'
-            }`}
+            className={`min-h-[120px] space-y-1 p-2 ${isToday ? 'bg-primary/5' : 'bg-card'}`}
           >
             {dayEvents.map((event: TimelineEvent) => (
               <div
                 key={event.id}
                 className="group relative flex items-center gap-2 rounded-md bg-primary/10 px-2 py-1 text-sm"
               >
-                {CATEGORY_ICONS[event.category]}
+                {CATEGORY_ICONS[event.category as HealthGoalCategory]}
                 <span className="truncate font-medium">{event.title}</span>
-                
+
                 {/* Progress indicator */}
                 <div className="absolute bottom-0 left-0 h-0.5 w-full overflow-hidden rounded-full bg-primary/20">
                   <div
@@ -468,8 +473,10 @@ function TimelineGantt({ events }: TimelineGanttProps) {
   const timelineRange = React.useMemo(() => {
     if (events.length === 0) return { start: new Date(), end: new Date() };
 
-    const start = new Date(Math.min(...events.map(e => e.startDate.getTime())));
-    const end = new Date(Math.max(...events.map(e => (e.endDate?.getTime() || e.startDate.getTime()))));
+    const start = new Date(Math.min(...events.map((e) => e.startDate.getTime())));
+    const end = new Date(
+      Math.max(...events.map((e) => e.endDate?.getTime() || e.startDate.getTime()))
+    );
 
     // Ensure at least a week is shown
     if (end.getTime() - start.getTime() < 7 * 24 * 60 * 60 * 1000) {
@@ -486,7 +493,7 @@ function TimelineGantt({ events }: TimelineGanttProps) {
       end: timelineRange.end,
     });
 
-    return days.map(day => ({
+    return days.map((day) => ({
       date: day,
       label: format(day, 'd MMM', { locale: tr }),
     }));
@@ -527,21 +534,13 @@ function TimelineGantt({ events }: TimelineGanttProps) {
         </Button>
       </div>
       <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => handleScroll('right')}
-        >
+        <Button variant="ghost" size="sm" onClick={() => handleScroll('right')}>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
 
       {/* Timeline container */}
-      <div
-        ref={containerRef}
-        className="overflow-x-auto"
-        style={{ scrollBehavior: 'smooth' }}
-      >
+      <div ref={containerRef} className="overflow-x-auto" style={{ scrollBehavior: 'smooth' }}>
         <div className="min-w-[800px]">
           {/* Timeline header */}
           <div className="flex border-b">
@@ -549,7 +548,7 @@ function TimelineGantt({ events }: TimelineGanttProps) {
               <span className="text-sm font-medium">Goals</span>
             </div>
             <div className="flex flex-1">
-              {timelineHeaders.map(header => (
+              {timelineHeaders.map((header) => (
                 <div
                   key={header.date.toString()}
                   className="w-10 shrink-0 border-r p-2 text-center"
@@ -562,13 +561,13 @@ function TimelineGantt({ events }: TimelineGanttProps) {
 
           {/* Timeline rows */}
           <div className="divide-y">
-            {sortedEvents.map(event => {
+            {sortedEvents.map((event) => {
               const startIndex = timelineHeaders.findIndex(
-                h => format(h.date, 'yyyy-MM-dd') === format(event.startDate, 'yyyy-MM-dd')
+                (h) => format(h.date, 'yyyy-MM-dd') === format(event.startDate, 'yyyy-MM-dd')
               );
               const endIndex = event.endDate
                 ? timelineHeaders.findIndex(
-                    h => format(h.date, 'yyyy-MM-dd') === format(event.endDate!, 'yyyy-MM-dd')
+                    (h) => format(h.date, 'yyyy-MM-dd') === format(event.endDate!, 'yyyy-MM-dd')
                   )
                 : startIndex;
               const duration = endIndex - startIndex + 1;
@@ -576,7 +575,7 @@ function TimelineGantt({ events }: TimelineGanttProps) {
               return (
                 <div key={event.id} className="flex">
                   <div className="flex w-48 shrink-0 items-center gap-2 border-r p-2">
-                    {CATEGORY_ICONS[event.category]}
+                    {CATEGORY_ICONS[event.category as HealthGoalCategory]}
                     <span className="truncate text-sm font-medium">{event.title}</span>
                   </div>
                   <div className="relative flex flex-1">
@@ -592,11 +591,8 @@ function TimelineGantt({ events }: TimelineGanttProps) {
                         style={{ width: `${event.progress}%` }}
                       />
                     </div>
-                    {timelineHeaders.map(header => (
-                      <div
-                        key={header.date.toString()}
-                        className="w-10 shrink-0 border-r"
-                      />
+                    {timelineHeaders.map((header) => (
+                      <div key={header.date.toString()} className="w-10 shrink-0 border-r" />
                     ))}
                   </div>
                 </div>
@@ -607,4 +603,4 @@ function TimelineGantt({ events }: TimelineGanttProps) {
       </div>
     </motion.div>
   );
-} 
+}

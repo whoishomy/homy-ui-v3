@@ -1,12 +1,12 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, jest  } from '@jest/globals';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { LanguageSwitch } from "@/components/language/LanguageSwitch";
 
 // Mock useLocale hook
-vi.mock("@/hooks/useLocale", () => ({
+jest.mock("@/hooks/useLocale", () => ({
   useLocale: () => ({
     currentLanguage: { code: "tr", name: "Türkçe", direction: "ltr" },
-    setLanguage: vi.fn(),
+    setLanguage: jest.fn(),
     supportedLanguages: [
       { code: "tr", name: "Türkçe", direction: "ltr" },
       { code: "en", name: "English", direction: "ltr" }

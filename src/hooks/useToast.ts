@@ -1,76 +1,76 @@
 import { create } from 'zustand';
-import type { Toast } from '@/types/toast';
 
-interface ToastState {
-  toasts: Toast[];
-  addToast: (toast: Toast) => void;
-  removeToast: (id: string) => void;
-  removeAllToasts: () => void;
+interface Toast {
+  id: string;
+  message: string;
+  type?: 'info' | 'success' | 'warning' | 'error';
+  duration?: number;
 }
 
-const MAX_TOASTS = 5;
+interface ToastStore {
+  toasts: Toast[];
+  addToast: (toast: Omit<Toast, 'id'>) => string;
+  removeToast: (id: string) => void;
+  promiseToast: <T>(
+    promise: Promise<T>,
+    messages: {
+      loading: string;
+      success: string;
+      error: string;
+    }
+  ) => Promise<T>;
+}
 
-const useToastStore = create<ToastState>((set) => ({
+const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
-  addToast: (toast) =>
+  addToast: (toast) => {
+    const id = Math.random().toString(36).substring(7);
     set((state) => ({
-      toasts: [toast, ...state.toasts].slice(0, MAX_TOASTS),
-    })),
-  removeToast: (id) =>
+      toasts: [...state.toasts, { ...toast, id }],
+    }));
+    return id;
+  },
+  removeToast: (id) => {
     set((state) => ({
-      toasts: state.toasts.filter((t: Toast) => t.id !== id),
-    })),
-  removeAllToasts: () => set({ toasts: [] }),
+      toasts: state.toasts.filter((t) => t.id !== id),
+    }));
+  },
+  promiseToast: async (promise, messages) => {
+    const loadingId = useToastStore.getState().addToast({
+      message: messages.loading,
+      type: 'info',
+    });
+
+    try {
+      const result = await promise;
+      useToastStore.getState().removeToast(loadingId);
+      useToastStore.getState().addToast({
+        message: messages.success,
+        type: 'success',
+        duration: 3000,
+      });
+      return result;
+    } catch (error) {
+      useToastStore.getState().removeToast(loadingId);
+      useToastStore.getState().addToast({
+        message: messages.error,
+        type: 'error',
+        duration: 5000,
+      });
+      throw error;
+    }
+  },
 }));
 
 export const useToast = () => {
-  const { toasts, addToast, removeToast, removeAllToasts } = useToastStore();
-
-  const toast = (message: string | Omit<Toast, 'id'>, options: Partial<Toast> = {}) => {
-    const id = crypto.randomUUID();
-    const duration = typeof options === 'object' ? options.duration ?? 5000 : 5000;
-
-    const toastData: Toast = {
-      id,
-      message: typeof message === 'string' ? message : message.message,
-      type: options.type || 'info',
-      duration,
-      createdAt: Date.now(),
-      ...options,
-    };
-
-    // Update existing toast or add new one
-    const existingToastIndex = toasts.findIndex((t) => t.id === options.id);
-    if (existingToastIndex !== -1) {
-      const updatedToasts = [...toasts];
-      updatedToasts[existingToastIndex] = { ...toastData, id: options.id! };
-      addToast(updatedToasts[existingToastIndex]);
-    } else {
-      addToast(toastData);
-    }
-
-    // Set auto-dismiss timeout
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(options.id || id);
-      }, duration);
-    }
-
-    return id;
-  };
-
-  const dismiss = (id: string) => {
-    removeToast(id);
-  };
-
-  const dismissAll = () => {
-    removeAllToasts();
-  };
+  const { addToast, removeToast, promiseToast, toasts } = useToastStore();
 
   return {
-    toast,
-    dismiss,
-    dismissAll,
     toasts,
+    toast: (message: string, type: Toast['type'] = 'info', duration = 3000) => {
+      return addToast({ message, type, duration });
+    },
+    dismiss: removeToast,
+    promise: promiseToast,
   };
-}; 
+};

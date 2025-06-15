@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -7,32 +7,32 @@ import { useReminderStore } from '@/stores/reminderStore';
 import { parseFile } from '@/utils/importData';
 import { processImport } from '@/utils/mergeStrategy';
 
-const mockToast = vi.fn();
-vi.mock('@/hooks/useToast', () => ({
+const mockToast = jest.fn();
+jest.mock('@/hooks/useToast', () => ({
   useToast: () => ({
     toast: mockToast,
   }),
 }));
 
-vi.mock('@/stores/reminderStore', () => ({
-  useReminderStore: vi.fn(),
+jest.mock('@/stores/reminderStore', () => ({
+  useReminderStore: jest.fn(),
 }));
 
-vi.mock('@/utils/importData', () => ({
-  parseFile: vi.fn(),
+jest.mock('@/utils/importData', () => ({
+  parseFile: jest.fn(),
 }));
 
-vi.mock('@/utils/mergeStrategy', () => ({
-  processImport: vi.fn(),
+jest.mock('@/utils/mergeStrategy', () => ({
+  processImport: jest.fn(),
 }));
 
 describe('ImportDialog', () => {
-  const mockAddReminder = vi.fn();
-  const mockUpdateReminder = vi.fn();
-  const mockOnOpenChange = vi.fn();
+  const mockAddReminder = jest.fn();
+  const mockUpdateReminder = jest.fn();
+  const mockOnOpenChange = jest.fn();
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     (useReminderStore as any).mockImplementation(() => ({
       reminders: [
         {

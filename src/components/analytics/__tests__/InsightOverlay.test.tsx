@@ -1,20 +1,20 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 import { InsightOverlay } from '../components/InsightOverlay';
 import type { TelemetrySnapshot } from '@/services/telemetry/InsightTelemetry';
 
 expect.extend(toHaveNoViolations);
 
 // Mock AI config
-vi.mock('@/config/ai-config', () => ({
+jest.mock('@/config/ai-config', () => ({
   initializeAIEngine: () => ({
-    generateInsightForPersona: vi.fn().mockResolvedValue({
+    generateInsightForPersona: jest.fn().mockResolvedValue({
       content: 'Mocked AI insight response',
       metadata: { confidence: 0.9 },
     }),
-    getMetrics: vi.fn().mockReturnValue({
+    getMetrics: jest.fn().mockReturnValue({
       totalGenerated: 1000,
       averageDuration: 250,
       successRate: 0.92,
@@ -38,7 +38,7 @@ vi.mock('@/config/ai-config', () => ({
 }));
 
 // Mock useUser hook
-vi.mock('@/hooks/useUser', () => ({
+jest.mock('@/hooks/useUser', () => ({
   useUser: () => ({
     user: {
       id: 'test-user',
@@ -49,10 +49,10 @@ vi.mock('@/hooks/useUser', () => ({
 }));
 
 // Mock console.log
-const mockConsoleLog = vi.spyOn(console, 'log');
+const mockConsoleLog = jest.spyOn(console, 'log');
 
 describe('InsightOverlay', () => {
-  const mockOnClose = vi.fn();
+  const mockOnClose = jest.fn();
 
   const mockSnapshot: TelemetrySnapshot = {
     health: {
@@ -119,7 +119,7 @@ describe('InsightOverlay', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     mockConsoleLog.mockClear();
     mockOnClose.mockClear();
   });

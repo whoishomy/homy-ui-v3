@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { addDays, addWeeks, addMonths } from 'date-fns';
-import { HealthMetric } from './healthMetric';
+import type { HealthMetric } from './healthMetric';
 import { InsightCategory } from './analytics';
 
-export type HealthMetricType = 'number' | 'boolean' | 'range' | 'options';
+export type HealthMetricType = 'number' | 'boolean' | 'range' | 'select';
 export type HealthGoalFrequency = 'daily' | 'weekly' | 'monthly';
 export type HealthGoalCategory =
   | 'exercise'
@@ -17,7 +17,7 @@ export type HealthGoalStatus = 'active' | 'completed' | 'paused' | 'abandoned';
 export const healthMetricSchema = z.object({
   id: z.string(),
   name: z.string().min(1),
-  type: z.enum(['number', 'boolean', 'range', 'options']),
+  type: z.enum(['number', 'boolean', 'range', 'select']),
   unit: z.string().optional(),
   min: z.number().optional(),
   max: z.number().optional(),
@@ -25,6 +25,17 @@ export const healthMetricSchema = z.object({
   targetValue: z.union([z.number(), z.boolean(), z.string()]),
   warningThreshold: z.number().optional(),
   criticalThreshold: z.number().optional(),
+});
+
+export const healthProgressSchema = z.object({
+  id: z.string(),
+  goalId: z.string(),
+  date: z.date(),
+  metrics: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])),
+  notes: z.string().optional(),
+  mood: z.enum(['great', 'good', 'okay', 'bad', 'terrible']).optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const healthGoalSchema = z.object({
@@ -37,53 +48,23 @@ export const healthGoalSchema = z.object({
   frequency: z.enum(['daily', 'weekly', 'monthly']),
   status: z.enum(['active', 'completed', 'paused', 'abandoned']),
   metrics: z.array(healthMetricSchema),
-  reminders: z.array(z.string()), // Reminder IDs
+  reminders: z.boolean(),
   tags: z.array(z.string()).optional(),
   notes: z.string().max(1000).optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
 
-export interface HealthProgress {
-  id: string;
-  goalId: string;
-  date: Date;
-  metrics: Record<string, string | number | boolean>;
-  notes?: string;
-  mood?: 'great' | 'good' | 'okay' | 'bad' | 'terrible';
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface HealthGoal {
-  id: string;
-  title: string;
-  description?: string;
-  category: InsightCategory;
-  startDate: Date;
-  endDate?: Date;
-  status: HealthGoalStatus;
-  frequency: HealthGoalFrequency;
-  metrics: HealthMetric[];
-  reminders: boolean;
-  tags?: string[];
-  notes?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  completedAt?: Date;
-  metadata?: Record<string, any>;
-}
+export type HealthProgress = z.infer<typeof healthProgressSchema>;
+export type HealthGoal = z.infer<typeof healthGoalSchema>;
 
 export interface HealthGoalWithProgress extends HealthGoal {
   progress: HealthProgress[];
   completionRate: number;
   streak: number;
   nextDue: Date | null;
+  completedAt?: Date;
 }
-
-export type HealthMetric = z.infer<typeof healthMetricSchema>;
-export type HealthGoal = z.infer<typeof healthGoalSchema>;
-export type HealthProgress = z.infer<typeof healthProgressSchema>;
 
 /**
  * Calculates the next due date based on the goal's frequency and start date
@@ -115,11 +96,10 @@ export function calculateNextDueDate(goal: HealthGoal): Date {
 export function formToGoal(input: HealthGoal): HealthGoalWithProgress {
   return {
     ...input,
-    progress: 0, // Initial progress starts at 0
+    progress: [], // Initial progress starts empty
     completionRate: 0, // Initial completion rate starts at 0
     streak: 0, // Initial streak starts at 0
     nextDue: calculateNextDueDate(input),
-    severity: input.status === 'active' ? 'normal' : 'none', // Default severity based on status
   };
 }
 

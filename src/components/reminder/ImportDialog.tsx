@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { X } from 'lucide-react';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { FileUpload } from '@/components/reminder/FileUpload';
 import { FieldMergeSelector } from '@/components/reminder/FieldMergeSelector';
 import { FieldComparisonView } from '@/components/reminder/FieldComparisonView';

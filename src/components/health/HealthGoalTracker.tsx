@@ -21,7 +21,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import * as Tabs from '@radix-ui/react-tabs';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
 import { useHealthGoalStore } from '@/stores/healthGoalStore';
 import type { HealthGoalCategory, HealthGoalWithProgress, HealthGoal } from '@/types/healthGoal';

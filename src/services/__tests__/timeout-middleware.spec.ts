@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach, afterEach  } from '@jest/globals';
 import { TimeoutMiddleware, TimeoutError } from '../middleware/TimeoutMiddleware';
 import { MiddlewareChain } from '../middleware/MiddlewareChain';
 import type { HealthInsight } from '@/types/analytics';
@@ -32,16 +32,16 @@ describe('TimeoutMiddleware', () => {
 
   beforeEach(() => {
     chain = new MiddlewareChain();
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   it('allows fast operations to complete', async () => {
     const middleware = new TimeoutMiddleware({ timeout: 1000 });
-    const operation = vi.fn().mockResolvedValue(mockInsight);
+    const operation = jest.fn().mockResolvedValue(mockInsight);
 
     chain.addMiddleware(middleware);
     const promise = chain.executeGenerateInsight(
@@ -51,7 +51,7 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(100);
+    await jest.advanceTimersByTimeAsync(100);
     const result = await promise;
 
     expect(result).toBe(mockInsight);
@@ -60,7 +60,7 @@ describe('TimeoutMiddleware', () => {
 
   it('times out slow operations', async () => {
     const middleware = new TimeoutMiddleware({ timeout: 1000 });
-    const operation = vi.fn().mockImplementation(() => new Promise(resolve => {
+    const operation = jest.fn().mockImplementation(() => new Promise(resolve => {
       setTimeout(() => resolve(mockInsight), 2000);
     }));
 
@@ -72,14 +72,14 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await jest.advanceTimersByTimeAsync(1000);
     await expect(promise).rejects.toThrow(TimeoutError);
     expect(operation).toHaveBeenCalledTimes(1);
   });
 
   it('includes duration in timeout error', async () => {
     const middleware = new TimeoutMiddleware({ timeout: 1000 });
-    const operation = vi.fn().mockImplementation(() => new Promise(resolve => {
+    const operation = jest.fn().mockImplementation(() => new Promise(resolve => {
       setTimeout(() => resolve(mockInsight), 2000);
     }));
 
@@ -92,7 +92,7 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await jest.advanceTimersByTimeAsync(1000);
     const error = await promise.catch(e => e);
     expect(error).toBeInstanceOf(TimeoutError);
     expect(error.duration).toBe(1000);
@@ -104,7 +104,7 @@ describe('TimeoutMiddleware', () => {
       timeout: 1000,
       errorMessage: customMessage,
     });
-    const operation = vi.fn().mockImplementation(() => new Promise(resolve => {
+    const operation = jest.fn().mockImplementation(() => new Promise(resolve => {
       setTimeout(() => resolve(mockInsight), 2000);
     }));
 
@@ -116,7 +116,7 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await jest.advanceTimersByTimeAsync(1000);
     await expect(promise).rejects.toThrow(customMessage);
   });
 
@@ -125,15 +125,15 @@ describe('TimeoutMiddleware', () => {
       timeout: 1000,
       shouldAbort: true,
     });
-    const mockAbortController = { abort: vi.fn() };
+    const mockAbortController = { abort: jest.fn() };
     const mockAbortSignal = {};
     
-    vi.spyOn(global, 'AbortController').mockImplementation(() => mockAbortController as any);
+    jest.spyOn(global, 'AbortController').mockImplementation(() => mockAbortController as any);
     Object.defineProperty(mockAbortController, 'signal', {
       get: () => mockAbortSignal,
     });
 
-    const operation = vi.fn().mockImplementation(() => new Promise(resolve => {
+    const operation = jest.fn().mockImplementation(() => new Promise(resolve => {
       setTimeout(() => resolve(mockInsight), 2000);
     }));
 
@@ -145,7 +145,7 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await jest.advanceTimersByTimeAsync(1000);
     await expect(promise).rejects.toThrow(TimeoutError);
     expect(mockAbortController.abort).toHaveBeenCalled();
   });
@@ -155,11 +155,11 @@ describe('TimeoutMiddleware', () => {
       timeout: 1000,
       shouldAbort: false,
     });
-    const mockAbortController = { abort: vi.fn() };
+    const mockAbortController = { abort: jest.fn() };
     
-    vi.spyOn(global, 'AbortController').mockImplementation(() => mockAbortController as any);
+    jest.spyOn(global, 'AbortController').mockImplementation(() => mockAbortController as any);
 
-    const operation = vi.fn().mockImplementation(() => new Promise(resolve => {
+    const operation = jest.fn().mockImplementation(() => new Promise(resolve => {
       setTimeout(() => resolve(mockInsight), 2000);
     }));
 
@@ -171,17 +171,17 @@ describe('TimeoutMiddleware', () => {
       operation
     );
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await jest.advanceTimersByTimeAsync(1000);
     await expect(promise).rejects.toThrow(TimeoutError);
     expect(mockAbortController.abort).not.toHaveBeenCalled();
   });
 
   it('cleans up timers on completion', async () => {
     const middleware = new TimeoutMiddleware({ timeout: 1000 });
-    const operation = vi.fn().mockResolvedValue(mockInsight);
+    const operation = jest.fn().mockResolvedValue(mockInsight);
 
     chain.addMiddleware(middleware);
-    const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
+    const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
 
     await chain.executeGenerateInsight(
       mockParams,

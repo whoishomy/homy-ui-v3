@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { jest, describe, it, expect, beforeEach, afterEach  } from '@jest/globals';
 import { InsightEngine } from '../InsightEngineClass';
 import type { InsightContext, HealthPersona } from '@/types/analytics';
 import { InsightCategory } from '@/types/analytics';
@@ -48,11 +48,11 @@ describe('InsightEngine', () => {
 
   beforeEach(() => {
     insightEngine = InsightEngine.getInstance({ type: 'openai', apiKey: mockApiKey });
-    global.fetch = vi.fn();
+    global.fetch = jest.fn();
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('generateInsight', () => {

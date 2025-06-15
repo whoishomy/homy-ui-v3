@@ -1,9 +1,17 @@
 import type { HealthInsight, InsightContext } from '@/types/analytics';
-import type { InsightGenerationParams, InsightGenerationOptions } from '../interfaces/AIInsightProvider';
-import { BaseInsightMiddleware, type MiddlewareContext, type NextFunction } from './InsightMiddleware';
+import type {
+  InsightGenerationParams,
+  InsightGenerationOptions,
+} from '../interfaces/AIInsightProvider';
+import {
+  BaseInsightMiddleware,
+  type MiddlewareContext,
+  type NextFunction,
+} from './InsightMiddleware';
+import { MiddlewareContext as NewMiddlewareContext } from './types';
 
 export interface TimeoutOptions {
-  timeout: number;
+  timeout?: number;
   errorMessage?: string;
   shouldAbort?: boolean;
 }
@@ -15,18 +23,22 @@ const DEFAULT_TIMEOUT_OPTIONS: TimeoutOptions = {
 };
 
 export class TimeoutError extends Error {
-  constructor(message: string, public readonly duration: number) {
+  constructor(message: string, public duration: number) {
     super(message);
     this.name = 'TimeoutError';
   }
 }
 
 export class TimeoutMiddleware extends BaseInsightMiddleware {
-  private readonly options: TimeoutOptions;
+  private readonly options: Required<TimeoutOptions>;
 
-  constructor(options: Partial<TimeoutOptions> = {}) {
+  constructor(options: TimeoutOptions = {}) {
     super();
-    this.options = { ...DEFAULT_TIMEOUT_OPTIONS, ...options };
+    this.options = {
+      timeout: options.timeout ?? 30000,
+      errorMessage: options.errorMessage ?? 'Operation timed out',
+      shouldAbort: options.shouldAbort ?? true,
+    };
   }
 
   async generateInsight(
@@ -35,7 +47,7 @@ export class TimeoutMiddleware extends BaseInsightMiddleware {
     context: MiddlewareContext,
     next: NextFunction<HealthInsight>
   ): Promise<HealthInsight> {
-    return this.executeWithTimeout(next, context);
+    return this.executeWithTimeout(next);
   }
 
   async generateInsightForPersona(
@@ -44,37 +56,36 @@ export class TimeoutMiddleware extends BaseInsightMiddleware {
     middlewareContext: MiddlewareContext,
     next: NextFunction<HealthInsight>
   ): Promise<HealthInsight> {
-    return this.executeWithTimeout(next, middlewareContext);
+    return this.executeWithTimeout(next);
   }
 
-  private async executeWithTimeout(
-    operation: NextFunction<HealthInsight>,
-    context: MiddlewareContext
-  ): Promise<HealthInsight> {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => {
-      if (this.options.shouldAbort) {
-        controller.abort();
+  private async executeWithTimeout<T>(operation: () => Promise<T>): Promise<T> {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
+    const timeoutPromise = new Promise<T>((_, reject) => {
+      const startTime = Date.now();
+      const timeoutId = setTimeout(() => {
+        const duration = Date.now() - startTime;
+        if (this.options.shouldAbort) {
+          abortController.abort();
+        }
+        reject(new TimeoutError(this.options.errorMessage, duration));
+      }, this.options.timeout);
+
+      // Clean up timeout if operation completes
+      if (signal) {
+        signal.addEventListener('abort', () => clearTimeout(timeoutId));
       }
-    }, this.options.timeout);
+    });
 
     try {
-      const operationPromise = operation();
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => {
-          const duration = Date.now() - context.startTime;
-          reject(new TimeoutError(this.options.errorMessage!, duration));
-        }, this.options.timeout);
-      });
-
-      if (this.options.shouldAbort) {
-        // Add abort signal to the context for fetch operations
-        (context as any).signal = controller.signal;
+      return await Promise.race([operation(), timeoutPromise]);
+    } catch (error) {
+      if (error instanceof TimeoutError) {
+        throw error;
       }
-
-      return await Promise.race([operationPromise, timeoutPromise]);
-    } finally {
-      clearTimeout(timeoutId);
+      throw error;
     }
   }
-} 
+}

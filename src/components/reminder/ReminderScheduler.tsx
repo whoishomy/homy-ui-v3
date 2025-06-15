@@ -13,7 +13,7 @@ import { Bell, Calendar as CalendarIcon, Clock, X } from 'lucide-react';
 import type { z } from 'zod';
 
 import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';

@@ -10,15 +10,22 @@ import { DayPicker } from 'react-day-picker';
 import * as Popover from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { useToast } from '@/hooks/useToast';
 import { useHealthGoalStore } from '@/stores/healthGoalStore';
 import { healthGoalSchema, formToGoal } from '@/types/healthGoal';
 import type { HealthGoal } from '@/types/healthGoal';
+import type { HealthMetric } from '@/types/healthMetric';
 
 interface GoalFormDialogProps {
   open: boolean;
@@ -86,7 +93,7 @@ const DEFAULT_METRICS: Record<HealthGoal['category'], HealthMetric[]> = {
     {
       id: 'bloodPressure',
       name: 'Blood Pressure',
-      type: 'options',
+      type: 'select',
       options: ['Normal', 'High', 'Low'],
       targetValue: 'Normal',
     },
@@ -112,7 +119,7 @@ const DEFAULT_METRICS: Record<HealthGoal['category'], HealthMetric[]> = {
     {
       id: 'mood',
       name: 'Mood',
-      type: 'options',
+      type: 'select',
       options: ['Great', 'Good', 'Neutral', 'Bad', 'Terrible'],
       targetValue: 'Good',
     },
@@ -129,8 +136,8 @@ const DEFAULT_METRICS: Record<HealthGoal['category'], HealthMetric[]> = {
 
 export function GoalFormDialog({ open, onOpenChange, defaultValues }: GoalFormDialogProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = React.useState(false);
-  const addGoal = useHealthGoalStore(state => state.addGoal);
-  const updateGoal = useHealthGoalStore(state => state.updateGoal);
+  const addGoal = useHealthGoalStore((state) => state.addGoal);
+  const updateGoal = useHealthGoalStore((state) => state.updateGoal);
   const { toast } = useToast();
 
   const {
@@ -150,7 +157,7 @@ export function GoalFormDialog({ open, onOpenChange, defaultValues }: GoalFormDi
       frequency: 'daily',
       status: 'active',
       metrics: [],
-      reminders: [],
+      reminders: false,
       tags: [],
       ...defaultValues,
     },
@@ -268,10 +275,7 @@ export function GoalFormDialog({ open, onOpenChange, defaultValues }: GoalFormDi
                     {startDate ? format(startDate, 'PPP') : 'Pick a date'}
                   </Button>
                 </Popover.Trigger>
-                <Popover.Content
-                  className="w-auto rounded-md border bg-popover p-0"
-                  align="start"
-                >
+                <Popover.Content className="w-auto rounded-md border bg-popover p-0" align="start">
                   <Controller
                     name="startDate"
                     control={control}
@@ -354,7 +358,7 @@ export function GoalFormDialog({ open, onOpenChange, defaultValues }: GoalFormDi
                         className="mt-1"
                       />
                     )}
-                    {metric.type === 'options' && metric.options && (
+                    {metric.type === 'select' && metric.options && (
                       <Select defaultValue={metric.targetValue as string}>
                         <SelectTrigger className="mt-1">
                           <SelectValue />
@@ -388,4 +392,4 @@ export function GoalFormDialog({ open, onOpenChange, defaultValues }: GoalFormDi
       </Dialog.Portal>
     </Dialog.Root>
   );
-} 
+}

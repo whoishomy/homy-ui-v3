@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/Dialog';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';

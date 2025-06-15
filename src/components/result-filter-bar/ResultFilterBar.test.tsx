@@ -13,7 +13,7 @@ import { ResultFilterBar } from '../dashboard/ResultFilterBar';
  */
 
 describe('ResultFilterBar', () => {
-  const mockOnFilterChange = vi.fn();
+  const mockOnFilterChange = jest.fn();
 
   beforeEach(() => {
     mockOnFilterChange.mockClear();

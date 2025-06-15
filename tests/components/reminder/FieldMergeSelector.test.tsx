@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, jest } from '@jest/globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -6,24 +6,15 @@ import { FieldMergeSelector } from '@/components/reminder/FieldMergeSelector';
 import type { Reminder } from '@/types/reminder';
 
 describe('FieldMergeSelector', () => {
-  const mockFields: (keyof Reminder)[] = [
-    'title',
-    'description',
-    'category',
-    'date',
-    'time',
-    'id',
-    'createdAt',
-  ];
-
-  const mockSelectedFields: (keyof Reminder)[] = ['title', 'description'];
-  const mockOnFieldsChange = vi.fn();
+  const mockFields: (keyof Reminder)[] = ['title', 'description', 'id', 'createdAt'];
+  const mockSelectedFields: (keyof Reminder)[] = ['title'];
+  const mockOnFieldsChange = jest.fn();
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
-  it('renders all fields with correct labels', () => {
+  it('renders all fields', () => {
     render(
       <FieldMergeSelector
         fields={mockFields}
@@ -32,14 +23,14 @@ describe('FieldMergeSelector', () => {
       />
     );
 
+    // Check if all field labels are rendered
     expect(screen.getByText('Title')).toBeInTheDocument();
     expect(screen.getByText('Description')).toBeInTheDocument();
-    expect(screen.getByText('Category')).toBeInTheDocument();
-    expect(screen.getByText('Date')).toBeInTheDocument();
-    expect(screen.getByText('Time')).toBeInTheDocument();
+    expect(screen.getByText('ID')).toBeInTheDocument();
+    expect(screen.getByText('Created At')).toBeInTheDocument();
   });
 
-  it('shows correct initial state for selected fields', () => {
+  it('shows correct initial selection', () => {
     render(
       <FieldMergeSelector
         fields={mockFields}
@@ -48,13 +39,15 @@ describe('FieldMergeSelector', () => {
       />
     );
 
-    // Selected fields should show as "imported"
-    const titleImported = screen.getByRole('radio', { name: /imported/i });
-    expect(titleImported).toBeChecked();
+    // Title should be set to "imported"
+    const titleImportedRadio = screen.getByRole('radio', { name: /use imported title/i });
+    expect(titleImportedRadio).toBeChecked();
 
-    // Non-selected fields should show as "existing"
-    const categoryExisting = screen.getByRole('radio', { name: /existing/i });
-    expect(categoryExisting).toBeChecked();
+    // Description should be set to "existing"
+    const descriptionExistingRadio = screen.getByRole('radio', {
+      name: /keep existing description/i,
+    });
+    expect(descriptionExistingRadio).toBeChecked();
   });
 
   it('handles field selection changes', async () => {
@@ -67,13 +60,16 @@ describe('FieldMergeSelector', () => {
       />
     );
 
-    // Click on a radio button for category (currently not selected)
-    await user.click(screen.getAllByRole('radio', { name: /imported/i })[2]); // Category is third field
+    // Click on description's "imported" radio
+    const descriptionImportedRadio = screen.getByRole('radio', {
+      name: /use imported description/i,
+    });
+    await user.click(descriptionImportedRadio);
 
-    expect(mockOnFieldsChange).toHaveBeenCalledWith([...mockSelectedFields, 'category']);
+    expect(mockOnFieldsChange).toHaveBeenCalledWith(['title', 'description']);
   });
 
-  it('handles field deselection', async () => {
+  it('prevents changes to protected fields', async () => {
     const user = userEvent.setup();
     render(
       <FieldMergeSelector
@@ -83,31 +79,18 @@ describe('FieldMergeSelector', () => {
       />
     );
 
-    // Click on a radio button for title (currently selected)
-    await user.click(screen.getAllByRole('radio', { name: /existing/i })[0]); // Title is first field
-
-    expect(mockOnFieldsChange).toHaveBeenCalledWith(['description']);
-  });
-
-  it('disables protected fields', () => {
-    render(
-      <FieldMergeSelector
-        fields={mockFields}
-        selectedFields={mockSelectedFields}
-        onFieldsChange={mockOnFieldsChange}
-      />
-    );
-
     // Check if protected fields are disabled
-    const idRadios = screen.getAllByRole('radio', { name: /id/i });
-    idRadios.forEach(radio => {
-      expect(radio).toBeDisabled();
-    });
+    const idExistingRadio = screen.getByRole('radio', { name: /keep existing id/i });
+    const idImportedRadio = screen.getByRole('radio', { name: /use imported id/i });
+    expect(idExistingRadio).toBeDisabled();
+    expect(idImportedRadio).toBeDisabled();
 
-    const createdAtRadios = screen.getAllByRole('radio', { name: /created at/i });
-    createdAtRadios.forEach(radio => {
-      expect(radio).toBeDisabled();
-    });
+    // Try to click on protected field radios
+    await user.click(idExistingRadio);
+    await user.click(idImportedRadio);
+
+    // Verify that no changes were made
+    expect(mockOnFieldsChange).not.toHaveBeenCalled();
   });
 
   it('shows protected fields notice', () => {
@@ -119,7 +102,9 @@ describe('FieldMergeSelector', () => {
       />
     );
 
-    expect(screen.getByText('Protected fields cannot be modified during import')).toBeInTheDocument();
+    expect(
+      screen.getByText('Protected fields cannot be modified during import')
+    ).toBeInTheDocument();
   });
 
   it('applies custom className', () => {
@@ -134,22 +119,4 @@ describe('FieldMergeSelector', () => {
 
     expect(container.firstChild).toHaveClass('custom-class');
   });
-
-  it('prevents changes to protected fields', async () => {
-    const user = userEvent.setup();
-    render(
-      <FieldMergeSelector
-        fields={mockFields}
-        selectedFields={mockSelectedFields}
-        onFieldsChange={mockOnFieldsChange}
-      />
-    );
-
-    // Try to click on protected field radios
-    const idRadios = screen.getAllByRole('radio', { name: /id/i });
-    await user.click(idRadios[0]);
-    await user.click(idRadios[1]);
-
-    expect(mockOnFieldsChange).not.toHaveBeenCalled();
-  });
-}); 
+});

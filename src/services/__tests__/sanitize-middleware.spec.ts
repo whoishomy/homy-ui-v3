@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { SanitizeMiddleware, SanitizeError } from '../middleware/SanitizeMiddleware';
 import { MiddlewareChain } from '../middleware/MiddlewareChain';
 import type { HealthInsight } from '@/types/analytics';
@@ -44,7 +44,7 @@ describe('SanitizeMiddleware', () => {
 
   describe('PII Detection & Redaction', () => {
     it('redacts email addresses', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Contact me at test@example.com for details',
       });
@@ -62,7 +62,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('redacts phone numbers', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Call me at (123) 456-7890 or +1-234-567-8901',
       });
@@ -81,7 +81,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('redacts SSN', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'SSN: 123-45-6789',
       });
@@ -101,7 +101,7 @@ describe('SanitizeMiddleware', () => {
 
   describe('HIPAA Compliance', () => {
     it('redacts patient IDs', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Patient ID: PAT#12345 has improved',
       });
@@ -119,7 +119,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('redacts medical record numbers', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'MRN-98765 shows normal results',
       });
@@ -137,7 +137,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('redacts diagnosis codes', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Diagnosis code E11.9 indicates type 2 diabetes',
       });
@@ -166,7 +166,7 @@ describe('SanitizeMiddleware', () => {
         },
       };
 
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
@@ -189,7 +189,7 @@ describe('SanitizeMiddleware', () => {
         },
       };
 
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
@@ -212,7 +212,7 @@ describe('SanitizeMiddleware', () => {
         },
       };
 
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
@@ -228,7 +228,7 @@ describe('SanitizeMiddleware', () => {
 
   describe('Content Policy', () => {
     it('enforces language restrictions', async () => {
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
@@ -242,7 +242,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('allows medical terms by default', async () => {
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Patient shows symptoms of hypertension and tachycardia',
       });
@@ -264,7 +264,7 @@ describe('SanitizeMiddleware', () => {
         customPatterns: [/\b(hypertension|tachycardia)\b/g],
       });
 
-      const operation = vi.fn().mockResolvedValue({
+      const operation = jest.fn().mockResolvedValue({
         ...mockInsight,
         message: 'Patient shows symptoms of hypertension and tachycardia',
       });
@@ -294,7 +294,7 @@ describe('SanitizeMiddleware', () => {
         },
       };
 
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
@@ -308,7 +308,7 @@ describe('SanitizeMiddleware', () => {
     });
 
     it('enforces maximum token limit', async () => {
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       const result = await chain.executeGenerateInsight(
@@ -331,7 +331,7 @@ describe('SanitizeMiddleware', () => {
         },
       };
 
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
       chain.addMiddleware(middleware);
 
       await expect(
