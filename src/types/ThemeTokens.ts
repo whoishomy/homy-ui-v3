@@ -1,71 +1,10 @@
 import type { ColorPresetToken } from './ColorPreset';
 
 export interface ThemeTokens {
-  colors: {
-    [key: string]: ColorPresetToken;
-  };
-  typography: {
-    fontFamily: {
-      sans: string;
-      mono: string;
-      display: string;
-    };
-    fontWeight: {
-      light: number;
-      normal: number;
-      medium: number;
-      semibold: number;
-      bold: number;
-    };
-    scale: {
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-      xl: string;
-      '2xl': string;
-      '3xl': string;
-      '4xl': string;
-    };
-    lineHeight: {
-      none: number;
-      tight: number;
-      snug: number;
-      normal: number;
-      relaxed: number;
-      loose: number;
-    };
-    letterSpacing: {
-      tighter: string;
-      tight: string;
-      normal: string;
-      wide: string;
-      wider: string;
-      widest: string;
-    };
-  };
-  spacing: {
-    scale: {
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-      xl: string;
-      '2xl': string;
-      '3xl': string;
-      '4xl': string;
-    };
-  };
-  borderRadius: {
-    none: string;
-    sm: string;
-    md: string;
-    lg: string;
-    xl: string;
-    '2xl': string;
-    full: string;
-    pill: string;
-  };
+  colors: ColorTokens;
+  typography: TypographyTokens;
+  spacing: SpacingTokens;
+  borderRadius: BorderRadiusTokens;
   shadows: {
     none: string;
     sm: string;
@@ -85,25 +24,51 @@ export interface ThemeTokens {
   };
 }
 
-export interface TypographyTokens {
-  scale: {
-    xs: string;
-    sm: string;
-    md: string;
-    lg: string;
-    xl: string;
-    '2xl': string;
-    '3xl': string;
-  };
-  weight: {
+export interface ColorTokens {
+  text: {
     light: string;
-    regular: string;
-    medium: string;
-    semibold: string;
-    bold: string;
+    dark: string;
   };
-  family: {
+  primary: string;
+  presets: Record<string, ColorPresetToken>;
+}
+
+export interface TypographyTokens {
+  scale: Record<string, string>;
+  weight: Record<string, string>;
+  family: Record<string, string>;
+  fontFamily: {
     sans: string;
     mono: string;
+    display: string;
+  };
+  fontWeight: {
+    light: number;
+    normal: number;
+    medium: number;
+    semibold: number;
+    bold: number;
+  };
+  lineHeight: {
+    none: number;
+    tight: number;
+    snug: number;
+    normal: number;
+    relaxed: number;
+    loose: number;
+  };
+  letterSpacing: {
+    tighter: string;
+    tight: string;
+    normal: string;
+    wide: string;
+    wider: string;
+    widest: string;
   };
 }
+
+export interface SpacingTokens {
+  scale: Record<string, string>;
+}
+
+export interface BorderRadiusTokens extends Record<string, string> {}
