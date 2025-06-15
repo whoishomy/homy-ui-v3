@@ -1,6 +1,6 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at desktop viewport > FocusCoachCard-desktop 1`] = `
+exports[`FocusCoachCard Visual Regression Tests matches snapshot at desktop viewport: FocusCoachCard-desktop 1`] = `
 <div>
   <div
     class="rounded-lg border text-card-foreground shadow-sm relative overflow-hidden p-6 bg-gradient-to-br from-blue-50 to-white"
@@ -13,6 +13,11 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at desktop 
       >
         Eren'in Koçu
       </h3>
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium border border-gray-200 text-gray-700 text-sm"
+      >
+        Test Task
+      </span>
     </div>
     <div
       class="mt-6 grid grid-cols-2 gap-2"
@@ -32,7 +37,7 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at desktop 
 </div>
 `;
 
-exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at mobile viewport > FocusCoachCard-mobile 1`] = `
+exports[`FocusCoachCard Visual Regression Tests matches snapshot at mobile viewport: FocusCoachCard-mobile 1`] = `
 <div>
   <div
     class="rounded-lg border text-card-foreground shadow-sm relative overflow-hidden p-6 bg-gradient-to-br from-blue-50 to-white"
@@ -45,6 +50,11 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at mobile v
       >
         Eren'in Koçu
       </h3>
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium border border-gray-200 text-gray-700 text-sm"
+      >
+        Test Task
+      </span>
     </div>
     <div
       class="mt-6 grid grid-cols-2 gap-2"
@@ -64,7 +74,7 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at mobile v
 </div>
 `;
 
-exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at tablet viewport > FocusCoachCard-tablet 1`] = `
+exports[`FocusCoachCard Visual Regression Tests matches snapshot at tablet viewport: FocusCoachCard-tablet 1`] = `
 <div>
   <div
     class="rounded-lg border text-card-foreground shadow-sm relative overflow-hidden p-6 bg-gradient-to-br from-blue-50 to-white"
@@ -77,6 +87,11 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at tablet v
       >
         Eren'in Koçu
       </h3>
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium border border-gray-200 text-gray-700 text-sm"
+      >
+        Test Task
+      </span>
     </div>
     <div
       class="mt-6 grid grid-cols-2 gap-2"
@@ -96,7 +111,7 @@ exports[`FocusCoachCard > Visual Regression Tests > matches snapshot at tablet v
 </div>
 `;
 
-exports[`FocusCoachCard > renders correctly 1`] = `
+exports[`FocusCoachCard renders correctly 1`] = `
 <div>
   <div
     class="rounded-lg border text-card-foreground shadow-sm relative overflow-hidden p-6 bg-gradient-to-br from-blue-50 to-white"
@@ -109,6 +124,11 @@ exports[`FocusCoachCard > renders correctly 1`] = `
       >
         Eren'in Koçu
       </h3>
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full font-medium border border-gray-200 text-gray-700 text-sm"
+      >
+        Test Task
+      </span>
     </div>
     <div
       class="mt-6 grid grid-cols-2 gap-2"

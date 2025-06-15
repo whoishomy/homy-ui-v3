@@ -34,16 +34,30 @@ export const ResultFilterBar = ({
     significance: undefined,
   });
 
-  const handleFilterChange = <K extends keyof Filters>(key: K, value: string) => {
-    setFilters((prev) => {
-      const newFilters = {
-        ...prev,
-        [key]: value || undefined,
-      } as Filters;
-      onFilterChangeAction(newFilters);
-      return newFilters;
-    });
-  };
+  const handleFilterChange = useCallback(
+    <K extends keyof Filters>(key: K, value: Filters[K] | string) => {
+      setFilters((prev) => {
+        let newValue: Filters[K];
+
+        if (key === 'significance') {
+          newValue = (value === '' ? undefined : value) as Filters[K];
+        } else if (key === 'trend') {
+          newValue = (value === '' ? undefined : value) as Filters[K];
+        } else {
+          newValue = (value || undefined) as Filters[K];
+        }
+
+        const newFilters = {
+          ...prev,
+          [key]: newValue,
+        };
+
+        onFilterChangeAction(newFilters);
+        return newFilters;
+      });
+    },
+    [onFilterChangeAction]
+  );
 
   return (
     <div
@@ -89,22 +103,7 @@ export const ResultFilterBar = ({
         <select
           className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           value={filters.trend || ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            if (value === '') {
-              setFilters((prev) => {
-                const newFilters = { ...prev, trend: undefined };
-                onFilterChangeAction(newFilters);
-                return newFilters;
-              });
-            } else {
-              setFilters((prev) => {
-                const newFilters = { ...prev, trend: value as LabResult['trend'] };
-                onFilterChangeAction(newFilters);
-                return newFilters;
-              });
-            }
-          }}
+          onChange={(e) => handleFilterChange('trend', e.target.value)}
         >
           <option value="">Tüm trendler</option>
           <option value="up">Artış</option>
@@ -121,10 +120,7 @@ export const ResultFilterBar = ({
           <select
             className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             value={filters.significance || ''}
-            onChange={(e) => {
-              const value = e.target.value as Filters['significance'];
-              handleFilterChange('significance', value === '' ? undefined : value);
-            }}
+            onChange={(e) => handleFilterChange('significance', e.target.value)}
           >
             <option value="">Tüm önemler</option>
             <option value="critical">Kritik</option>

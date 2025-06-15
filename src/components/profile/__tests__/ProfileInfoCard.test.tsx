@@ -1,19 +1,19 @@
 /// <reference types="vitest" />
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach, afterEach  } from '@jest/globals';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import { useUser } from '@/hooks/useUser';
 import { useToast } from '@/hooks/useToast';
 import type { UserProfile } from '@/store/user/userStore';
 
 // Mock the hooks
-vi.mock('@/hooks/useUser', () => ({
-  useUser: vi.fn(),
+jest.mock('@/hooks/useUser', () => ({
+  useUser: jest.fn(),
 }));
 
-vi.mock('@/hooks/useToast', () => ({
-  useToast: vi.fn(),
+jest.mock('@/hooks/useToast', () => ({
+  useToast: jest.fn(),
 }));
 
 const mockUser: UserProfile = {
@@ -29,29 +29,29 @@ const mockUser: UserProfile = {
   },
 };
 
-const mockUpdateUser = vi.fn();
-const mockToast = vi.fn();
+const mockUpdateUser = jest.fn();
+const mockToast = jest.fn();
 
 describe('ProfileInfoCard', () => {
   beforeEach(() => {
-    vi.mocked(useUser).mockReturnValue({
+    jest.mocked(useUser).mockReturnValue({
       user: mockUser,
       updateUser: mockUpdateUser,
-      updateLanguage: vi.fn(),
-      logout: vi.fn(),
+      updateLanguage: jest.fn(),
+      logout: jest.fn(),
       isAuthenticated: true,
     });
 
-    vi.mocked(useToast).mockReturnValue({
+    jest.mocked(useToast).mockReturnValue({
       toast: mockToast,
-      dismiss: vi.fn(),
-      dismissAll: vi.fn(),
+      dismiss: jest.fn(),
+      dismissAll: jest.fn(),
       toasts: [],
     });
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it('renders user information correctly', () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach  } from '@jest/globals';
 import { InsightProviderFactory, type ProviderConfig } from '../providers/InsightProviderFactory';
 import { OpenAIProvider } from '../providers/OpenAIProvider';
 import { AnthropicProvider } from '../providers/AnthropicProvider';

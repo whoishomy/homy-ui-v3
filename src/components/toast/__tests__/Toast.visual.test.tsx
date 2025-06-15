@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll  } from '@jest/globals';
 import { render } from '@testing-library/react';
 import { Toast } from '../Toast';
 import type { Toast as ToastType } from '@/types/toast';

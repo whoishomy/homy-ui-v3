@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest  } from '@jest/globals';
 import { InMemoryTelemetry } from '../telemetry/InMemoryTelemetry';
 import { InMemoryInsightCache } from '../cache/InMemoryInsightCache';
 import type { InsightMetric, TelemetrySnapshot } from '../telemetry/InsightTelemetry';
@@ -20,13 +20,13 @@ describe('InMemoryTelemetry', () => {
   });
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     cache = new InMemoryInsightCache();
     telemetry = new InMemoryTelemetry({ cache });
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   describe('Basic Metrics', () => {
@@ -165,7 +165,7 @@ describe('InMemoryTelemetry', () => {
 
     it('tracks time distribution', () => {
       const now = new Date('2024-01-01T14:00:00'); // 14:00
-      vi.setSystemTime(now);
+      jest.setSystemTime(now);
 
       telemetry.recordMetric(createMetric());
       telemetry.recordMetric(createMetric());
@@ -181,13 +181,13 @@ describe('InMemoryTelemetry', () => {
       const middle = new Date('2024-01-02T00:00:00');
       const end = new Date('2024-01-03T00:00:00');
 
-      vi.setSystemTime(start);
+      jest.setSystemTime(start);
       telemetry.recordMetric(createMetric());
 
-      vi.setSystemTime(middle);
+      jest.setSystemTime(middle);
       telemetry.recordMetric(createMetric());
 
-      vi.setSystemTime(end);
+      jest.setSystemTime(end);
       telemetry.recordMetric(createMetric());
 
       const snapshot = telemetry.getSnapshot({

@@ -6,6 +6,7 @@ export interface LabResult {
   title: string;
   category: 'blood' | 'urine' | 'imaging' | 'cardiology' | 'other';
   status: VitalStatus;
+  severity: 'normal' | 'warning' | 'critical';
   value: number;
   unit: string;
   referenceRange?: {
@@ -14,6 +15,8 @@ export interface LabResult {
     unit: string;
   };
   timestamp: string;
+  date: Date;
+  message?: string;
   orderedBy: string;
   performedBy: string;
   specimenType?: string;

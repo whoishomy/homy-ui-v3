@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { InsightOverlay } from '../components/InsightOverlay';
 import { InMemoryTelemetryService } from '@/services/telemetry/TelemetryService';
 import type { TelemetrySnapshot } from '@/services/telemetry/InsightTelemetry';
+import type { Insight } from '@/cases/tayfun/insights';
 
 const telemetryService = new InMemoryTelemetryService();
 
@@ -65,20 +66,68 @@ const initializeSampleData = async () => {
   });
 };
 
+const transformSnapshotToInsights = (snapshot: TelemetrySnapshot): Insight[] => {
+  const insights: Insight[] = [];
+
+  // Add insights based on success rate
+  if (snapshot.insights.successRate < 0.9) {
+    insights.push({
+      id: 'success-rate',
+      title: 'Düşük Başarı Oranı',
+      description: `Başarı oranı ${(snapshot.insights.successRate * 100).toFixed(
+        1
+      )}% seviyesinde. İyileştirme gerekli.`,
+      severity: 'high',
+      category: 'performance',
+      date: new Date(),
+    });
+  }
+
+  // Add insights based on cache hit rate
+  if (snapshot.insights.cacheHitRate < 0.5) {
+    insights.push({
+      id: 'cache-rate',
+      title: 'Düşük Önbellek Kullanımı',
+      description: `Önbellek kullanım oranı ${(snapshot.insights.cacheHitRate * 100).toFixed(
+        1
+      )}%. Optimizasyon önerilir.`,
+      severity: 'medium',
+      category: 'performance',
+      date: new Date(),
+    });
+  }
+
+  // Add insights based on average duration
+  if (snapshot.insights.averageDuration > 200) {
+    insights.push({
+      id: 'latency',
+      title: 'Yüksek Gecikme Süresi',
+      description: `Ortalama yanıt süresi ${snapshot.insights.averageDuration.toFixed(
+        0
+      )}ms. Performans iyileştirmesi gerekli.`,
+      severity: 'medium',
+      category: 'performance',
+      date: new Date(),
+    });
+  }
+
+  return insights;
+};
+
 export const InsightOverlayExample: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [snapshot, setSnapshot] = useState<TelemetrySnapshot | null>(null);
+  const [insights, setInsights] = useState<Insight[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
       await initializeSampleData();
-      const data = await telemetryService.getSnapshot();
-      setSnapshot(data);
+      const snapshot = await telemetryService.getSnapshot();
+      setInsights(transformSnapshotToInsights(snapshot));
     };
     loadData();
   }, []);
 
-  if (!snapshot) {
+  if (insights.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -88,7 +137,7 @@ export const InsightOverlayExample: React.FC = () => {
         Telemetri Göstergesini Aç
       </Button>
 
-      {isOpen && <InsightOverlay snapshot={snapshot} onClose={() => setIsOpen(false)} />}
+      {isOpen && <InsightOverlay insights={insights} onClose={() => setIsOpen(false)} />}
     </div>
   );
 };

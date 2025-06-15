@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 import { ProviderStatusDashboard } from '../ProviderStatusDashboard';
 import { InsightEngine } from '@/services/insightEngine';
 
 // Mock the InsightEngine
-vi.mock('@/services/insightEngine', () => ({
+jest.mock('@/services/insightEngine', () => ({
   InsightEngine: {
     getInstance: () => ({
-      getProviderHealth: vi.fn().mockReturnValue({
+      getProviderHealth: jest.fn().mockReturnValue({
         openai: {
           healthScore: 95,
           averageLatency: 250,
@@ -17,7 +17,7 @@ vi.mock('@/services/insightEngine', () => ({
           totalRequests: 1000,
         },
       }),
-      getTelemetrySnapshot: vi.fn().mockReturnValue({
+      getTelemetrySnapshot: jest.fn().mockReturnValue({
         insights: {
           totalGenerated: 1000,
           averageLatency: 300,
@@ -27,7 +27,7 @@ vi.mock('@/services/insightEngine', () => ({
           hitRate: 0.8,
         },
       }),
-      getErrorStats: vi.fn().mockReturnValue({
+      getErrorStats: jest.fn().mockReturnValue({
         timeline: [
           { timestamp: Date.now() - 3600000, count: 5 },
           { timestamp: Date.now(), count: 2 },
@@ -39,12 +39,12 @@ vi.mock('@/services/insightEngine', () => ({
 
 describe('ProviderStatusDashboard', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
-    vi.clearAllMocks();
+    jest.useRealTimers();
+    jest.clearAllMocks();
   });
 
   it('renders loading state initially', () => {
@@ -76,10 +76,10 @@ describe('ProviderStatusDashboard', () => {
     const { rerender } = render(<ProviderStatusDashboard providerId="openai" />);
 
     // Fast-forward time
-    vi.advanceTimersByTime(5000);
+    jest.advanceTimersByTime(5000);
 
     // Mock updated values
-    vi.mocked(InsightEngine.getInstance().getProviderHealth).mockReturnValueOnce({
+    jest.mocked(InsightEngine.getInstance().getProviderHealth).mockReturnValueOnce({
       openai: {
         healthScore: 85,
         averageLatency: 300,
@@ -99,7 +99,7 @@ describe('ProviderStatusDashboard', () => {
   });
 
   it('handles error state gracefully', async () => {
-    vi.mocked(InsightEngine.getInstance().getProviderHealth).mockImplementationOnce(() => {
+    jest.mocked(InsightEngine.getInstance().getProviderHealth).mockImplementationOnce(() => {
       throw new Error('Failed to fetch metrics');
     });
 

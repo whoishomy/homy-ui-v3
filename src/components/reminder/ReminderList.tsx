@@ -20,7 +20,7 @@ import {
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/hooks/useToast';
 import { useReminderStore } from '@/stores/reminderStore';

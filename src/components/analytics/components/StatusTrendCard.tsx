@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell } from 'recharts';
 import { ArrowUpRightIcon, ArrowDownRightIcon } from '@heroicons/react/24/solid';
 import { cn } from '@/lib/utils';
 import { Info, TrendingUp, TrendingDown } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 export type StatusTrendType = 'info' | 'success' | 'warning' | 'error';
 

@@ -2,11 +2,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach  } from '@jest/globals';
 import ErrorTimelineChart from '../ErrorTimelineChart';
 
 // Mock Recharts bileşenleri
-vi.mock('recharts', () => ({
+jest.mock('recharts', () => ({
   ResponsiveContainer: ({ children, width, height }: any) => (
     <div data-testid="responsive-container" style={{ width, height }}>
       {children}

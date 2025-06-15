@@ -1,68 +1,46 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { ThemeLanguageSelector } from "@/components/settings/ThemeLanguageSelector";
-import { ThemeProvider } from "@/theme/contexts/ThemeContext";
+import React from 'react';
+import { render, screen, fireEvent } from '@/test/TestWrapper';
+import { ThemeLanguageSelector } from '@/components/ui/ThemeLanguageSelector';
+import { jest  } from '@jest/globals';
 
-const renderWithTheme = (props: {
-  currentLanguage: string;
-  onLanguageChange: (code: string) => void;
-}) => {
-  return render(
-    <ThemeProvider>
-      <ThemeLanguageSelector {...props} />
-    </ThemeProvider>
-  );
-};
+const mockOnLanguageChange = jest.fn();
 
-describe("ThemeLanguageSelector", () => {
-  it("renders theme toggle and language selector", () => {
-    const mockOnChange = vi.fn();
-    renderWithTheme({ currentLanguage: "tr", onLanguageChange: mockOnChange });
-
-    expect(screen.getByLabelText(/temayı/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/dil seçimi/i)).toBeInTheDocument();
+describe('ThemeLanguageSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("shows current language flag", () => {
-    const mockOnChange = vi.fn();
-    renderWithTheme({ currentLanguage: "tr", onLanguageChange: mockOnChange });
+  it('renders with default language', () => {
+    render(<ThemeLanguageSelector currentLanguage="tr" onLanguageChange={mockOnLanguageChange} />);
 
-    expect(screen.getByText("🇹🇷")).toBeInTheDocument();
+    expect(screen.getByText('🇹🇷')).toBeInTheDocument();
   });
 
-  it("toggles theme on button click", async () => {
-    const mockOnChange = vi.fn();
-    renderWithTheme({ currentLanguage: "tr", onLanguageChange: mockOnChange });
+  it('shows language options on click', () => {
+    render(<ThemeLanguageSelector currentLanguage="tr" onLanguageChange={mockOnLanguageChange} />);
 
-    const themeButton = screen.getByLabelText(/temayı/i);
-    await userEvent.click(themeButton);
+    fireEvent.click(screen.getByRole('button', { name: /select language/i }));
 
-    expect(document.documentElement.className).toBe("dark");
+    expect(screen.getByText('English')).toBeInTheDocument();
+    expect(screen.getByText('Deutsch')).toBeInTheDocument();
   });
 
-  it("calls onLanguageChange when selecting a language", async () => {
-    const mockOnChange = vi.fn();
-    renderWithTheme({ currentLanguage: "tr", onLanguageChange: mockOnChange });
+  it('calls onLanguageChange when selecting a language', () => {
+    render(<ThemeLanguageSelector currentLanguage="tr" onLanguageChange={mockOnLanguageChange} />);
 
-    const languageButton = screen.getByLabelText(/dil seçimi/i);
-    await userEvent.hover(languageButton);
+    fireEvent.click(screen.getByRole('button', { name: /select language/i }));
+    fireEvent.click(screen.getByText('English'));
 
-    const englishOption = screen.getByText(/english/i);
-    await userEvent.click(englishOption);
-
-    expect(mockOnChange).toHaveBeenCalledWith("en");
+    expect(mockOnLanguageChange).toHaveBeenCalledWith('en');
   });
 
-  it("shows all available languages in dropdown", async () => {
-    const mockOnChange = vi.fn();
-    renderWithTheme({ currentLanguage: "tr", onLanguageChange: mockOnChange });
+  it('toggles theme mode', () => {
+    render(<ThemeLanguageSelector currentLanguage="tr" onLanguageChange={mockOnLanguageChange} />);
 
-    const languageButton = screen.getByLabelText(/dil seçimi/i);
-    await userEvent.hover(languageButton);
-
-    expect(screen.getByText("Türkçe")).toBeInTheDocument();
-    expect(screen.getByText("English")).toBeInTheDocument();
-    expect(screen.getByText("Deutsch")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /dark mode/i }));
+    expect(screen.getByRole('button', { name: /dark mode/i })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
   });
-}); 
+});

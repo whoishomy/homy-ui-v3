@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach  } from '@jest/globals';
 import InsightUsageChart from '../InsightUsageChart';
 
 interface MockComponentProps {
@@ -29,7 +29,7 @@ interface MockComponentProps {
 }
 
 // Mock Recharts components
-vi.mock('recharts', () => ({
+jest.mock('recharts', () => ({
   ResponsiveContainer: ({ children, width, height }: MockComponentProps) => (
     <div data-testid="responsive-container" style={{ width, height }}>
       {children}

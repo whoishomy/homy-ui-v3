@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
+import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import {
   ChevronDown,
   ChevronUp,
@@ -8,6 +9,7 @@ import {
   CheckCircle,
   XCircle,
   ExternalLink,
+  AlertCircle,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
@@ -87,8 +89,8 @@ export const LabResultCard = ({
   isLoading = false,
   onClick,
 }: LabResultCardProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [showDetail, setShowDetail] = React.useState(false);
 
   if (isLoading || !result) {
     return (
@@ -101,6 +103,18 @@ export const LabResultCard = ({
   }
 
   const { testName, value, unit, referenceRange, status, date, laboratory } = result;
+
+  if (!history || !history.history || history.history.length === 0) {
+    return (
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 space-y-4">
+        <div className="text-center text-gray-500 dark:text-gray-400">
+          <p>Veri bulunamadı</p>
+        </div>
+      </div>
+    );
+  }
+
+  const isOutOfRange = referenceRange && (value < referenceRange.min || value > referenceRange.max);
 
   return (
     <>
@@ -150,13 +164,25 @@ export const LabResultCard = ({
 
           {isExpanded && (
             <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-              {history?.history && history.history.length > 0 && (
-                <div className="h-32">
-                  <LabResultTrendChart
-                    data={history.history.map((h) => ({ date: h.date, value: h.value }))}
-                  />
-                </div>
-              )}
+              <div className="h-24">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={history.history.map((h) => ({ date: h.date, value: h.value }))}>
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={isOutOfRange ? '#EF4444' : 'currentColor'}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
+          {referenceRange && (
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Referans Aralığı: {referenceRange.min} - {referenceRange.max} {unit}
             </div>
           )}
         </div>

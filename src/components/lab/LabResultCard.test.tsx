@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi, expect, describe, it, beforeEach } from 'vitest';
+import { jest, expect, describe, it, beforeEach  } from '@jest/globals';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../theme';
 import { LabResultCard } from './LabResultCard.tsx';
@@ -22,7 +22,7 @@ const renderComponent = (props = {}) => {
 
 describe('LabResultCard Component', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   it('renders component correctly', () => {

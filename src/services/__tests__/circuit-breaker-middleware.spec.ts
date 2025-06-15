@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach, afterEach  } from '@jest/globals';
 import { CircuitBreakerMiddleware, CircuitBreakerError } from '../middleware/CircuitBreakerMiddleware';
 import type { TelemetryLogger } from '../telemetry/InsightTelemetryLogger';
 import type { HealthInsight, InsightOperation } from '@/types/analytics';
@@ -26,11 +26,11 @@ describe('CircuitBreakerMiddleware', () => {
   };
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     mockTelemetryLogger = {
-      logEvent: vi.fn(),
-      getSnapshot: vi.fn(),
-      clear: vi.fn(),
+      logEvent: jest.fn(),
+      getSnapshot: jest.fn(),
+      clear: jest.fn(),
     };
 
     middleware = new CircuitBreakerMiddleware({
@@ -48,7 +48,7 @@ describe('CircuitBreakerMiddleware', () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   describe('Basic Operation', () => {
@@ -138,7 +138,7 @@ describe('CircuitBreakerMiddleware', () => {
       }
 
       // Advance time past reset timeout
-      vi.advanceTimersByTime(1100);
+      jest.advanceTimersByTime(1100);
 
       // Should attempt half-open state
       expect(mockTelemetryLogger.logEvent).toHaveBeenCalledWith(
@@ -152,7 +152,7 @@ describe('CircuitBreakerMiddleware', () => {
 
   describe('Provider Fallback', () => {
     it('falls back to next provider on failure', async () => {
-      const operation = vi.fn()
+      const operation = jest.fn()
         .mockRejectedValueOnce(new Error('service unavailable'))
         .mockResolvedValueOnce({ ...mockInsight, source: 'anthropic' });
 

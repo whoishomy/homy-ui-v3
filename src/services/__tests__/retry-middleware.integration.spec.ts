@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach  } from '@jest/globals';
 import { RetryMiddleware } from '../middleware/RetryMiddleware';
 import { FallbackMiddleware } from '../middleware/FallbackMiddleware';
 import { TelemetryMiddleware } from '../middleware/TelemetryMiddleware';

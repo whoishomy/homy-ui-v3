@@ -15,7 +15,7 @@ const mockRecharts = {
   Legend: () => null,
 };
 
-vi.mock('recharts', () => mockRecharts);
+jest.mock('recharts', () => mockRecharts);
 
 // Mock ResizeObserver since it's not available in jsdom
 global.ResizeObserver = jest.fn().mockImplementation(() => ({

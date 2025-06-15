@@ -1,72 +1,101 @@
 import type { HealthInsight, InsightContext } from '@/types/analytics';
-import type { InsightGenerationParams, InsightGenerationOptions } from '../interfaces/AIInsightProvider';
-import { BaseInsightMiddleware, type MiddlewareContext, type NextFunction } from './InsightMiddleware';
+import type {
+  InsightGenerationParams,
+  InsightGenerationOptions,
+} from '../interfaces/AIInsightProvider';
+import {
+  BaseInsightMiddleware,
+  type MiddlewareContext,
+  type NextFunction,
+} from './InsightMiddleware';
 import type { InMemoryInsightCache } from '../cache/InMemoryInsightCache';
 import type { CacheKey } from '../cache/InsightCache';
+import { MiddlewareContext as TypesMiddlewareContext } from './types';
 
 export interface FallbackOptions {
   // Cache settings
   enableCacheFallback?: boolean;
   maxCacheAge?: number; // milliseconds
-  
+
   // Provider settings
   enableProviderFallback?: boolean;
   fallbackProviders?: string[];
   maxProviderAttempts?: number;
-  
+
   // Error handling
   retryableErrors?: string[];
   fallbackOnTimeout?: boolean;
   timeoutThreshold?: number;
-  
+
   // Notification
   notifyUserOnFallback?: boolean;
   customFallbackMessage?: string;
+
+  maxAttempts?: number;
+  useCache?: boolean;
+  cacheKey?: string;
+  cacheTTL?: number;
 }
 
 const DEFAULT_FALLBACK_OPTIONS: Required<FallbackOptions> = {
   enableCacheFallback: true,
   maxCacheAge: 24 * 60 * 60 * 1000, // 24 hours
-  
+
   enableProviderFallback: true,
   fallbackProviders: ['openai', 'anthropic', 'local'],
   maxProviderAttempts: 3,
-  
-  retryableErrors: [
-    'rate_limit',
-    'timeout',
-    'network',
-    'server',
-    'unavailable',
-  ],
+
+  retryableErrors: ['rate_limit', 'timeout', 'network', 'server', 'unavailable'],
   fallbackOnTimeout: true,
   timeoutThreshold: 10000, // 10 seconds
-  
+
   notifyUserOnFallback: true,
-  customFallbackMessage: '',  // Empty string as default instead of undefined
+  customFallbackMessage: '', // Empty string as default instead of undefined
+
+  maxAttempts: 3,
+  useCache: true,
+  cacheKey: 'fallback',
+  cacheTTL: 3600000, // 1 hour
 };
 
 export class FallbackError extends Error {
   constructor(
     message: string,
-    public readonly originalError: Error,
-    public readonly fallbackAttempts: number,
-    public readonly usedCache: boolean
+    public originalError: Error,
+    public fallbackAttempts: number,
+    public usedCache: boolean
   ) {
     super(message);
     this.name = 'FallbackError';
   }
 }
 
+interface FallbackStrategy<T> {
+  execute: (context: MiddlewareContext) => Promise<T>;
+  shouldTry: (error: Error, context: MiddlewareContext) => boolean;
+}
+
 export class FallbackMiddleware extends BaseInsightMiddleware {
+  private readonly strategies: FallbackStrategy<any>[] = [];
   private readonly options: Required<FallbackOptions>;
-  private readonly cache: InMemoryInsightCache;
+  private readonly cache: Map<string, { data: any; timestamp: number }>;
   private currentProvider: string = 'default';
 
-  constructor(cache: InMemoryInsightCache, options: Partial<FallbackOptions> = {}) {
+  constructor(options: FallbackOptions = {}) {
     super();
-    this.options = { ...DEFAULT_FALLBACK_OPTIONS, ...options };
-    this.cache = cache;
+    this.options = {
+      maxAttempts: options.maxAttempts ?? 3,
+      useCache: options.useCache ?? true,
+      cacheKey: options.cacheKey ?? 'fallback',
+      cacheTTL: options.cacheTTL ?? 3600000, // 1 hour
+      retryableErrors: options.retryableErrors ?? ['timeout', 'network', 'rate limit'],
+    };
+    this.cache = new Map();
+  }
+
+  addStrategy<T>(strategy: FallbackStrategy<T>) {
+    this.strategies.push(strategy);
+    return this;
   }
 
   async generateInsight(
@@ -75,13 +104,7 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
     context: MiddlewareContext,
     next: NextFunction<HealthInsight>
   ): Promise<HealthInsight> {
-    return this.executeWithFallback(
-      () => next(),
-      params,
-      options,
-      context,
-      this.getCacheKey(params)
-    );
+    return this.executeWithFallback(next, context);
   }
 
   async generateInsightForPersona(
@@ -90,73 +113,66 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
     middlewareContext: MiddlewareContext,
     next: NextFunction<HealthInsight>
   ): Promise<HealthInsight> {
-    return this.executeWithFallback(
-      () => next(),
-      context,
-      options,
-      middlewareContext,
-      this.getCacheKey(context)
-    );
+    return this.executeWithFallback(next, middlewareContext);
   }
 
-  private async executeWithFallback(
-    operation: () => Promise<HealthInsight>,
-    params: InsightGenerationParams | InsightContext,
-    options: InsightGenerationOptions,
-    context: MiddlewareContext,
-    cacheKey: CacheKey
-  ): Promise<HealthInsight> {
-    let lastError: Error | null = null;
-    let fallbackAttempts = 0;
-    let usedCache = false;
+  private async executeWithFallback<T>(
+    operation: () => Promise<T>,
+    context: MiddlewareContext
+  ): Promise<T> {
+    let lastError: Error | undefined;
+    let attempts = 0;
 
-    // Try primary operation
+    // Try primary operation first
     try {
-      const result = await this.executeWithTimeout(operation);
-      await this.cache.set(cacheKey, result);
-      return this.attachFallbackMetadata(result, false, 0);
+      const result = await operation();
+      if (this.options.useCache) {
+        this.setInCache(this.options.cacheKey, result);
+      }
+      return result;
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-      
-      // If it's not a retryable error, try cache immediately
-      if (!this.isRetryableError(lastError)) {
-        const cachedResult = await this.tryCacheFallback(cacheKey);
-        if (cachedResult) {
-          return this.attachFallbackMetadata(cachedResult, true, 0);
+      if (error instanceof Error) {
+        lastError = error;
+      } else {
+        lastError = new Error(String(error));
+      }
+
+      // Try from cache if primary operation fails
+      if (this.options.useCache) {
+        const cached = this.getFromCache<T>(this.options.cacheKey);
+        if (cached) {
+          return cached;
         }
       }
     }
 
-    // Try provider fallback if enabled
-    if (this.options.enableProviderFallback) {
+    // Try fallback strategies
+    for (const strategy of this.strategies) {
+      if (attempts >= this.options.maxAttempts) {
+        break;
+      }
+
+      if (!strategy.shouldTry(lastError!, context)) {
+        continue;
+      }
+
       try {
-        const result = await this.tryProviderFallback(context);
-        if (result) {
-          await this.cache.set(cacheKey, result);
-          return this.attachFallbackMetadata(result, false, fallbackAttempts);
+        const result = await strategy.execute(context);
+        if (this.options.useCache) {
+          this.setInCache(this.options.cacheKey, result);
         }
+        return result;
       } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
-        fallbackAttempts++;
+        attempts++;
+        if (error instanceof Error) {
+          lastError = error;
+        } else {
+          lastError = new Error(String(error));
+        }
       }
     }
 
-    // Try cache as last resort
-    if (this.options.enableCacheFallback) {
-      const cachedResult = await this.tryCacheFallback(cacheKey);
-      if (cachedResult) {
-        usedCache = true;
-        return this.attachFallbackMetadata(cachedResult, true, fallbackAttempts);
-      }
-    }
-
-    // If all fallbacks fail, throw comprehensive error
-    throw new FallbackError(
-      'All fallback strategies failed',
-      lastError!,
-      fallbackAttempts,
-      usedCache
-    );
+    throw new FallbackError('All fallback strategies failed', lastError!, attempts, false);
   }
 
   private async executeWithTimeout(
@@ -175,9 +191,7 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
     return Promise.race([operation(), timeoutPromise]);
   }
 
-  private async tryProviderFallback(
-    context: MiddlewareContext
-  ): Promise<HealthInsight | null> {
+  private async tryProviderFallback(context: MiddlewareContext): Promise<HealthInsight | null> {
     const currentIndex = this.options.fallbackProviders.indexOf(this.currentProvider);
     const nextProviders = this.options.fallbackProviders.slice(currentIndex + 1);
 
@@ -200,12 +214,12 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
       return null;
     }
 
-    const cached = await this.cache.get(cacheKey);
+    const cached = await this.getFromCache<HealthInsight>(this.options.cacheKey);
     if (!cached) {
       return null;
     }
 
-    const cacheAge = Date.now() - cached.date.getTime();
+    const cacheAge = Date.now() - cached.timestamp;
     if (cacheAge > this.options.maxCacheAge) {
       return null;
     }
@@ -215,9 +229,7 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
 
   private isRetryableError(error: Error): boolean {
     const errorMessage = error.message.toLowerCase();
-    return this.options.retryableErrors.some(type => 
-      errorMessage.includes(type.toLowerCase())
-    );
+    return this.options.retryableErrors.some((type) => errorMessage.includes(type.toLowerCase()));
   }
 
   private getCacheKey(params: InsightGenerationParams | InsightContext): CacheKey {
@@ -225,14 +237,14 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
     return {
       provider: 'fallback',
       prompt: JSON.stringify(params),
-      systemPrompt: isPersonaContext ? 
-        `Generate personalized insight for ${(params as InsightContext).persona.id}` : 
-        `Generate insight for ${(params as InsightGenerationParams).category}`,
+      systemPrompt: isPersonaContext
+        ? `Generate personalized insight for ${(params as InsightContext).persona.id}`
+        : `Generate insight for ${(params as InsightGenerationParams).category}`,
       options: {
         temperature: 0.7,
         maxTokens: 500,
-        sanitizePrompt: true
-      }
+        sanitizePrompt: true,
+      },
     };
   }
 
@@ -245,16 +257,36 @@ export class FallbackMiddleware extends BaseInsightMiddleware {
       return insight;
     }
 
-    const fallbackMessage = this.options.customFallbackMessage ?? 
-      (usedCache ? 
-        '(Using cached insight due to service disruption)' : 
-        attempts > 0 ? 
-          `(Using fallback provider after ${attempts} attempt${attempts > 1 ? 's' : ''})` : 
-          '');
+    const fallbackMessage =
+      this.options.customFallbackMessage ??
+      (usedCache
+        ? '(Using cached insight due to service disruption)'
+        : attempts > 0
+        ? `(Using fallback provider after ${attempts} attempt${attempts > 1 ? 's' : ''})`
+        : '');
 
     return {
       ...insight,
       message: fallbackMessage ? `${insight.message}\n\n${fallbackMessage}` : insight.message,
     };
   }
-} 
+
+  private getFromCache<T>(key: string): T | undefined {
+    const cached = this.cache.get(key);
+    if (!cached) return undefined;
+
+    if (Date.now() - cached.timestamp > this.options.cacheTTL) {
+      this.cache.delete(key);
+      return undefined;
+    }
+
+    return cached.data;
+  }
+
+  private setInCache(key: string, data: any) {
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now(),
+    });
+  }
+}

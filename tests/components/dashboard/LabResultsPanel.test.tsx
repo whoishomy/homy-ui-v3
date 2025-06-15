@@ -1,10 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, jest  } from '@jest/globals';
 import { render, screen } from "@testing-library/react";
 import { LabResultsPanel } from "@/components/dashboard/LabResultsPanel";
 import type { LabResult } from "@/components/dashboard/LabResultsPanel";
 
 // Mock LabResultCard component
-vi.mock("@/components/lab/LabResultCard", () => ({
+jest.mock("@/components/lab/LabResultCard", () => ({
   LabResultCard: ({ title, description, unit, data }: any) => (
     <div data-testid="lab-result-card">
       <div>{title}</div>

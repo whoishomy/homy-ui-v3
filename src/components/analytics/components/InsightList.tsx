@@ -3,7 +3,7 @@ import { Download } from 'lucide-react';
 import { HealthInsight, InsightCategory } from '@/types/analytics';
 import { InsightCard } from './InsightCard';
 import { downloadInsightsCSV } from '@/utils/exportUtils';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { getInsightCategoryOptions } from '@/utils/insightCategory';
 
 interface InsightListProps {

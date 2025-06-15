@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { userEvent } from '@testing-library/user-event';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { jest, describe, it, expect, beforeEach, afterEach  } from '@jest/globals';
 import { InsightCard } from '@/components/analytics/components';
 import { InsightEngine } from '@/services/InsightEngineClass';
 import { analyticsService } from '@/services/analyticsService';
@@ -15,21 +15,21 @@ import {
 expect.extend(toHaveNoViolations);
 
 // Mock i18next
-const mockT = vi.fn((key: string, options?: { defaultValue: string }) => {
+const mockT = jest.fn((key: string, options?: { defaultValue: string }) => {
   if (key === 'direction') return 'ltr';
   return options?.defaultValue || key;
 });
 
-vi.mock('react-i18next', () => ({
+jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: mockT,
   }),
 }));
 
 // Mock analytics service
-vi.mock('@/services/analyticsService', () => ({
+jest.mock('@/services/analyticsService', () => ({
   analyticsService: {
-    track: vi.fn(),
+    track: jest.fn(),
   },
 }));
 
@@ -168,7 +168,7 @@ const mockLLMResponses = {
 };
 
 // Mock fetch for API calls
-global.fetch = vi.fn();
+global.fetch = jest.fn();
 
 describe('InsightEngine Integration', () => {
   const mockApiKey = 'test-api-key';
@@ -176,7 +176,7 @@ describe('InsightEngine Integration', () => {
   let mockInsights: HealthInsight[];
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     insightEngine = InsightEngine.getInstance({ type: 'openai', apiKey: mockApiKey });
     mockInsights = [];
 
@@ -188,7 +188,7 @@ describe('InsightEngine Integration', () => {
   });
 
   afterEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('Insight Provider Integration', () => {
@@ -305,7 +305,7 @@ describe('InsightEngine Integration', () => {
 
     it('supports keyboard-only navigation', async () => {
       const user = userEvent.setup();
-      const mockAction = vi.fn();
+      const mockAction = jest.fn();
 
       render(
         <div>

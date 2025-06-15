@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Bell } from "lucide-react";
-import { cn } from "@/utils/cn";
-import { NotificationFeed } from "./NotificationFeed";
+import React from 'react';
+import { Bell } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { NotificationFeed } from './NotificationFeed';
 
 interface Notification {
   id: string;
@@ -11,20 +11,30 @@ interface Notification {
   message: string;
   timestamp: string;
   read: boolean;
-  type: "info" | "success" | "warning" | "error";
+  type: 'info' | 'success' | 'warning' | 'error';
 }
 
-interface Props {
-  notifications: Notification[];
+interface NotificationBadgeProps {
+  count: number;
   onMarkAsRead: (ids: string[]) => void;
+  notifications: Notification[];
   className?: string;
 }
 
-export const NotificationBadge = ({ notifications, onMarkAsRead, className }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const unreadCount = notifications.filter(n => !n.read).length;
-  const hasUnread = unreadCount > 0;
+export function NotificationBadge({
+  count,
+  onMarkAsRead,
+  notifications,
+  className,
+}: NotificationBadgeProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleClick = () => {
+    const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
+    if (unreadIds.length > 0) {
+      onMarkAsRead(unreadIds);
+    }
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -33,42 +43,26 @@ export const NotificationBadge = ({ notifications, onMarkAsRead, className }: Pr
   const handleClose = () => {
     setIsOpen(false);
     // Mark all as read when closing
-    const unreadIds = notifications.filter(n => !n.read).map(n => n.id);
+    const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
     if (unreadIds.length > 0) {
       onMarkAsRead(unreadIds);
     }
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn('relative', className)}>
       <button
         type="button"
         className={cn(
-          "relative p-2 rounded-full transition-colors",
-          "hover:bg-gray-100 dark:hover:bg-gray-800",
-          "focus:outline-none focus:ring-2 focus:ring-green-500",
-          hasUnread && "animate-pulse"
+          'relative inline-flex items-center p-2 text-gray-400 hover:text-gray-500',
+          'focus:outline-none focus:ring-2 focus:ring-green-500'
         )}
-        onClick={handleOpen}
-        aria-label={`Bildirimler ${hasUnread ? `(${unreadCount} okunmamış)` : ''}`}
-        aria-haspopup="true"
-        aria-expanded={isOpen}
+        onClick={handleClick}
       >
-        <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-        
-        {/* Unread Badge */}
-        {hasUnread && (
-          <span
-            className={cn(
-              "absolute -top-1 -right-1 w-5 h-5",
-              "flex items-center justify-center",
-              "rounded-full bg-green-500 text-white",
-              "text-xs font-medium",
-              "animate-bounce"
-            )}
-            aria-hidden="true"
-          >
-            {unreadCount}
+        <Bell className="h-6 w-6" />
+        {count > 0 && (
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white">
+            {count}
           </span>
         )}
       </button>
@@ -82,4 +76,4 @@ export const NotificationBadge = ({ notifications, onMarkAsRead, className }: Pr
       />
     </div>
   );
-}; 
+}

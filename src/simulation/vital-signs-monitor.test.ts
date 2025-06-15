@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { createSimulator, SAMPLE_ANOMALY_PATTERNS } from './vital-signs-simulator';
 import { agentRunner } from '../agent-runner';
 import { fetchMemoryData } from '../memory';
 
 describe('Vital Signs Monitoring System', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
-    vi.useFakeTimers();
+    jest.resetAllMocks();
+    jest.useFakeTimers();
   });
 
   describe('Vital Signs Simulator', () => {
@@ -36,7 +36,7 @@ describe('Vital Signs Monitoring System', () => {
       });
 
       // Advance time to when anomalies should be active
-      vi.advanceTimersByTime(45 * 60 * 1000); // 45 minutes
+      jest.advanceTimersByTime(45 * 60 * 1000); // 45 minutes
 
       const vitals = simulator.generateVitals();
 
@@ -83,8 +83,8 @@ describe('Vital Signs Monitoring System', () => {
       });
 
       // Mock memory system
-      const mockMemory = vi.fn();
-      vi.spyOn(agentRunner, 'runAgent');
+      const mockMemory = jest.fn();
+      jest.spyOn(agentRunner, 'runAgent');
 
       // Run simulation for one interval
       const vitals = simulator.generateVitals();

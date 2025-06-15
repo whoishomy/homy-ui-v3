@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { generateICS, downloadICS, exportToCalendar } from '../exportToCalendar';
 import type { Reminder } from '@/types/reminder';
 
@@ -56,15 +56,15 @@ describe('Calendar Export Utils', () => {
     let revokeObjectURLSpy: any;
 
     beforeEach(() => {
-      createObjectURLSpy = vi.spyOn(window.URL, 'createObjectURL');
-      revokeObjectURLSpy = vi.spyOn(window.URL, 'revokeObjectURL');
+      createObjectURLSpy = jest.spyOn(window.URL, 'createObjectURL');
+      revokeObjectURLSpy = jest.spyOn(window.URL, 'revokeObjectURL');
       createObjectURLSpy.mockReturnValue('blob:test-url');
     });
 
     it('should create and trigger download link', () => {
-      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
-      const removeChildSpy = vi.spyOn(document.body, 'removeChild');
-      const clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click');
+      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
+      const removeChildSpy = jest.spyOn(document.body, 'removeChild');
+      const clickSpy = jest.spyOn(HTMLAnchorElement.prototype, 'click');
 
       downloadICS('test.ics', 'test content');
 
@@ -77,7 +77,7 @@ describe('Calendar Export Utils', () => {
 
   describe('exportToCalendar', () => {
     it('should generate filename with reminder id for single reminder', () => {
-      const downloadSpy = vi.spyOn(window.URL, 'createObjectURL');
+      const downloadSpy = jest.spyOn(window.URL, 'createObjectURL');
       
       exportToCalendar([mockReminder]);
       
@@ -87,7 +87,7 @@ describe('Calendar Export Utils', () => {
     });
 
     it('should generate filename with date for multiple reminders', () => {
-      const downloadSpy = vi.spyOn(window.URL, 'createObjectURL');
+      const downloadSpy = jest.spyOn(window.URL, 'createObjectURL');
       const today = new Date().toISOString().split('T')[0];
       
       exportToCalendar([mockReminder, { ...mockReminder, id: 'test-2' }]);
@@ -98,7 +98,7 @@ describe('Calendar Export Utils', () => {
     });
 
     it('should not proceed if reminders array is empty', () => {
-      const downloadSpy = vi.spyOn(window.URL, 'createObjectURL');
+      const downloadSpy = jest.spyOn(window.URL, 'createObjectURL');
       
       exportToCalendar([]);
       

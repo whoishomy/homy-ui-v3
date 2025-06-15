@@ -1,191 +1,191 @@
 'use client';
 
 import React, { FC, useRef, useEffect } from 'react';
-import { StatusTrendCard } from './StatusTrendCard';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
-import type { TelemetrySnapshot } from '@/services/telemetry/InsightTelemetry';
-import { InsightBubble } from './InsightBubble';
-import { InsightCategory } from '@/types/analytics';
-import { useInsightCategoryDisplay } from '@/hooks/useInsightCategoryDisplay';
 import { useTranslation } from 'next-i18next';
+import { Insight } from '@/cases/tayfun/insights';
+import { useKeyboardNavigation } from '@/neurofocus/a11y/keyboard-navigation';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface InsightOverlayProps {
-  snapshot: TelemetrySnapshot;
+  insights: Insight[];
   onClose: () => void;
   className?: string;
 }
 
-export const InsightOverlay: FC<InsightOverlayProps> = ({ snapshot, onClose, className }) => {
+export const InsightOverlay: FC<InsightOverlayProps> = ({ insights, onClose, className }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('analytics');
-  const { getDisplay } = useInsightCategoryDisplay();
 
+  // Keyboard navigation setup
+  const containerRef = useKeyboardNavigation<HTMLDivElement>({
+    focusableSelector: 'button, [tabindex="0"]',
+    onEscape: onClose,
+    onArrowKeys: (direction) => {
+      const focusableElements = overlayRef.current?.querySelectorAll('button, [tabindex="0"]');
+      if (!focusableElements) return;
+
+      const currentFocusIndex = Array.from(focusableElements).indexOf(
+        document.activeElement as HTMLElement
+      );
+      const newIndex = direction === 'down' ? currentFocusIndex + 1 : currentFocusIndex - 1;
+
+      if (newIndex >= 0 && newIndex < focusableElements.length) {
+        (focusableElements[newIndex] as HTMLElement).focus();
+      }
+    },
+  });
+
+  // Focus management
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
+    closeButtonRef.current?.focus();
+
+    // Focus trap
+    const handleTab = (e: KeyboardEvent) => {
+      if (!overlayRef.current) return;
+
+      const focusableElements = overlayRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
-
-  useEffect(() => {
-    closeButtonRef.current?.focus();
+    document.addEventListener('keydown', handleTab);
+    return () => document.removeEventListener('keydown', handleTab);
   }, []);
 
-  const handleVitalRecommendation = () => {
-    console.log('Vital recommendation:', 'Detaylı sağlık önerileri burada gösterilecek.');
+  // Motion preferences
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const overlayAnimation = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+    transition: { duration: prefersReducedMotion ? 0 : 0.2 },
   };
 
-  const handleActivityRecommendation = () => {
-    console.log('Activity recommendation:', 'Detaylı aktivite önerileri burada gösterilecek.');
-  };
-
-  const handleSleepRecommendation = () => {
-    console.log('Sleep recommendation:', 'Detaylı uyku önerileri burada gösterilecek.');
+  const contentAnimation = {
+    initial: { scale: 0.95, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    exit: { scale: 0.95, opacity: 0 },
+    transition: { duration: prefersReducedMotion ? 0 : 0.2 },
   };
 
   return (
-    <div
-      className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center ${className || ''}`}
-    >
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4 p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            {t('insights.title', 'İçgörü Telemetrisi')}
-          </h2>
-          <Button
-            ref={closeButtonRef}
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            aria-label={t('common.close', 'Kapat')}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+    <AnimatePresence>
+      <motion.div
+        ref={overlayRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="insight-overlay-title"
+        className={cn(
+          'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center',
+          className
+        )}
+        {...overlayAnimation}
+      >
+        <motion.div
+          ref={containerRef}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4 p-6"
+          {...contentAnimation}
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h2
+              id="insight-overlay-title"
+              className="text-2xl font-semibold text-gray-900 dark:text-gray-100"
+            >
+              {t('insights.title', 'İçgörü Telemetrisi')}
+            </h2>
+            <Button
+              ref={closeButtonRef}
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              aria-label={t('common.close', 'Kapat')}
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <span className="sr-only">{t('common.close', 'Kapat')}</span>
+              <X className="w-6 h-6" />
+            </Button>
+          </div>
+
+          <div
+            className="space-y-4"
+            role="region"
+            aria-label={t('insights.list_description', 'Sağlık içgörüleri listesi')}
           >
-            <span className="sr-only">{t('common.close', 'Kapat')}</span>
-            <X className="w-6 h-6" />
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-              {getDisplay(InsightCategory.HEALTH)}
-            </h3>
-            <StatusTrendCard
-              title="Kan Basıncı"
-              score={snapshot.health.vitals.bloodPressure}
-              type="warning"
-              formatValue={(v) => `${v} mmHg`}
-              trendLabel="son ölçüm"
-              onActionClick={handleVitalRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Kan basıncınız yüksek seyrediyor. Düzenli ölçüm almaya devam edin."
-              type="warning"
-              priority="high"
-              category={InsightCategory.HEALTH}
-              className="mt-2"
-            />
-            <StatusTrendCard
-              title="Nabız"
-              score={snapshot.health.vitals.heartRate}
-              type="success"
-              formatValue={(v) => `${v} bpm`}
-              trendLabel="şu an"
-              onActionClick={handleVitalRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Nabız değerleriniz ideal aralıkta seyrediyor."
-              type="success"
-              priority="low"
-              category={InsightCategory.HEALTH}
-              className="mt-2"
-            />
+            {insights.map((insight, index) => (
+              <motion.div
+                key={insight.id}
+                className={cn(
+                  'bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border',
+                  'border-gray-200 dark:border-gray-700',
+                  'focus-within:ring-2 focus-within:ring-blue-500 focus-within:outline-none'
+                )}
+                tabIndex={0}
+                role="article"
+                aria-labelledby={`insight-${index}-title`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <h3
+                  id={`insight-${index}-title`}
+                  className="text-lg font-semibold text-gray-900 dark:text-white mb-2"
+                >
+                  {insight.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">{insight.description}</p>
+                <div className="mt-3 flex items-center">
+                  <span
+                    className={cn(
+                      'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+                      {
+                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
+                          insight.severity === 'high',
+                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                          insight.severity === 'medium',
+                        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
+                          insight.severity === 'low',
+                      }
+                    )}
+                    role="status"
+                    aria-label={`Öncelik: ${
+                      insight.severity === 'high'
+                        ? 'Yüksek'
+                        : insight.severity === 'medium'
+                        ? 'Orta'
+                        : 'Düşük'
+                    }`}
+                  >
+                    {insight.severity === 'high'
+                      ? 'Yüksek'
+                      : insight.severity === 'medium'
+                      ? 'Orta'
+                      : 'Düşük'}{' '}
+                    Öncelik
+                  </span>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-              {getDisplay(InsightCategory.PHYSICAL)}
-            </h3>
-            <StatusTrendCard
-              title="Adım Sayısı"
-              score={snapshot.health.activity.steps}
-              type="warning"
-              formatValue={(v) => v.toLocaleString()}
-              trendLabel="bugün"
-              onActionClick={handleActivityRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Günlük adım hedefinizin altındasınız. Biraz yürüyüş yapmanızı öneririm."
-              type="warning"
-              priority="medium"
-              category={InsightCategory.PHYSICAL}
-              className="mt-2"
-            />
-            <StatusTrendCard
-              title="Aktif Dakika"
-              score={snapshot.health.activity.activeMinutes}
-              type="success"
-              formatValue={(v) => `${v} dk`}
-              trendLabel="bugün"
-              onActionClick={handleActivityRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Aktif dakika hedefinizi aştınız. Harika gidiyorsunuz!"
-              type="success"
-              priority="low"
-              category={InsightCategory.PHYSICAL}
-              className="mt-2"
-            />
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-              {getDisplay(InsightCategory.SLEEP)}
-            </h3>
-            <StatusTrendCard
-              title="Uyku Süresi"
-              score={snapshot.health.sleep.sleepDuration}
-              type="error"
-              formatValue={(v) => `${v} saat`}
-              trendLabel="dün gece"
-              onActionClick={handleSleepRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Uyku süreniz önerilen 7-9 saat aralığının altında. Uyku düzeninizi iyileştirmenizi öneririm."
-              type="critical"
-              priority="high"
-              category={InsightCategory.SLEEP}
-              className="mt-2"
-            />
-            <StatusTrendCard
-              title="Uyku Kalitesi"
-              score={snapshot.health.sleep.sleepScore}
-              type="success"
-              formatValue={(v) => `%${v}`}
-              trendLabel="dün gece"
-              onActionClick={handleSleepRecommendation}
-              actionable
-            />
-            <InsightBubble
-              message="Uyku kaliteniz iyi seviyede. Bu şekilde devam edin."
-              type="success"
-              priority="low"
-              category={InsightCategory.SLEEP}
-              className="mt-2"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };

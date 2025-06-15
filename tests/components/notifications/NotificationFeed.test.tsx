@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, jest  } from '@jest/globals';
 import { render, screen } from "@testing-library/react";
 import { NotificationFeed } from "@/components/notifications/NotificationFeed";
 
@@ -32,9 +32,9 @@ const mockNotifications: Notification[] = [
 
 const defaultProps = {
   isOpen: true,
-  onClose: vi.fn(),
+  onClose: jest.fn(),
   notifications: mockNotifications,
-  onMarkAsRead: vi.fn(),
+  onMarkAsRead: jest.fn(),
 };
 
 describe("NotificationFeed", () => {

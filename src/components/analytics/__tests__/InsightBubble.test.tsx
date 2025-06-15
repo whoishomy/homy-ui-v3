@@ -3,10 +3,10 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 import { InsightBubble } from '../components/InsightBubble';
 import { InsightCategory } from '@/types/analytics';
 import { getInsightCategoryDisplay } from '@/utils/insightCategory';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 
 // Mock framer-motion
-vi.mock('framer-motion', () => ({
+jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
     span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
@@ -14,7 +14,7 @@ vi.mock('framer-motion', () => ({
 }));
 
 // Mock Radix Tooltip
-vi.mock('@radix-ui/react-tooltip', () => ({
+jest.mock('@radix-ui/react-tooltip', () => ({
   Root: ({ children, onOpenChange }: any) => (
     <div data-testid="tooltip-root" onClick={() => onOpenChange?.(true)}>
       {children}
@@ -32,11 +32,11 @@ vi.mock('@radix-ui/react-tooltip', () => ({
 }));
 
 // Mock useInsightTelemetry
-vi.mock('@/hooks/useInsightTelemetry', () => ({
+jest.mock('@/hooks/useInsightTelemetry', () => ({
   useInsightTelemetry: () => ({
-    onTooltipShown: vi.fn(),
-    onTooltipClicked: vi.fn(),
-    onTooltipActionClicked: vi.fn(),
+    onTooltipShown: jest.fn(),
+    onTooltipClicked: jest.fn(),
+    onTooltipActionClicked: jest.fn(),
   }),
 }));
 
@@ -241,9 +241,9 @@ describe('InsightBubble', () => {
     it('tracks tooltip interactions', () => {
       const { useInsightTelemetry } = require('@/hooks/useInsightTelemetry');
       const mockTelemetry = {
-        onTooltipShown: vi.fn(),
-        onTooltipClicked: vi.fn(),
-        onTooltipActionClicked: vi.fn(),
+        onTooltipShown: jest.fn(),
+        onTooltipClicked: jest.fn(),
+        onTooltipActionClicked: jest.fn(),
       };
       useInsightTelemetry.mockReturnValue(mockTelemetry);
 
@@ -261,12 +261,12 @@ describe('InsightBubble', () => {
     });
 
     it('tracks tooltip action clicks', () => {
-      const onAction = vi.fn();
+      const onAction = jest.fn();
       const { useInsightTelemetry } = require('@/hooks/useInsightTelemetry');
       const mockTelemetry = {
-        onTooltipShown: vi.fn(),
-        onTooltipClicked: vi.fn(),
-        onTooltipActionClicked: vi.fn(),
+        onTooltipShown: jest.fn(),
+        onTooltipClicked: jest.fn(),
+        onTooltipActionClicked: jest.fn(),
       };
       useInsightTelemetry.mockReturnValue(mockTelemetry);
 
@@ -291,9 +291,9 @@ describe('InsightBubble', () => {
     it('includes correct metadata in telemetry events', () => {
       const { useInsightTelemetry } = require('@/hooks/useInsightTelemetry');
       const mockTelemetry = {
-        onTooltipShown: vi.fn(),
-        onTooltipClicked: vi.fn(),
-        onTooltipActionClicked: vi.fn(),
+        onTooltipShown: jest.fn(),
+        onTooltipClicked: jest.fn(),
+        onTooltipActionClicked: jest.fn(),
       };
       useInsightTelemetry.mockReturnValue(mockTelemetry);
 

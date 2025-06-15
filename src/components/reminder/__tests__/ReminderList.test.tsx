@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
@@ -9,8 +9,8 @@ import { ReminderList } from '../ReminderList';
 import { useReminderStore } from '@/stores/reminderStore';
 import type { Reminder } from '@/types/reminder';
 
-const mockToast = vi.fn();
-vi.mock('@/hooks/useToast', () => ({
+const mockToast = jest.fn();
+jest.mock('@/hooks/useToast', () => ({
   useToast: () => ({
     toast: mockToast,
   }),
@@ -44,13 +44,13 @@ const mockReminders: Reminder[] = [
   },
 ];
 
-vi.mock('@/stores/reminderStore', () => ({
-  useReminderStore: vi.fn(),
+jest.mock('@/stores/reminderStore', () => ({
+  useReminderStore: jest.fn(),
 }));
 
 describe('ReminderList', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     (useReminderStore as any).mockImplementation(() => ({
       reminders: mockReminders,
       filter: {
@@ -71,10 +71,10 @@ describe('ReminderList', () => {
         health: 0,
         general: 0,
       }),
-      setFilter: vi.fn(),
-      setSort: vi.fn(),
-      deleteReminder: vi.fn(),
-      updateReminder: vi.fn(),
+      setFilter: jest.fn(),
+      setSort: jest.fn(),
+      deleteReminder: jest.fn(),
+      updateReminder: jest.fn(),
     }));
   });
 
@@ -94,7 +94,7 @@ describe('ReminderList', () => {
 
   it('filters reminders by search', async () => {
     const user = userEvent.setup();
-    const mockSetFilter = vi.fn();
+    const mockSetFilter = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       setFilter: mockSetFilter,
@@ -110,7 +110,7 @@ describe('ReminderList', () => {
 
   it('filters reminders by category', async () => {
     const user = userEvent.setup();
-    const mockSetFilter = vi.fn();
+    const mockSetFilter = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       setFilter: mockSetFilter,
@@ -128,7 +128,7 @@ describe('ReminderList', () => {
 
   it('sorts reminders', async () => {
     const user = userEvent.setup();
-    const mockSetSort = vi.fn();
+    const mockSetSort = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       setSort: mockSetSort,
@@ -147,7 +147,7 @@ describe('ReminderList', () => {
 
   it('handles reminder deletion', async () => {
     const user = userEvent.setup();
-    const mockDeleteReminder = vi.fn();
+    const mockDeleteReminder = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       deleteReminder: mockDeleteReminder,
@@ -172,7 +172,7 @@ describe('ReminderList', () => {
 
   it('handles reminder status change', async () => {
     const user = userEvent.setup();
-    const mockUpdateReminder = vi.fn();
+    const mockUpdateReminder = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       updateReminder: mockUpdateReminder,
@@ -237,7 +237,7 @@ describe('ReminderList', () => {
 
   it('clears selection when bulk actions are completed', async () => {
     const user = userEvent.setup();
-    const mockUpdateReminder = vi.fn();
+    const mockUpdateReminder = jest.fn();
     (useReminderStore as any).mockImplementation(() => ({
       ...useReminderStore(),
       updateReminder: mockUpdateReminder,

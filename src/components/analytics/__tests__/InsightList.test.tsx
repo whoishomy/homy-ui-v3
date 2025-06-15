@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { InsightList } from '../components/InsightList';
 import type { HealthInsight } from '@/types/analytics';
@@ -11,7 +11,7 @@ import { mockInsightsList, createMockInsight } from './test-helpers/mockInsights
 expect.extend(toHaveNoViolations);
 
 // Mock i18next
-vi.mock('react-i18next', () => ({
+jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
@@ -25,9 +25,9 @@ vi.mock('react-i18next', () => ({
 }));
 
 // Mock the exportUtils
-vi.mock('@/utils/exportUtils', () => ({
-  downloadInsightsCSV: vi.fn(),
-  generateCSVFromInsights: vi.fn(),
+jest.mock('@/utils/exportUtils', () => ({
+  downloadInsightsCSV: jest.fn(),
+  generateCSVFromInsights: jest.fn(),
 }));
 
 const renderInsightList = (props: { insights: HealthInsight[]; className?: string }) => {
@@ -36,7 +36,7 @@ const renderInsightList = (props: { insights: HealthInsight[]; className?: strin
 
 describe('InsightList', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('Rendering', () => {
@@ -158,7 +158,7 @@ describe('InsightList', () => {
   describe('Error Handling', () => {
     it('handles export errors gracefully', async () => {
       const user = userEvent.setup();
-      const mockDownload = vi.mocked(exportUtils.downloadInsightsCSV);
+      const mockDownload = jest.mocked(exportUtils.downloadInsightsCSV);
       mockDownload.mockImplementationOnce(() => Promise.reject(new Error('Export failed')));
 
       renderInsightList({ insights: mockInsightsList });

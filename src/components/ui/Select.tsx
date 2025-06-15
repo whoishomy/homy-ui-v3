@@ -13,6 +13,8 @@ const SelectValue = SelectPrimitive.Value;
 interface SelectTriggerProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
   error?: string;
+  children?: React.ReactNode;
+  className?: string;
 }
 
 const SelectTrigger = React.forwardRef<
@@ -137,4 +139,4 @@ export {
   SelectLabel,
   SelectItem,
   SelectSeparator,
-}; 
+};

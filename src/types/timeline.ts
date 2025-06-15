@@ -23,10 +23,11 @@ export type { HealthGoalCategory };
 
 export type TimelineEventStatus = 'pending' | 'completed' | 'cancelled' | 'in-progress';
 
-export type TimelineEventCategory = InsightCategory;
+export type TimelineEventCategory = HealthGoalCategory;
 
 export interface TimelineEvent {
   id: string;
+  goalId?: string;
   title: string;
   description?: string;
   category: TimelineEventCategory;
@@ -34,6 +35,7 @@ export interface TimelineEvent {
   endDate?: Date;
   progress: number;
   completedAt?: Date;
+  isCompleted?: boolean;
   metadata?: Record<string, any>;
 }
 
@@ -66,6 +68,7 @@ export function goalToTimelineEvent(goal: HealthGoalWithProgress): TimelineEvent
     category: goal.category,
     startDate: goal.startDate,
     endDate: goal.endDate,
+    completedAt: goal.completedAt,
     isCompleted: goal.status === 'completed',
     progress: goal.completionRate,
   };

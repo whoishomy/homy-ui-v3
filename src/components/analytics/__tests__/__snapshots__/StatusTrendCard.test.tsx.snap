@@ -1,6 +1,6 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StatusTrendCard > Visual Regression > matches error type snapshot 1`] = `
+exports[`StatusTrendCard Visual Regression matches error type snapshot 1`] = `
 <div>
   <div
     aria-label="Test Metric: 85.5%"
@@ -16,13 +16,16 @@ exports[`StatusTrendCard > Visual Regression > matches error type snapshot 1`] =
         Test Metric
       </h3>
       <div
+        aria-label="5.2% Artış gösteriyor"
         class="flex items-center text-xs font-medium text-green-600"
+        role="text"
       >
         <svg
-          aria-hidden="true"
+          aria-label="Artış gösteriyor"
           class="lucide lucide-trending-up w-4 h-4 mr-1"
           fill="none"
           height="24"
+          role="img"
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -31,11 +34,11 @@ exports[`StatusTrendCard > Visual Regression > matches error type snapshot 1`] =
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M16 7h6v6"
+          <polyline
+            points="22 7 13.5 15.5 8.5 10.5 2 17"
           />
-          <path
-            d="m22 7-8.5 8.5-5-5L2 17"
+          <polyline
+            points="16 7 22 7 22 13"
           />
         </svg>
         5.2
@@ -48,52 +51,6 @@ exports[`StatusTrendCard > Visual Regression > matches error type snapshot 1`] =
       <div
         class="relative w-16 h-16 flex items-center justify-center"
       >
-        <div
-          class="recharts-wrapper"
-          style="position: relative; cursor: default; width: 64px; height: 64px;"
-        >
-          <svg
-            class="recharts-surface"
-            cx="50%"
-            cy="50%"
-            height="64"
-            style="width: 100%; height: 100%;"
-            viewBox="0 0 64 64"
-            width="64"
-          >
-            <title />
-            <desc />
-            <defs>
-              <clippath
-                id="recharts35-clip"
-              >
-                <rect
-                  height="54"
-                  width="54"
-                  x="5"
-                  y="5"
-                />
-              </clippath>
-            </defs>
-            <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
-          </svg>
-        </div>
         <span
           class="absolute text-sm font-medium text-red-500 dark:text-red-400"
         >
@@ -114,7 +71,7 @@ exports[`StatusTrendCard > Visual Regression > matches error type snapshot 1`] =
 </div>
 `;
 
-exports[`StatusTrendCard > Visual Regression > matches info type snapshot 1`] = `
+exports[`StatusTrendCard Visual Regression matches info type snapshot 1`] = `
 <div>
   <div
     aria-label="Test Metric: 85.5%"
@@ -130,13 +87,16 @@ exports[`StatusTrendCard > Visual Regression > matches info type snapshot 1`] = 
         Test Metric
       </h3>
       <div
+        aria-label="5.2% Artış gösteriyor"
         class="flex items-center text-xs font-medium text-green-600"
+        role="text"
       >
         <svg
-          aria-hidden="true"
+          aria-label="Artış gösteriyor"
           class="lucide lucide-trending-up w-4 h-4 mr-1"
           fill="none"
           height="24"
+          role="img"
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -145,11 +105,11 @@ exports[`StatusTrendCard > Visual Regression > matches info type snapshot 1`] = 
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M16 7h6v6"
+          <polyline
+            points="22 7 13.5 15.5 8.5 10.5 2 17"
           />
-          <path
-            d="m22 7-8.5 8.5-5-5L2 17"
+          <polyline
+            points="16 7 22 7 22 13"
           />
         </svg>
         5.2
@@ -162,52 +122,6 @@ exports[`StatusTrendCard > Visual Regression > matches info type snapshot 1`] = 
       <div
         class="relative w-16 h-16 flex items-center justify-center"
       >
-        <div
-          class="recharts-wrapper"
-          style="position: relative; cursor: default; width: 64px; height: 64px;"
-        >
-          <svg
-            class="recharts-surface"
-            cx="50%"
-            cy="50%"
-            height="64"
-            style="width: 100%; height: 100%;"
-            viewBox="0 0 64 64"
-            width="64"
-          >
-            <title />
-            <desc />
-            <defs>
-              <clippath
-                id="recharts29-clip"
-              >
-                <rect
-                  height="54"
-                  width="54"
-                  x="5"
-                  y="5"
-                />
-              </clippath>
-            </defs>
-            <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
-          </svg>
-        </div>
         <span
           class="absolute text-sm font-medium text-blue-500 dark:text-blue-400"
         >
@@ -228,7 +142,7 @@ exports[`StatusTrendCard > Visual Regression > matches info type snapshot 1`] = 
 </div>
 `;
 
-exports[`StatusTrendCard > Visual Regression > matches snapshot with custom formatting 1`] = `
+exports[`StatusTrendCard Visual Regression matches snapshot with custom formatting 1`] = `
 <div>
   <div
     aria-label="Test Metric: 85.5ms"
@@ -244,13 +158,16 @@ exports[`StatusTrendCard > Visual Regression > matches snapshot with custom form
         Test Metric
       </h3>
       <div
+        aria-label="5.2% Artış gösteriyor"
         class="flex items-center text-xs font-medium text-green-600"
+        role="text"
       >
         <svg
-          aria-hidden="true"
+          aria-label="Artış gösteriyor"
           class="lucide lucide-trending-up w-4 h-4 mr-1"
           fill="none"
           height="24"
+          role="img"
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -259,11 +176,11 @@ exports[`StatusTrendCard > Visual Regression > matches snapshot with custom form
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M16 7h6v6"
+          <polyline
+            points="22 7 13.5 15.5 8.5 10.5 2 17"
           />
-          <path
-            d="m22 7-8.5 8.5-5-5L2 17"
+          <polyline
+            points="16 7 22 7 22 13"
           />
         </svg>
         5.2
@@ -276,52 +193,6 @@ exports[`StatusTrendCard > Visual Regression > matches snapshot with custom form
       <div
         class="relative w-16 h-16 flex items-center justify-center"
       >
-        <div
-          class="recharts-wrapper"
-          style="position: relative; cursor: default; width: 64px; height: 64px;"
-        >
-          <svg
-            class="recharts-surface"
-            cx="50%"
-            cy="50%"
-            height="64"
-            style="width: 100%; height: 100%;"
-            viewBox="0 0 64 64"
-            width="64"
-          >
-            <title />
-            <desc />
-            <defs>
-              <clippath
-                id="recharts37-clip"
-              >
-                <rect
-                  height="54"
-                  width="54"
-                  x="5"
-                  y="5"
-                />
-              </clippath>
-            </defs>
-            <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
-          </svg>
-        </div>
         <span
           class="absolute text-sm font-medium text-blue-500 dark:text-blue-400"
         >
@@ -342,7 +213,7 @@ exports[`StatusTrendCard > Visual Regression > matches snapshot with custom form
 </div>
 `;
 
-exports[`StatusTrendCard > Visual Regression > matches success type snapshot 1`] = `
+exports[`StatusTrendCard Visual Regression matches success type snapshot 1`] = `
 <div>
   <div
     aria-label="Test Metric: 85.5%"
@@ -358,13 +229,16 @@ exports[`StatusTrendCard > Visual Regression > matches success type snapshot 1`]
         Test Metric
       </h3>
       <div
+        aria-label="5.2% Artış gösteriyor"
         class="flex items-center text-xs font-medium text-green-600"
+        role="text"
       >
         <svg
-          aria-hidden="true"
+          aria-label="Artış gösteriyor"
           class="lucide lucide-trending-up w-4 h-4 mr-1"
           fill="none"
           height="24"
+          role="img"
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -373,11 +247,11 @@ exports[`StatusTrendCard > Visual Regression > matches success type snapshot 1`]
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M16 7h6v6"
+          <polyline
+            points="22 7 13.5 15.5 8.5 10.5 2 17"
           />
-          <path
-            d="m22 7-8.5 8.5-5-5L2 17"
+          <polyline
+            points="16 7 22 7 22 13"
           />
         </svg>
         5.2
@@ -390,52 +264,6 @@ exports[`StatusTrendCard > Visual Regression > matches success type snapshot 1`]
       <div
         class="relative w-16 h-16 flex items-center justify-center"
       >
-        <div
-          class="recharts-wrapper"
-          style="position: relative; cursor: default; width: 64px; height: 64px;"
-        >
-          <svg
-            class="recharts-surface"
-            cx="50%"
-            cy="50%"
-            height="64"
-            style="width: 100%; height: 100%;"
-            viewBox="0 0 64 64"
-            width="64"
-          >
-            <title />
-            <desc />
-            <defs>
-              <clippath
-                id="recharts31-clip"
-              >
-                <rect
-                  height="54"
-                  width="54"
-                  x="5"
-                  y="5"
-                />
-              </clippath>
-            </defs>
-            <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
-          </svg>
-        </div>
         <span
           class="absolute text-sm font-medium text-green-500 dark:text-green-400"
         >
@@ -456,7 +284,7 @@ exports[`StatusTrendCard > Visual Regression > matches success type snapshot 1`]
 </div>
 `;
 
-exports[`StatusTrendCard > Visual Regression > matches warning type snapshot 1`] = `
+exports[`StatusTrendCard Visual Regression matches warning type snapshot 1`] = `
 <div>
   <div
     aria-label="Test Metric: 85.5%"
@@ -472,13 +300,16 @@ exports[`StatusTrendCard > Visual Regression > matches warning type snapshot 1`]
         Test Metric
       </h3>
       <div
+        aria-label="5.2% Artış gösteriyor"
         class="flex items-center text-xs font-medium text-green-600"
+        role="text"
       >
         <svg
-          aria-hidden="true"
+          aria-label="Artış gösteriyor"
           class="lucide lucide-trending-up w-4 h-4 mr-1"
           fill="none"
           height="24"
+          role="img"
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -487,11 +318,11 @@ exports[`StatusTrendCard > Visual Regression > matches warning type snapshot 1`]
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M16 7h6v6"
+          <polyline
+            points="22 7 13.5 15.5 8.5 10.5 2 17"
           />
-          <path
-            d="m22 7-8.5 8.5-5-5L2 17"
+          <polyline
+            points="16 7 22 7 22 13"
           />
         </svg>
         5.2
@@ -504,52 +335,6 @@ exports[`StatusTrendCard > Visual Regression > matches warning type snapshot 1`]
       <div
         class="relative w-16 h-16 flex items-center justify-center"
       >
-        <div
-          class="recharts-wrapper"
-          style="position: relative; cursor: default; width: 64px; height: 64px;"
-        >
-          <svg
-            class="recharts-surface"
-            cx="50%"
-            cy="50%"
-            height="64"
-            style="width: 100%; height: 100%;"
-            viewBox="0 0 64 64"
-            width="64"
-          >
-            <title />
-            <desc />
-            <defs>
-              <clippath
-                id="recharts33-clip"
-              >
-                <rect
-                  height="54"
-                  width="54"
-                  x="5"
-                  y="5"
-                />
-              </clippath>
-            </defs>
-            <g
-              class="recharts-layer recharts-pie"
-              tabindex="0"
-            >
-              <g
-                class="recharts-layer"
-              >
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-                <g
-                  class="recharts-layer recharts-pie-sector"
-                  tabindex="-1"
-                />
-              </g>
-            </g>
-          </svg>
-        </div>
         <span
           class="absolute text-sm font-medium text-yellow-500 dark:text-yellow-400"
         >

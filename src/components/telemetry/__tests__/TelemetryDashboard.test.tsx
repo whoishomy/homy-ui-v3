@@ -2,16 +2,16 @@
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest  } from '@jest/globals';
 import { TelemetryDashboard } from '../TelemetryDashboard';
 import { useTelemetryFeed } from '@/hooks/useTelemetryFeed';
 
 // Mock the useTelemetryFeed hook
-vi.mock('@/hooks/useTelemetryFeed');
+jest.mock('@/hooks/useTelemetryFeed');
 
 // Mock the chart components
-vi.mock('../charts/ErrorTimelineChart', () => ({
-  default: vi.fn(({ data }: any) => {
+jest.mock('../charts/ErrorTimelineChart', () => ({
+  default: jest.fn(({ data }: any) => {
     if (data === 'throw') {
       throw new Error('Chart failed to render');
     }
@@ -30,8 +30,8 @@ vi.mock('../charts/ErrorTimelineChart', () => ({
   }),
 }));
 
-vi.mock('../charts/InsightUsageChart', () => ({
-  default: vi.fn(({ data }: any) => (
+jest.mock('../charts/InsightUsageChart', () => ({
+  default: jest.fn(({ data }: any) => (
     <div 
       data-testid="insight-usage-chart" 
       data-data={JSON.stringify(data)}
@@ -45,8 +45,8 @@ vi.mock('../charts/InsightUsageChart', () => ({
   )),
 }));
 
-vi.mock('../charts/FallbackRateChart', () => ({
-  default: vi.fn(({ data }: any) => (
+jest.mock('../charts/FallbackRateChart', () => ({
+  default: jest.fn(({ data }: any) => (
     <div 
       data-testid="fallback-rate-chart" 
       data-data={JSON.stringify(data)}
@@ -60,8 +60,8 @@ vi.mock('../charts/FallbackRateChart', () => ({
   )),
 }));
 
-vi.mock('../panels/ProviderStatusPanel', () => ({
-  default: vi.fn(({ providers }: any) => (
+jest.mock('../panels/ProviderStatusPanel', () => ({
+  default: jest.fn(({ providers }: any) => (
     <div 
       data-testid="provider-status-panel" 
       data-providers={JSON.stringify(providers)}
@@ -105,7 +105,7 @@ describe('TelemetryDashboard Integration', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     (useTelemetryFeed as any).mockReturnValue({
       snapshot: mockSnapshot,
       error: null,

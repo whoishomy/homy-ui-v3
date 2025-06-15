@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ResultDetailDrawer } from "@/components/dashboard/ResultDetailDrawer";
 
 // Mock DataTrendChart component
-vi.mock("@/components/charts/DataTrendChart", () => ({
+jest.mock("@/components/charts/DataTrendChart", () => ({
   DataTrendChart: ({ title, data, valueUnit }: any) => (
     <div data-testid="trend-chart">
       <div>{title}</div>
@@ -33,7 +33,7 @@ const mockResult = {
 };
 
 describe("ResultDetailDrawer", () => {
-  const mockOnClose = vi.fn();
+  const mockOnClose = jest.fn();
 
   beforeEach(() => {
     mockOnClose.mockClear();

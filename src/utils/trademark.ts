@@ -3,34 +3,30 @@ import {
   type TrademarkVisualKit,
 } from '../../promptpacks/trademark-visual-kit.prompt';
 
-export function applyTrademarkStyle(
-  element: HTMLElement,
+export function applyTrademarkStyle<T extends HTMLElement>(
+  element: T,
   options?: Partial<TrademarkVisualKit['visualIdentity']>
-): void {
-  const visualStyle = {
-    ...defaultTrademarkKit.visualIdentity,
-    ...options,
+): React.CSSProperties {
+  const style: React.CSSProperties = {
+    // Default trademark styles
+    fontFamily: '"Inter", sans-serif',
+    color: options?.colors?.primary || '#000000',
+    // Add any other default styles here
   };
 
-  element.style.setProperty('--homy-primary', visualStyle.colors.primary);
-  element.style.setProperty('--homy-success', visualStyle.colors.success);
-  element.style.setProperty('--homy-focus', visualStyle.colors.focus);
-  element.style.setProperty('--homy-warning', visualStyle.colors.warning);
-
-  // Apply typography
-  if (element.tagName === 'H1' || element.tagName === 'H2') {
-    element.style.fontFamily = visualStyle.typography.title.split('/')[0];
-    element.style.fontWeight = 'bold';
-  } else if (element.tagName === 'H3' || element.tagName === 'H4') {
-    element.style.fontFamily = visualStyle.typography.subtitle.split('/')[0];
-    element.style.fontWeight = '500';
-  } else {
-    element.style.fontFamily = visualStyle.typography.body.split('/')[0];
-    element.style.fontWeight = 'normal';
+  // Apply custom styles based on options
+  if (options?.typography?.fontSize) {
+    style.fontSize = options.typography.fontSize;
   }
 
-  // Apply spacing
-  element.style.padding = visualStyle.spacing.padding;
+  if (options?.spacing?.padding) {
+    style.padding = options.spacing.padding;
+  }
+
+  // Apply styles to the element
+  Object.assign(element.style, style);
+
+  return style;
 }
 
 export function getTrademarkName(componentName: string): string {

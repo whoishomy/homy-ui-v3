@@ -6,16 +6,25 @@ import { EmergencyInsightBubble } from './EmergencyInsightBubble';
 import { EmergencyFooterMessage } from './EmergencyFooterMessage';
 import { AIResponseHandler } from '@/utils/aiResponseHandler';
 import type { LabResult } from '@/types/lab-results';
+import { AlertTriangle, AlertOctagon, ArrowUpRight } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils/cn';
+import { Button } from '@/components/ui/button';
+import { useTrademarkStyle } from '@/hooks/useTrademarkStyle';
 
 interface Props {
   result: LabResult;
+  onAction?: () => void;
 }
 
-export const EmergencyLabResult = ({ result }: Props) => {
+export function EmergencyLabResult({ result, onAction }: Props) {
+  const { trademarkStyle } = useTrademarkStyle();
   const [insight, setInsight] = useState<Awaited<
     ReturnType<typeof AIResponseHandler.prototype.generateInsight>
   > | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isHighSeverity = result.severity === 'critical';
 
   useEffect(() => {
     const loadInsight = async () => {
@@ -50,47 +59,106 @@ export const EmergencyLabResult = ({ result }: Props) => {
   }
 
   return (
-    <>
-      {/* Top Alert Banner */}
-      <EmergencyAlertBanner testName={result.testName} value={result.value} unit={result.unit} />
-
-      {/* Main Content */}
-      <div className="container mx-auto py-6 px-4 space-y-6">
-        {/* Critical Value Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-red-200 dark:border-red-800">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            Lab Result Analysis
-          </h2>
-
-          {/* AI Insight Bubble */}
-          <EmergencyInsightBubble insight={insight} />
-
-          {/* Additional Information */}
-          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">
-              Reference Information
-            </h3>
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <dt className="text-sm text-gray-500 dark:text-gray-400">Normal Range</dt>
-                <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {result.referenceRange.min} - {result.referenceRange.max}{' '}
-                  {result.referenceRange.unit}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm text-gray-500 dark:text-gray-400">Current Value</dt>
-                <dd className="text-sm font-medium text-red-600 dark:text-red-400">
-                  {result.value} {result.unit}
-                </dd>
-              </div>
-            </dl>
-          </div>
+    <div
+      className={cn(
+        'relative rounded-lg border p-4',
+        isHighSeverity ? 'border-red-200 bg-red-50' : 'border-yellow-200 bg-yellow-50',
+        'dark:border-opacity-10 dark:bg-opacity-10'
+      )}
+    >
+      {/* Header */}
+      <div className="mb-4 flex items-start justify-between">
+        <div className="flex items-center gap-2">
+          {isHighSeverity ? (
+            <AlertOctagon
+              className="h-5 w-5 text-red-600 dark:text-red-400"
+              style={trademarkStyle}
+            />
+          ) : (
+            <AlertTriangle
+              className="h-5 w-5 text-yellow-600 dark:text-yellow-400"
+              style={trademarkStyle}
+            />
+          )}
+          <h3
+            className={cn(
+              'font-medium',
+              isHighSeverity
+                ? 'text-red-900 dark:text-red-200'
+                : 'text-yellow-900 dark:text-yellow-200'
+            )}
+          >
+            {result.testName}
+          </h3>
         </div>
+        {onAction && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              'h-8 gap-1 px-2 py-1',
+              isHighSeverity
+                ? 'text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/20'
+                : 'text-yellow-700 hover:bg-yellow-100 dark:text-yellow-300 dark:hover:bg-yellow-900/20'
+            )}
+            onClick={onAction}
+          >
+            View Details
+            <ArrowUpRight className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
-      {/* Footer Message */}
-      <EmergencyFooterMessage />
-    </>
+      {/* Content */}
+      <div className="space-y-4">
+        {/* Test Details */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div>
+            <dt className="text-sm text-gray-500 dark:text-gray-400">Test Date</dt>
+            <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">
+              {format(result.date, 'MMM d, yyyy')}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm text-gray-500 dark:text-gray-400">Result</dt>
+            <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">{result.value}</dd>
+          </div>
+          {result.referenceRange && (
+            <div>
+              <dt className="text-sm text-gray-500 dark:text-gray-400">Normal Range</dt>
+              <dd className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {result.referenceRange.min} - {result.referenceRange.max}{' '}
+                {result.referenceRange.unit}
+              </dd>
+            </div>
+          )}
+          <div>
+            <dt className="text-sm text-gray-500 dark:text-gray-400">Status</dt>
+            <dd
+              className={cn(
+                'text-sm font-medium',
+                isHighSeverity
+                  ? 'text-red-700 dark:text-red-300'
+                  : 'text-yellow-700 dark:text-yellow-300'
+              )}
+            >
+              {result.severity === 'critical' ? 'Critical' : 'Warning'}
+            </dd>
+          </div>
+        </div>
+
+        {/* Alert Message */}
+        <p
+          className={cn(
+            'text-sm',
+            isHighSeverity
+              ? 'text-red-700 dark:text-red-300'
+              : 'text-yellow-700 dark:text-yellow-300'
+          )}
+        >
+          {result.message}
+        </p>
+      </div>
+    </div>
   );
-};
+}

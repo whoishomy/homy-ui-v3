@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, jest, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { SettingsDrawer } from "@/components/settings/SettingsDrawer";
 
@@ -14,8 +14,8 @@ const mockLanguages = [
 ];
 
 describe("SettingsDrawer", () => {
-  const mockOnClose = vi.fn();
-  const mockOnSettingsChange = vi.fn();
+  const mockOnClose = jest.fn();
+  const mockOnSettingsChange = jest.fn();
 
   beforeEach(() => {
     mockOnClose.mockClear();

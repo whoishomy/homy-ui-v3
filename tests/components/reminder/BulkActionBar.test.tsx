@@ -1,40 +1,40 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach  } from '@jest/globals';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { jest  } from '@jest/globals';
 
 import { BulkActionBar } from '@/components/reminder/BulkActionBar';
 import { useReminderStore } from '@/stores/reminderStore';
 import { exportToCalendar } from '@/utils/exportToCalendar';
 import { exportToJSON, exportToCSV } from '@/utils/exportData';
 
-const mockToast = vi.fn();
-vi.mock('@/hooks/useToast', () => ({
+const mockToast = jest.fn();
+jest.mock('@/hooks/useToast', () => ({
   useToast: () => ({
     toast: mockToast,
   }),
 }));
 
-vi.mock('@/stores/reminderStore', () => ({
-  useReminderStore: vi.fn(),
+jest.mock('@/stores/reminderStore', () => ({
+  useReminderStore: jest.fn(),
 }));
 
-vi.mock('@/utils/exportToCalendar', () => ({
-  exportToCalendar: vi.fn(),
+jest.mock('@/utils/exportToCalendar', () => ({
+  exportToCalendar: jest.fn(),
 }));
 
-vi.mock('@/utils/exportData', () => ({
-  exportToJSON: vi.fn(),
-  exportToCSV: vi.fn(),
+jest.mock('@/utils/exportData', () => ({
+  exportToJSON: jest.fn(),
+  exportToCSV: jest.fn(),
 }));
 
 describe('BulkActionBar', () => {
-  const mockUpdateReminder = vi.fn();
-  const mockDeleteReminder = vi.fn();
-  const mockOnClearSelection = vi.fn();
+  const mockUpdateReminder = jest.fn();
+  const mockDeleteReminder = jest.fn();
+  const mockOnClearSelection = jest.fn();
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     (useReminderStore as any).mockImplementation(() => ({
       updateReminder: mockUpdateReminder,
       deleteReminder: mockDeleteReminder,

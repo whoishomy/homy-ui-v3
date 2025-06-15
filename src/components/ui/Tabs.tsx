@@ -51,4 +51,6 @@ const TabsContent = React.forwardRef<
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
+export type TabsProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
+
 export { Tabs, TabsList, TabsTrigger, TabsContent };

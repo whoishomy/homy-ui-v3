@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, jest, beforeEach, afterEach  } from '@jest/globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { useUser } from '@/hooks/useUser';
 
 // Mock the useUser hook
-vi.mock('@/hooks/useUser', () => ({
-  useUser: vi.fn(),
+jest.mock('@/hooks/useUser', () => ({
+  useUser: jest.fn(),
 }));
 
 const mockUser = {
@@ -23,8 +23,8 @@ const mockUser = {
 };
 
 describe('ProfileHeader', () => {
-  const mockLogout = vi.fn();
-  const mockUpdateLanguage = vi.fn();
+  const mockLogout = jest.fn();
+  const mockUpdateLanguage = jest.fn();
   let originalLocation: Location;
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('ProfileHeader', () => {
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     // Restore window.location after each test
     Object.defineProperty(window, 'location', {
       writable: true,

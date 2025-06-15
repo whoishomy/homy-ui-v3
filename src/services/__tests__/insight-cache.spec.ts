@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest  } from '@jest/globals';
 import { InMemoryInsightCache } from '../cache/InMemoryInsightCache';
 import type { HealthInsight } from '@/types/analytics';
 import { InsightCategory } from '@/types/analytics';
@@ -29,12 +29,12 @@ describe('InMemoryInsightCache', () => {
   };
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     cache = new InMemoryInsightCache(testTTL);
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   it('stores and retrieves values', async () => {
@@ -55,7 +55,7 @@ describe('InMemoryInsightCache', () => {
     await cache.set(testKey, testInsight);
     
     // Move time forward past TTL
-    vi.advanceTimersByTime((testTTL + 1) * 1000);
+    jest.advanceTimersByTime((testTTL + 1) * 1000);
     
     const result = await cache.get(testKey);
     expect(result).toBeNull();
@@ -95,7 +95,7 @@ describe('InMemoryInsightCache', () => {
     await cache.set({ ...testKey, prompt: 'another' }, testInsight);
 
     // Move time forward past TTL
-    vi.advanceTimersByTime((testTTL + 1) * 1000);
+    jest.advanceTimersByTime((testTTL + 1) * 1000);
 
     // Trigger cleanup by adding a new entry
     await cache.set({ ...testKey, prompt: 'new' }, testInsight);
@@ -110,12 +110,12 @@ describe('InMemoryInsightCache', () => {
     await cache.set(testKey, testInsight, customTTL);
 
     // Move time forward past default TTL but before custom TTL
-    vi.advanceTimersByTime((testTTL + 1) * 1000);
+    jest.advanceTimersByTime((testTTL + 1) * 1000);
     let result = await cache.get(testKey);
     expect(result).toEqual(testInsight);
 
     // Move time forward past custom TTL
-    vi.advanceTimersByTime((customTTL - testTTL) * 1000);
+    jest.advanceTimersByTime((customTTL - testTTL) * 1000);
     result = await cache.get(testKey);
     expect(result).toBeNull();
   });

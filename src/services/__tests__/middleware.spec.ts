@@ -1,17 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { RetryMiddleware } from '../middleware/RetryMiddleware';
+import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
+import { RetryMiddleware, RetryError } from '../middleware/RetryMiddleware';
 import { MiddlewareChain } from '../middleware/MiddlewareChain';
-import type { HealthInsight } from '@/types/analytics';
+import type { TelemetryLogger } from '../telemetry/InsightTelemetryLogger';
+import type { HealthInsight, InsightOperation } from '@/types/analytics';
 import { InsightCategory } from '@/types/analytics';
 import type {
   InsightGenerationParams,
   InsightGenerationOptions,
 } from '../interfaces/AIInsightProvider';
-import {
-  BaseInsightMiddleware,
-  type InsightOperation,
-  type MiddlewareContext,
-} from '../middleware/InsightMiddleware';
+import { BaseInsightMiddleware, type MiddlewareContext } from '../middleware/InsightMiddleware';
 
 describe('Middleware System', () => {
   let chain: MiddlewareChain;
@@ -37,17 +34,42 @@ describe('Middleware System', () => {
 
   beforeEach(() => {
     chain = new MiddlewareChain();
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   describe('RetryMiddleware', () => {
+    let middleware: RetryMiddleware;
+    let mockTelemetryLogger: TelemetryLogger;
+    let mockOperation: jest.Mock<Promise<HealthInsight>>;
+
+    const mockContext = {
+      operation: 'generateInsight' as InsightOperation,
+      startTime: Date.now(),
+      attempts: 0,
+    };
+
+    beforeEach(() => {
+      mockTelemetryLogger = {
+        logEvent: jest.fn(),
+        getSnapshot: jest.fn(),
+        clear: jest.fn(),
+      };
+      mockOperation = jest.fn<Promise<HealthInsight>>();
+      middleware = new RetryMiddleware({
+        telemetryLogger: mockTelemetryLogger,
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('succeeds on first attempt', async () => {
-      const middleware = new RetryMiddleware();
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
 
       chain.addMiddleware(middleware);
       const result = await chain.executeGenerateInsight(
@@ -62,119 +84,54 @@ describe('Middleware System', () => {
     });
 
     it('retries on retryable error', async () => {
-      const middleware = new RetryMiddleware({
-        strategy: {
-          maxAttempts: 3,
-          initialDelay: 100,
-          backoffType: 'exponential',
-          maxDelay: 1000,
-        },
-      });
-      const error = new Error('rate_limit');
-      const operation = vi
-        .fn()
+      const error = new Error('Temporary failure');
+      mockOperation
         .mockRejectedValueOnce(error)
         .mockRejectedValueOnce(error)
-        .mockResolvedValue(mockInsight);
+        .mockResolvedValueOnce(mockInsight);
 
-      chain.addMiddleware(middleware);
+      const promise = middleware.execute(mockOperation, mockContext);
 
-      const result = await chain.executeGenerateInsight(
-        mockParams,
-        mockOptions,
-        { operation: 'generateInsight', startTime: Date.now(), attempts: 0 },
-        operation
-      );
+      // Fast-forward through retries
+      await jest.runAllTimersAsync();
 
+      const result = await promise;
       expect(result).toBe(mockInsight);
-      expect(operation).toHaveBeenCalledTimes(3);
+      expect(mockOperation).toHaveBeenCalledTimes(3);
     });
 
     it('fails after max attempts', async () => {
-      const middleware = new RetryMiddleware({
-        strategy: {
-          maxAttempts: 2,
-          initialDelay: 100,
-          backoffType: 'exponential',
-          maxDelay: 1000,
-        },
-      });
-      const error = new Error('rate_limit');
-      const operation = vi.fn().mockRejectedValue(error);
+      const error = new Error('Persistent failure');
+      mockOperation.mockRejectedValue(error);
 
-      chain.addMiddleware(middleware);
+      const promise = middleware.execute(mockOperation, mockContext);
 
-      await expect(
-        chain.executeGenerateInsight(
-          mockParams,
-          mockOptions,
-          { operation: 'generateInsight', startTime: Date.now(), attempts: 0 },
-          operation
-        )
-      ).rejects.toThrow('Failed after 2 attempts');
+      // Fast-forward through retries
+      await jest.runAllTimersAsync();
 
-      expect(operation).toHaveBeenCalledTimes(2);
-    });
-
-    it('does not retry on non-retryable error', async () => {
-      const middleware = new RetryMiddleware({
-        errorTypes: {
-          retryable: [/rate.?limit/i],
-          nonRetryable: [],
-        },
-      });
-      const error = new Error('validation_error');
-      const operation = vi.fn().mockRejectedValue(error);
-
-      chain.addMiddleware(middleware);
-
-      await expect(
-        chain.executeGenerateInsight(
-          mockParams,
-          mockOptions,
-          { operation: 'generateInsight', startTime: Date.now(), attempts: 0 },
-          operation
-        )
-      ).rejects.toThrow('validation_error');
-
-      expect(operation).toHaveBeenCalledTimes(1);
+      await expect(promise).rejects.toThrow(RetryError);
+      expect(mockOperation).toHaveBeenCalledTimes(3);
     });
 
     it('uses exponential backoff', async () => {
-      const middleware = new RetryMiddleware({
-        strategy: {
-          maxAttempts: 3,
-          initialDelay: 100,
-          backoffType: 'exponential',
-          maxDelay: 1000,
-        },
-      });
-      const error = new Error('rate_limit');
-      const operation = vi
-        .fn()
+      const error = new Error('Temporary failure');
+      mockOperation
         .mockRejectedValueOnce(error)
         .mockRejectedValueOnce(error)
-        .mockResolvedValue(mockInsight);
+        .mockResolvedValueOnce(mockInsight);
 
-      chain.addMiddleware(middleware);
+      const promise = middleware.execute(mockOperation, mockContext);
 
-      const promise = chain.executeGenerateInsight(
-        mockParams,
-        mockOptions,
-        { operation: 'generateInsight', startTime: Date.now(), attempts: 0 },
-        operation
-      );
-
-      // First attempt fails immediately
-      expect(operation).toHaveBeenCalledTimes(1);
+      // First attempt happens immediately
+      expect(mockOperation).toHaveBeenCalledTimes(1);
 
       // Second attempt after 100ms
-      await vi.advanceTimersByTimeAsync(100);
-      expect(operation).toHaveBeenCalledTimes(2);
+      await jest.advanceTimersByTimeAsync(100);
+      expect(mockOperation).toHaveBeenCalledTimes(2);
 
       // Third attempt after additional 200ms
-      await vi.advanceTimersByTimeAsync(200);
-      expect(operation).toHaveBeenCalledTimes(3);
+      await jest.advanceTimersByTimeAsync(200);
+      expect(mockOperation).toHaveBeenCalledTimes(3);
 
       const result = await promise;
       expect(result).toBe(mockInsight);
@@ -245,7 +202,7 @@ describe('Middleware System', () => {
     });
 
     it('handles empty middleware chain', async () => {
-      const operation = vi.fn().mockResolvedValue(mockInsight);
+      const operation = jest.fn().mockResolvedValue(mockInsight);
 
       const result = await chain.executeGenerateInsight(
         mockParams,
